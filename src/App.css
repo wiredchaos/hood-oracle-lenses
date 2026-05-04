@@ -1,6 +1,1 @@
-import { useEffect } from "react";
-
-export default function App() {
-  useEffect(() => { document.title = "Akashic Lenses · Agentropolis"; }, []);
-  return null;
-}
+/* legacy file — design system lives in index.css */
