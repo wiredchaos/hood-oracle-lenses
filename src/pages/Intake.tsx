@@ -94,7 +94,7 @@ export default function Intake() {
           </div>
 
           <div className="flex items-start gap-3 text-xs text-muted-foreground border-t border-border/60 pt-4">
-            <Checkbox checked readOnly />
+            <Checkbox checked disabled />
             Reflection-only acknowledged. THE HOOD ORACLE will translate, not diagnose.
           </div>
 
