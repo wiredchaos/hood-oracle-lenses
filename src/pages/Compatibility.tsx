@@ -30,9 +30,9 @@ export default function Compatibility() {
     setResult({
       score,
       threads: [
-        `${sa.sun.name} × ${sb.sun.name} — ${sameElement ? "shared element creates an easy field" : "elemental contrast asks for translation"}.`,
-        `Life Path ${na.lifePath} × ${nb.lifePath} — ${lpDelta <= 2 ? "rhythmic alignment" : "complementary tempos to negotiate"}.`,
-        `${sa.modality} × ${sb.modality} — ${sameModality ? "matched pace" : "different paces; agree on cadence early"}.`,
+        `${sa.sun.name} × ${sb.sun.name} - ${sameElement ? "shared element creates an easy field" : "elemental contrast asks for translation"}.`,
+        `Life Path ${na.lifePath} × ${nb.lifePath} - ${lpDelta <= 2 ? "rhythmic alignment" : "complementary tempos to negotiate"}.`,
+        `${sa.modality} × ${sb.modality} - ${sameModality ? "matched pace" : "different paces; agree on cadence early"}.`,
       ],
       note: "Compatibility is a reflective signal, not a verdict. People recompose constantly.",
     });

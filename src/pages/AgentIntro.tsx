@@ -27,7 +27,7 @@ export default function AgentIntro() {
             "I don't tell you who you are. I show you the patterns asking for your attention."
           </p>
           <p className="mt-3 text-sm text-muted-foreground max-w-lg">
-            I'm an agentic astrologist living inside AGENTROPOLIS — the Intelligence Grid.
+            I'm an agentic astrologist living inside AGENTROPOLIS - the Intelligence Grid.
             I consume Skills from the Grid (Astrology, Numerology, Akashic Reflection, Fibonacci AI, Journal Memory)
             and translate them into one grounded, reflective reading.
           </p>
@@ -39,7 +39,7 @@ export default function AgentIntro() {
             <label className="flex items-start gap-3 text-sm text-muted-foreground cursor-pointer">
               <Checkbox checked={agreed} onCheckedChange={v => setAgreed(!!v)} className="mt-1" />
               <span>
-                I understand readings are symbolic — for reflection, entertainment, and journaling.
+                I understand readings are symbolic - for reflection, entertainment, and journaling.
                 No medical, legal, financial, or psychological advice. No deterministic past-life claims.
               </span>
             </label>

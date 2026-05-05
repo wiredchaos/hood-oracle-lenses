@@ -22,7 +22,7 @@ export default function NumerologyReport() {
   return (
     <AppShell>
       <h1 className="font-serif text-4xl md:text-5xl mb-2">Traditional <span className="lime-text">Numerology</span> Report</h1>
-      <p className="text-muted-foreground mb-8 text-sm">Pythagorean system. Deterministic — same inputs always yield the same numbers.</p>
+      <p className="text-muted-foreground mb-8 text-sm">Pythagorean system. Deterministic - same inputs always yield the same numbers.</p>
 
       <div className="grid gap-4 md:grid-cols-2">
         {rows.map(r => (

@@ -1,4 +1,4 @@
-// AKASHIC LENSES — Lens engines (deterministic mock + symbolic generators)
+// AKASHIC LENSES - Lens engines (deterministic mock + symbolic generators)
 // Pure functions; safe to call in render or effects.
 
 export type LensIntensity = "Grounded" | "Mystic" | "Full Akashic" | "Hood Oracle Unfiltered";
@@ -132,11 +132,11 @@ export function computeAstrology(birth: BirthData): AstrologyResult {
   const asc = SIGNS[(seed + Math.floor(tobNum / 30)) % 12];
 
   const houseFocus = [
-    "10th House — public signal & vocation",
-    "4th House — roots, lineage, ancestral memory",
-    "11th House — networks, futures, swarm alignment",
+    "10th House - public signal & vocation",
+    "4th House - roots, lineage, ancestral memory",
+    "11th House - networks, futures, swarm alignment",
   ];
-  const planetaryFocus = ["Saturn — discipline ledger", "Mercury — pattern translation", "Venus — value field"];
+  const planetaryFocus = ["Saturn - discipline ledger", "Mercury - pattern translation", "Venus - value field"];
 
   return {
     sun, moon, ascendant: asc,
@@ -170,7 +170,7 @@ export function computeAkashic(birth: BirthData, num: NumerologyResult): Akashic
   const arc = ARCHETYPES[seed % ARCHETYPES.length];
   return {
     archetype: arc,
-    soulFragment: `A symbolic imprint of ${arc.toLowerCase()} threads through your field — a reflective signal of someone who learned to translate noise into navigable pattern.`,
+    soulFragment: `A symbolic imprint of ${arc.toLowerCase()} threads through your field - a reflective signal of someone who learned to translate noise into navigable pattern.`,
     ancestralEcho: "There is a lineage memory of carrying responsibility quietly. Honor the strength; refuse the silence that came with it.",
     patternToRelease: "Performing competence to feel safe. Your worth is not a deliverable.",
     giftToIntegrate: "Calm authority during other people's chaos. Your nervous system is a tuning fork others borrow.",

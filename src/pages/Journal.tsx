@@ -27,7 +27,7 @@ export default function Journal() {
     <AppShell>
       <div className="text-[11px] font-mono uppercase tracking-[0.3em] text-primary mb-2">// Memory Layer</div>
       <h1 className="font-serif text-4xl md:text-5xl mb-2">Journal</h1>
-      <p className="text-muted-foreground mb-8 text-sm">Your reflections, stored locally. User-owned app data — nothing leaves this device.</p>
+      <p className="text-muted-foreground mb-8 text-sm">Your reflections, stored locally. User-owned app data - nothing leaves this device.</p>
 
       <div className="grid gap-6 lg:grid-cols-[1fr_1.4fr]">
         <LensCard title="New entry" accent="cyan" kicker="Capture a signal">
@@ -61,7 +61,7 @@ export default function Journal() {
               </header>
               {e.prompt && <p className="italic text-muted-foreground text-sm mb-2">Prompt: "{e.prompt}"</p>}
               {e.body ? <p className="text-sm whitespace-pre-wrap">{e.body}</p>
-                      : <p className="text-xs font-mono text-muted-foreground">— Empty draft —</p>}
+                      : <p className="text-xs font-mono text-muted-foreground">- Empty draft -</p>}
             </article>
           ))}
         </div>
