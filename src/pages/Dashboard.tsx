@@ -132,6 +132,24 @@ export default function Dashboard() {
           </Button>
         </LensCard>
       </div>
+
+      <section className="mt-8 glass p-5">
+        <div className="text-[10px] font-mono uppercase tracking-[0.3em] text-accent mb-3">Distribute this reading</div>
+        <div className="flex flex-wrap gap-2">
+          <Button asChild size="sm" variant="outline" className="rounded-full text-[11px] font-mono uppercase tracking-[0.18em]">
+            <Link to="/listicles">Make Listicle</Link>
+          </Button>
+          <Button asChild size="sm" variant="outline" className="rounded-full text-[11px] font-mono uppercase tracking-[0.18em]">
+            <Link to="/agenttv">Make Episode</Link>
+          </Button>
+          <Button asChild size="sm" variant="outline" className="rounded-full text-[11px] font-mono uppercase tracking-[0.18em]">
+            <Link to="/pocket">Make Pocket Stack</Link>
+          </Button>
+          <Button asChild size="sm" className="rounded-full text-[11px] font-mono uppercase tracking-[0.18em] bg-primary text-primary-foreground shadow-cyan">
+            <Link to="/forge">Open UGC Forge</Link>
+          </Button>
+        </div>
+      </section>
     </AppShell>
   );
 }
