@@ -1,6 +1,6 @@
 import { Link, Navigate } from "react-router-dom";
 import { AppShell } from "@/components/AppShell";
-import { LensCard } from "@/components/LensCard";
+import { HologramScroll } from "@/components/HologramScroll";
 import { SpiralMedallion } from "@/components/SpiralMedallion";
 import { Button } from "@/components/ui/button";
 import { useReading } from "@/state/ReadingContext";
@@ -71,19 +71,28 @@ export default function Dashboard() {
         </div>
       </section>
 
-      {/* Lens grid */}
-      <div className="mt-8 grid gap-5 md:grid-cols-2 xl:grid-cols-3">
-        <LensCard kicker="Lens 01" title="Astrology" accent="cyan">
+      {/* Hologram scroll stack */}
+      <div className="mt-10 hologram-stack">
+        <HologramScroll
+          kicker="Lens 01"
+          title="Astrology"
+          accent="cyan"
+          glyph={<svg viewBox="0 0 100 100" fill="none" stroke="currentColor" strokeWidth="1.5"><circle cx="50" cy="50" r="40"/><circle cx="50" cy="50" r="28"/><path d="M50 10 V90 M10 50 H90 M22 22 L78 78 M78 22 L22 78"/></svg>}
+        >
           <p>Your <b>{astrology.sun.name} Sun / {astrology.moon.name} Moon / {astrology.ascendant.name} Rising</b> profile suggests
             an outer signal of {astrology.sun.element.toLowerCase()}-element clarity worn over a more {astrology.moon.element.toLowerCase()}-coded interior.</p>
           <ul className="mt-2 space-y-1 text-muted-foreground text-xs font-mono">
             {astrology.houseFocus.map(h => <li key={h}>· {h}</li>)}
             {astrology.planetaryFocus.map(p => <li key={p}>· {p}</li>)}
           </ul>
-          <p className="text-[10px] text-muted-foreground italic">* Approximation. Real ephemeris integration is structured into the lens engine for later wiring.</p>
-        </LensCard>
+        </HologramScroll>
 
-        <LensCard kicker="Lens 02" title="Numerology" accent="lime">
+        <HologramScroll
+          kicker="Lens 02"
+          title="Numerology"
+          accent="lime"
+          glyph={<svg viewBox="0 0 100 100" fill="none" stroke="currentColor" strokeWidth="2"><text x="50" y="62" fontSize="44" textAnchor="middle" fill="currentColor" fontFamily="serif">{numerology.lifePath}</text><circle cx="50" cy="50" r="40"/></svg>}
+        >
           <div className="grid grid-cols-3 gap-2 text-center">
             <NumChip label="Life" n={numerology.lifePath} />
             <NumChip label="Destiny" n={numerology.destiny} />
@@ -94,25 +103,40 @@ export default function Dashboard() {
           </div>
           <p className="mt-2"><b>{NUMBER_MEANINGS[numerology.personalYear]?.title}</b> year - {NUMBER_MEANINGS[numerology.personalYear]?.gist}</p>
           <Link to="/numerology" className="text-primary text-xs font-mono uppercase tracking-[0.2em]">→ Full numerology report</Link>
-        </LensCard>
+        </HologramScroll>
 
-        <LensCard kicker="Lens 03" title="Akashic" accent="red">
+        <HologramScroll
+          kicker="Lens 03"
+          title="Akashic"
+          accent="red"
+          glyph={<svg viewBox="0 0 100 100" fill="none" stroke="currentColor" strokeWidth="1.5"><path d="M50 10 C20 30 20 70 50 90 C80 70 80 30 50 10 Z"/><path d="M50 10 V90"/><circle cx="50" cy="50" r="6" fill="currentColor"/></svg>}
+        >
           <div className="text-xs font-mono uppercase tracking-[0.2em] text-accent">Archetype</div>
           <div className="font-serif text-2xl">{akashic.archetype}</div>
           <p className="text-muted-foreground">{akashic.soulFragment}</p>
           <Link to="/akashic" className="text-accent text-xs font-mono uppercase tracking-[0.2em]">→ Open Akashic report</Link>
-        </LensCard>
+        </HologramScroll>
 
-        <LensCard kicker="Lens 04" title="Fibonacci AI" accent="lime">
+        <HologramScroll
+          kicker="Lens 04"
+          title="Fibonacci AI"
+          accent="lime"
+          glyph={<svg viewBox="0 0 100 100" fill="none" stroke="currentColor" strokeWidth="1.5"><path d="M90 50 a40 40 0 1 1 -80 0 a25 25 0 1 1 50 0 a15 15 0 1 1 -30 0 a10 10 0 1 1 20 0"/></svg>}
+        >
           <p className="text-sm">
             Cycle marker <b className="lime-text">{fibonacci.cycleMarker}</b> → next checkpoint <b className="neon-text">{fibonacci.nextMarker}</b>.
             Spiral phase: <b>{fibonacci.spiralPhase}</b>.
           </p>
           <RatioBar expansion={fibonacci.goldenRatio.expansion} />
           <Link to="/fibonacci" className="text-lime text-xs font-mono uppercase tracking-[0.2em]">→ Open Fibonacci AI report</Link>
-        </LensCard>
+        </HologramScroll>
 
-        <LensCard kicker="Lens 05" title="Tarot / Chakra" accent="red">
+        <HologramScroll
+          kicker="Lens 05"
+          title="Tarot / Chakra"
+          accent="red"
+          glyph={<svg viewBox="0 0 100 100" fill="none" stroke="currentColor" strokeWidth="1.5"><rect x="25" y="10" width="50" height="80" rx="4"/><path d="M50 25 L60 50 L50 75 L40 50 Z"/><circle cx="50" cy="50" r="4" fill="currentColor"/></svg>}
+        >
           <div className="flex items-center justify-between">
             <div>
               <div className="text-xs font-mono uppercase tracking-[0.2em] text-accent">Card</div>
@@ -121,16 +145,21 @@ export default function Dashboard() {
             <span className="chip">{tarot.chakra} Chakra</span>
           </div>
           <p>{tarot.meaning}</p>
-        </LensCard>
+        </HologramScroll>
 
-        <LensCard kicker="Lens 06" title="Journal Prompt" accent="cyan"
-          action={<Sparkles className="h-4 w-4 text-primary" />}>
+        <HologramScroll
+          kicker="Lens 06"
+          title="Journal Prompt"
+          accent="cyan"
+          action={<Sparkles className="h-4 w-4 text-primary" />}
+          glyph={<svg viewBox="0 0 100 100" fill="none" stroke="currentColor" strokeWidth="1.5"><path d="M20 20 H80 V80 H20 Z"/><path d="M30 35 H70 M30 50 H70 M30 65 H55"/></svg>}
+        >
           <p className="italic">"{fibonacci.journalPrompt}"</p>
           <Button onClick={() => saveJournalPrompt("Fibonacci AI", fibonacci.journalPrompt)}
             variant="outline" className="rounded-full text-xs font-mono uppercase tracking-[0.2em] mt-2">
             Save to Memory Layer
           </Button>
-        </LensCard>
+        </HologramScroll>
       </div>
 
       <section className="mt-8 glass p-5">

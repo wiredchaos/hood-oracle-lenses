@@ -1,68 +1,66 @@
+# 3D Hologram Lens Scrolls
 
-# Plan: COINTELPRO link + NEURO META X demo seed + N3UR0 rename
+Replace the flat `LensCard` grid on `/dashboard` with a stack of **3D holographic scrolls** — one per lens (Astrology, Numerology, Akashic, Fibonacci AI, Tarot/Chakra, Journal/Compatibility). Each scroll renders in true CSS 3D space with:
 
-Two combined deliverables, one safety posture: privacy-first, symbolic-only, no doxxing, no accusations, no real birth data ever rendered in UI.
+- **3D mouse tracking** — pointer position rotates the scroll on X/Y axes (rotateY/rotateX) with smooth spring-eased follow, plus a parallax shift on inner layers (kicker → title → body → glyph).
+- **3D scroll depth** — as the user scrolls, each card translates on the Z axis and tilts in/out, creating a "passing through holograms" feel. Cards far from viewport center sink back (translateZ negative + lower opacity); the centered card pops forward.
+- **Hologram aesthetic** — scroll-shaped silhouette (top/bottom rolled caps), cyan/red/lime scanline overlay matching existing `accent` system, animated chromatic aberration edges, glowing rim light, subtle floating idle animation.
 
-## A. Site-wide rename + em-dash sweep
+## What's built
 
-- Replace `NEURO` → `N3UR0` across `src/` and `index.html` (display strings, hashtags, chips, copy). Brand acronym stays `N3UR0 META X` everywhere visible.
-- Replace any remaining `—` with `-`.
+### 1. New component: `src/components/HologramScroll.tsx`
+- Wraps existing `LensCard` content API (`title`, `kicker`, `accent`, `children`, `action`) so we don't rewrite per-lens content.
+- Outer `perspective: 1400px` wrapper.
+- Inner transformed plate with `transform-style: preserve-3d`.
+- `useRef` + `requestAnimationFrame` loop applies lerp toward target rotation/translation (no re-renders during motion).
+- Pointer handlers: `onPointerMove` computes normalized (-1..1) offsets from card center → target `rotateY`, `rotateX` (max ±14°). `onPointerLeave` returns to rest.
+- Scroll handler (single shared `IntersectionObserver` + `scroll` listener on window): computes each card's distance from viewport center → drives `translateZ` (-180px far → +40px center) and base tilt.
+- Layered children with `translateZ` offsets: scroll-cap top/bottom (z: -20), scanline mesh (z: 10), kicker (z: 30), title (z: 60), body (z: 40), accent glyph (z: 80).
+- Holographic glyph per accent: spinning sigil (numerology digit, zodiac glyph, spiral, fibonacci spiral, tarot suit) — rendered as inline SVG with `filter: drop-shadow` glow.
+- Respects `prefers-reduced-motion` (disables tilt and Z motion).
 
-## B. COINTELPRO PROTOCOL LINK integration
+### 2. New CSS: extend `src/index.css`
+- `.hologram-scroll` — base perspective container.
+- `.hologram-plate` — preserve-3d, will-change transform.
+- `.hologram-scanlines` — repeating linear-gradient scanlines + slow vertical sweep keyframe.
+- `.hologram-rim` — conic-gradient rim glow on accent color.
+- `.hologram-cap` — rolled paper-scroll caps top & bottom (rounded gradient bars).
+- `.hologram-chromatic` — pseudo-elements with offset cyan/red text-shadows for chromatic aberration on titles.
+- Floating idle keyframe (3s ease-in-out infinite).
 
-### B.1 New library `src/lib/cointelpro.ts`
-Exports: `COINTELPRO_URL = "https://c0intelprotocol.lovable.app"`, `INTEGRATION` (label, title, copy, three CTAs), `SAFETY_FOOTER`, `CODED_LABELS` (Root Memory, Ancestral Signal, Archive Origin, Liberation Echo, Resistance Thread, Street Lineage, Movement Shadow, Protected Context, Knowers' Layer), `VISIBILITY_MODES` (Public Lore / Knowers' Layer / Archive Metadata / Agent-Only Context), `MOVEMENT_ECHOES` (12 entries: Philly→MOVE, Compton, Atlanta, Chicago, NYC, Kingston, Lagos, London, Paris Banlieue, Rio, Johannesburg, Tokyo - each with publicTitle, publicLore, codedLabel, hiddenEcho, tone, oracleLine), `TRUST_LANES` (Signal, Mask, Pressure, Betrayal Risk, Repair Code), `TRUST_USE_CASES`, `CIRCLE_QUESTIONS` (9), `scoreCircle()` returning `{ status: Open|Watch|Boundary|Do Not Invite, risk, patterns, repair, oracleLine }`, `AGENTS` (8: Hood Oracle, Philly, Trust Signal, Infiltration Pattern, Privacy Sentinel, Archive Echo, Boundary Keeper, GTM Listicle), `LINKED_MODULES` (8 routes), `ROWHOME_STORY`, `ROWHOME_POCKET`.
+### 3. Wire into Dashboard: `src/pages/Dashboard.tsx`
+- Replace the `<div className="mt-8 grid ...">` block (lines ~73–134) with a new vertical 3D stack: `<div className="hologram-stack">` containing 6 `<HologramScroll>` items, one per existing lens, **preserving all current content and links** (Astrology stats, NumChips, Akashic archetype, Fibonacci RatioBar, Tarot card, Journal prompt with save button).
+- Stack uses tall vertical layout (single column, generous spacing) so scroll-depth effect has room to breathe; on `xl` screens it stays single-column to keep the hologram feel (cards are wide centerpieces, not a grid).
+- Keep top hero card and bottom "Distribute this reading" section unchanged.
 
-### B.2 New pages + routes (added to `src/App.tsx`)
-- `/cointelpro` → `CointelproLink.tsx` - integration hub: title card, three CTAs ("Run the Circle Test", "Match Energy Before You Open the Door", "Activate No-Dox Oracle Layer"), external link to c0intelprotocol.lovable.app, linked-modules list, agent grid, coded-labels + visibility-modes chips, privacy posture, safety footer.
-- `/trust-signal` → `TrustSignal.tsx` - alias A / alias B / context inputs, renders the 5 lanes with hints, includes the "Betrayal Risk is not an accusation" disclaimer.
-- `/circle-test` → `CircleTest.tsx` - 9 yes/no/unsure questions with sticky live result panel (status, risk patterns, repair code, Oracle line).
-- `/echoes` → `MovementEchoes.tsx` - 12 echo cards. Hidden echo + tone rendered as redacted black bars by default; "Reveal Knowers' Layer" toggle (also via `?layer=knowers`) unredacts.
+### 4. Lens 06 fix
+The screenshot shows Lens 06 as "Compatibility" but current code shows "Journal Prompt." We'll keep the existing Journal Prompt content (it's wired to `saveJournalPrompt`) but the user can rename later. No change to lens taxonomy in this task.
 
-### B.3 Updates to existing files
-- `src/lib/oracle.ts`: soften Philly variant `loreLine` to "She does not announce her lineage. The smoke already knows her name." (no MOVE in public copy).
-- `src/lib/content.ts`: add Rowhome AGENTtv preset (bucket "The Faceless Oracle", short-story format, beats from spec, CTA "Run the Circle Test. Match energy before you open the door.").
-- `src/pages/HoodOracleFiles.tsx`: add Philly section anchor `#philly` with the full Daughter of the Rowhome Fire story, redacted file box (`ROOT MEMORY: FAMILY UNDER FIRE / VISIBILITY: KNOWERS' LAYER / ACCESS: EARNED TRUST ONLY`), and `<CardStack>` of `ROWHOME_POCKET`.
-- `src/components/AppShell.tsx`: add **COINTELPRO** to primary nav (red chip styling) + Trust Signal, Circle Test, Echoes, Knowers' Layer to MORE menu.
-- `src/pages/Dashboard.tsx`: add "Run the Circle Test" button to the Distribute panel.
+## Visual / motion spec
 
-## C. NEURO META X demo seed
+```text
+        viewport center
+              │
+   ┌──────────┼──────────┐  ← card at center: translateZ(+40), full opacity, mouse tilt active
+   │  ╭────╮  │  ╭────╮  │
+   │  │ Z  │  │  │ Z  │  │  ← cards above/below: translateZ(-120 → -180), opacity 0.55→0.3
+   │  ╰────╯  │  ╰────╯  │
+   └──────────┼──────────┘
+              │
+   pointer (px,py) → rotateY = px*14°, rotateX = -py*14°
+   inner layers translateZ for parallax depth
+```
 
-### C.1 New library `src/lib/demoSeed.ts`
-Single exported constant `DEMO_PROFILE` containing only the symbolic public layer (alias `N3UR0 META X`, archetype `RED-VEIL-11 // SPIRAL-34 // EARTH-SIGNAL`, sun Virgo, element Earth, modality Mutable, polarity Feminine/Receptive, life path 11/2, birth day 8, patch-life "The Red Veil Systems Oracle", akashic "The Red Ledger of the Systems Oracle", fibonacci `SPIRAL-34` with 61.8/38.2 split, signal-match table, circle-test demo result). **No raw birth date, time, or city is stored or rendered.** A short `DEMO_NOTICE` banner is rendered wherever the seed is used: "Private seed data used internally. Raw birth data is never displayed."
+- Tilt range: ±14° each axis
+- Z range on scroll: -180px (edge) to +40px (center)
+- Lerp factor: 0.12 per frame (~smooth 60fps follow)
+- Idle float: translateY ±4px over 3s when pointer absent
+- Reduced-motion: all transforms disabled, plain card fallback
 
-### C.2 New page `/demo` → `DemoProfile.tsx`
-Full seeded read-out using the existing LensCard / SpiralMedallion / CardStack components:
-- Header chips: `NO DOX ORACLE ACTIVE`, `RED-VEIL-11`, `SPIRAL-34`, `EARTH-SIGNAL`.
-- Hood Oracle line: "You were not born to follow the pattern. You were born to catch it, name it, and rebuild the room around it."
-- Five lens cards (Astrology, Numerology, Akashic, Fibonacci AI, Patch-Life) using copy from sections 3-7.
-- Energy ID hologram block + privacy flags chips (`no_kyc`, `no_legal_name`, `no_biometrics`, `no_palm_scan`, `alias_ready`).
-- SignalMatch table (Spark/Mirror/Friction/Mission/Repair).
-- Circle Test demo card (Status: Boundary, patterns, repair code, oracle line).
-- "Run on AGENTtv" + "Open Pocket Stack" + "Open UGC Forge" CTAs that pre-seed the next page.
+## Files
 
-### C.3 Pre-seed surfaces with the demo bundle
-- `src/pages/AgentTvStudio.tsx`: add quick-pick "THE FACELESS ORACLE READS THE SYSTEMS VIRGO" preset (hook, VO, scene direction, CTA from section 13).
-- `src/pages/PocketCards.tsx`: add `RED-VEIL-11 // SPIRAL-34` preset stack (7 cards from section 14).
-- `src/pages/UgcForge.tsx`: add demo seed button that fills hook, VO, on-screen text, caption, hashtags, CTA from section 15. Hashtags use `#N3UR0METAX`.
-- `src/pages/Landing.tsx`: add a single "View N3UR0 META X demo profile" link below the primary CTA so the demo is discoverable without polluting the main flow.
+- **create** `src/components/HologramScroll.tsx`
+- **edit** `src/index.css` (append hologram styles)
+- **edit** `src/pages/Dashboard.tsx` (swap LensCard grid for HologramScroll stack)
 
-### C.4 Optional 3D hologram modules - deferred
-The brief lists rotating zodiac sphere, numerology cube, akashic tablet, fibonacci spiral, patch-life scroll. Out of scope for this pass to keep the build lean. Will be added later via `@react-three/fiber@^8.18` + `@react-three/drei@^9.122.0` + `three@>=0.133` if approved.
-
-## D. Safety posture (enforced everywhere)
-
-Every COINTELPRO page and the demo page render `SAFETY_FOOTER`:
-> "This system is for symbolic reflection, privacy education, group-boundary awareness, and historical/lore-based storytelling. It does not identify informants, accuse real people, encourage harassment, or promote violence."
-
-Plus inline disclaimers:
-- Trust Signal: "Betrayal Risk is not an accusation. It is a symbolic pattern warning based on stated behavior, boundaries, and energy mismatch."
-- Circle Test header: "No accusations. No threats. No targeting. Just the pattern, named."
-- Demo profile: "Symbolic reflection only. Not scientific prediction. Not literal past-life verification."
-- No KYC, no biometrics, no palm scans, no legal name, no forced wallet connection - shown as chips on hub + demo pages.
-- No literal "snitches get stitches"; reframed as "Those who know, know. The signal recognizes the signal."
-
-## Out of scope this pass
-- Real auth handoff to the COINTELPRO app (just an external link).
-- Persisting Trust Signal / Circle Test results to the Memory Layer.
-- 3D hologram modules (deferred to a follow-up).
+No new dependencies — pure React + CSS 3D transforms.
