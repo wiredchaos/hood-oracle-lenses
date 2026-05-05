@@ -1,19 +1,27 @@
+import { useState } from "react";
+import { useSearchParams } from "react-router-dom";
 import { AppShell } from "@/components/AppShell";
 import { CardStack } from "@/components/CardStack";
+import { Button } from "@/components/ui/button";
 import { POCKET_CARD_TYPES, buildPocketStack } from "@/lib/content";
-import { Smartphone } from "lucide-react";
+import { DEMO_POCKET_STACK } from "@/lib/demoSeed";
+import { Smartphone, Sparkles } from "lucide-react";
+
+const DEFAULT_STACK = buildPocketStack({
+  title: "THE WOMAN WITHOUT A FACE",
+  lines: [
+    "She had no face because every hood had seen her.",
+    "The app asked Malik for his palm print. The Oracle killed the request.",
+    "NO DOX MODE ACTIVE",
+    "\"I don't need your government name to read the loop.\"",
+    "Patch-Life: THE SIGNAL RUNNER",
+  ],
+});
 
 export default function PocketCards() {
-  const stack = buildPocketStack({
-    title: "THE WOMAN WITHOUT A FACE",
-    lines: [
-      "She had no face because every hood had seen her.",
-      "The app asked Malik for his palm print. The Oracle killed the request.",
-      "NO DOX MODE ACTIVE",
-      "\"I don't need your government name to read the loop.\"",
-      "Patch-Life: THE SIGNAL RUNNER",
-    ],
-  });
+  const [params] = useSearchParams();
+  const [preset, setPreset] = useState<"default" | "demo">(params.get("seed") === "demo" ? "demo" : "default");
+  const stack = preset === "demo" ? DEMO_POCKET_STACK : DEFAULT_STACK;
 
   return (
     <AppShell>
@@ -23,8 +31,18 @@ export default function PocketCards() {
         <p className="text-muted-foreground text-sm mt-1">Micro-content for the Pocket App. Every reading, story, and listicle becomes a stack.</p>
       </header>
 
+      <div className="glass p-3 mb-5 flex flex-wrap gap-2 items-center">
+        <div className="text-[10px] font-mono uppercase tracking-[0.25em] text-accent">Stack preset</div>
+        <Button size="sm" variant={preset === "default" ? "default" : "outline"} onClick={() => setPreset("default")}
+          className="rounded-full text-[11px] font-mono uppercase tracking-[0.18em]">The Woman Without a Face</Button>
+        <Button size="sm" variant={preset === "demo" ? "default" : "outline"} onClick={() => setPreset("demo")}
+          className="rounded-full text-[11px] font-mono uppercase tracking-[0.18em]">
+          <Sparkles className="h-3 w-3 mr-2" /> RED-VEIL-11 // SPIRAL-34
+        </Button>
+      </div>
+
       <div className="grid gap-6 lg:grid-cols-[420px_1fr] items-start">
-        <CardStack cards={stack} accent="cyan" />
+        <CardStack cards={stack} accent={preset === "demo" ? "red" : "cyan"} />
         <div className="grid gap-3 sm:grid-cols-2">
           {POCKET_CARD_TYPES.map(t => (
             <div key={t.id} className="glass p-4">

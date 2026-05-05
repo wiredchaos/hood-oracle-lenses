@@ -1,16 +1,27 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { useSearchParams } from "react-router-dom";
 import { AppShell } from "@/components/AppShell";
 import { CopyBlock } from "@/components/CopyBlock";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { AGENTTV_FORMATS, AGENTTV_BUCKETS, buildEpisode } from "@/lib/content";
-import { Tv, ExternalLink } from "lucide-react";
+import { DEMO_AGENTTV_EPISODE } from "@/lib/demoSeed";
+import { Tv, ExternalLink, Sparkles } from "lucide-react";
 
 export default function AgentTvStudio() {
+  const [params] = useSearchParams();
   const [title, setTitle] = useState("THE WOMAN WITHOUT A FACE");
   const [format, setFormat] = useState(AGENTTV_FORMATS[0].id);
   const [bucket, setBucket] = useState(AGENTTV_BUCKETS[0]);
   const ep = buildEpisode({ title, format, bucket });
+
+  const loadDemo = () => {
+    setTitle(DEMO_AGENTTV_EPISODE.title);
+    setFormat(DEMO_AGENTTV_EPISODE.format);
+    setBucket(DEMO_AGENTTV_EPISODE.bucket);
+  };
+
+  useEffect(() => { if (params.get("seed") === "demo") loadDemo(); }, [params]);
 
   return (
     <AppShell>
@@ -23,6 +34,14 @@ export default function AgentTvStudio() {
         <a href="https://atvnetwork.vercel.app" target="_blank" rel="noreferrer"
           className="chip-red chip"><ExternalLink className="h-3 w-3" /> atvnetwork.vercel.app</a>
       </header>
+
+      <div className="glass p-4 mb-4 flex flex-wrap items-center gap-3">
+        <div className="text-[10px] font-mono uppercase tracking-[0.25em] text-accent">Quick presets</div>
+        <Button size="sm" variant="outline" onClick={loadDemo}
+          className="rounded-full text-[11px] font-mono uppercase tracking-[0.18em]">
+          <Sparkles className="h-3 w-3 mr-2" /> N3UR0 META X · Systems Virgo
+        </Button>
+      </div>
 
       <div className="glass p-4 mb-6 space-y-4">
         <div>

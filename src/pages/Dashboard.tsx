@@ -148,6 +148,9 @@ export default function Dashboard() {
           <Button asChild size="sm" className="rounded-full text-[11px] font-mono uppercase tracking-[0.18em] bg-primary text-primary-foreground shadow-cyan">
             <Link to="/forge">Open UGC Forge</Link>
           </Button>
+          <Button asChild size="sm" className="rounded-full text-[11px] font-mono uppercase tracking-[0.18em] bg-accent text-accent-foreground shadow-red">
+            <Link to="/circle-test">Run the Circle Test</Link>
+          </Button>
         </div>
       </section>
     </AppShell>
