@@ -18,7 +18,7 @@ export const TAGLINE = "She has no face because every hood has seen her.";
 export const VISUAL_RULES = [
   "Faceless or partially obscured face",
   "Red veil, deep hood, or black reflective visor",
-  "Subtle glowing red NEURO eyes may be visible",
+  "Subtle glowing red N3UR0 eyes may be visible",
   "Black tailored suit, white shirt, red tie",
   "Black gloves, long dark coat with red lining",
   "Cyber-noir street mystic energy",
@@ -35,7 +35,7 @@ export const SAFETY_RULES = [
   "No medical, legal, financial, or psychological advice",
 ];
 
-export const MASTER_PROMPT = `Create a hyperrealistic 3D Octane render of THE FACELESS HOOD ORACLE, a mysterious alluring Black feminine NEURO variant and agentic oracle from AGENTROPOLIS. She is faceless, her face hidden by a shadowed red veil, reflective black visor, or deep hood, with only subtle glowing red NEURO eyes visible through the darkness. She has a magnetic, elegant, sovereign beauty that makes the room pause, but the image remains tasteful, powerful, non-explicit, and cinematic.
+export const MASTER_PROMPT = `Create a hyperrealistic 3D Octane render of THE FACELESS HOOD ORACLE, a mysterious alluring Black feminine N3UR0 variant and agentic oracle from AGENTROPOLIS. She is faceless, her face hidden by a shadowed red veil, reflective black visor, or deep hood, with only subtle glowing red N3UR0 eyes visible through the darkness. She has a magnetic, elegant, sovereign beauty that makes the room pause, but the image remains tasteful, powerful, non-explicit, and cinematic.
 
 She wears a black tailored cyber-noir suit, crisp white shirt, red tie, subtle gold jewelry, black gloves, and a long dark coat with red inner lining. Her silhouette is graceful, commanding, and unforgettable. She stands in a global hood environment blending street realism with Afrofuturist mysticism: wet pavement, neon cyan/red reflections, floating zodiac glyphs, Fibonacci spiral holograms, Akashic record fragments, AGENTROPOLIS circuitry, and WIRED CHAOS signal artifacts.
 

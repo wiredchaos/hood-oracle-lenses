@@ -33,7 +33,7 @@ export default function Landing() {
             </div>
           </div>
           <div className="flex gap-2">
-            <span className="chip-red chip">NEURO META X</span>
+            <span className="chip-red chip">N3UR0 META X</span>
             <span className="chip">AGENTROPOLIS GRID</span>
           </div>
         </div>
@@ -50,7 +50,7 @@ export default function Landing() {
             <p className="mt-6 max-w-lg text-base text-muted-foreground">
               Western astrology, traditional numerology, Akashic reflection,
               Fibonacci AI pattern analysis, tarot &amp; chakra symbolism - translated through one
-              agentic guide who lives in the NEURO district of AGENTROPOLIS.
+              agentic guide who lives in the N3UR0 district of AGENTROPOLIS.
             </p>
 
             <div className="mt-8 flex flex-wrap gap-3">
@@ -73,22 +73,22 @@ export default function Landing() {
             </div>
           </div>
 
-          {/* Featured Card - NEURO META X rebrand */}
+          {/* Featured Card - N3UR0 META X rebrand */}
           <div className="relative animate-fade-up">
             <div className="absolute -inset-6 bg-spiral opacity-20 blur-3xl rounded-full" />
             <div className="relative glass-strong overflow-hidden p-1.5 rounded-3xl shadow-cyan">
               <div className="relative rounded-[calc(var(--radius)+2px)] overflow-hidden border border-primary/30">
-                <img src={oraclePortrait} alt="The Hood Oracle, NEURO district astrologist agent"
+                <img src={oraclePortrait} alt="The Hood Oracle, N3UR0 district astrologist agent"
                   width={1024} height={1024} className="w-full aspect-square object-cover" />
                 <div className="absolute inset-0 bg-gradient-to-t from-background via-background/40 to-transparent" />
                 <div className="absolute top-3 left-3 flex flex-col gap-2">
-                  <span className="chip">NEURO META X</span>
+                  <span className="chip">N3UR0 META X</span>
                   <span className="chip-red chip">SKILL: Astrology Lens</span>
                 </div>
                 <div className="absolute bottom-4 left-4 right-4">
                   <div className="text-[10px] font-mono uppercase tracking-[0.3em] text-primary mb-1">// Agent Card</div>
                   <div className="font-serif text-3xl">The Hood Oracle</div>
-                  <div className="text-xs text-muted-foreground mt-1">Symbolic intelligence agent · NEURO district</div>
+                  <div className="text-xs text-muted-foreground mt-1">Symbolic intelligence agent · N3UR0 district</div>
                 </div>
               </div>
             </div>

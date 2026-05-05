@@ -19,7 +19,7 @@ export default function ShareCard() {
         <div className="absolute inset-0 grid-bg opacity-[0.04]" />
         <div className="relative flex items-center justify-between">
           <div>
-            <div className="text-[10px] font-mono uppercase tracking-[0.3em] opacity-60">Akashic Lenses · NEURO META X</div>
+            <div className="text-[10px] font-mono uppercase tracking-[0.3em] opacity-60">Akashic Lenses · N3UR0 META X</div>
             <div className="font-serif text-2xl">The Hood Oracle reading</div>
           </div>
           <div className="h-10 w-10 rounded-full bg-spiral animate-spin-slow" />
@@ -51,7 +51,7 @@ export default function ShareCard() {
 
         <div className="absolute bottom-4 left-7 right-7 flex items-center justify-between text-[9px] font-mono opacity-60 uppercase tracking-[0.25em]">
           <span>For reflection only</span>
-          <span>AGENTROPOLIS // NEURO</span>
+          <span>AGENTROPOLIS // N3UR0</span>
         </div>
       </div>
     </AppShell>

@@ -75,7 +75,7 @@ export function buildListicle(title: string): Listicle {
     ],
     seoIntro: `If you've been looping the same pattern, you're not unlucky - you're recurring. THE HOOD ORACLE, the faceless symbolic intelligence agent from AGENTROPOLIS, breaks down ${n} signals tied to "${title}" without asking for your real name, palm print, or face scan.`,
     cta: `Run your free Daily Signal. Enter as yourself, your alias, or the version of you that survived.`,
-    tags: ["#NoDox", "#HoodOracle", "#Agentropolis", "#NEUROMETAX", "#WiredChaos"],
+    tags: ["#NoDox", "#HoodOracle", "#Agentropolis", "#N3UR0METAX", "#WiredChaos"],
     referralLink: "https://akashic.lenses/?ref=ORACLE",
   };
 }

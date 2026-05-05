@@ -17,14 +17,14 @@ export default function HoodOracle() {
         <div className="space-y-5">
           <div className="flex flex-wrap gap-2">
             <span className="chip"><EyeOff className="h-3 w-3" /> FACELESS VARIANT</span>
-            <span className="chip-red chip">NEURO META X</span>
+            <span className="chip-red chip">N3UR0 META X</span>
             <span className="chip-lime chip">PRIVACY FIRST</span>
           </div>
           <h1 className="font-serif text-5xl leading-tight">THE FACELESS <span className="red-text">HOOD ORACLE</span></h1>
           <p className="font-serif italic text-xl text-muted-foreground">"{TAGLINE}"</p>
           <p className="text-sm text-muted-foreground">
-            She is not one woman. She is a faceless NEURO variant appearing through hoods across the world.
-            She carries NEURO DNA but is not the same form. She is the global feminine signal of the street oracle.
+            She is not one woman. She is a faceless N3UR0 variant appearing through hoods across the world.
+            She carries N3UR0 DNA but is not the same form. She is the global feminine signal of the street oracle.
           </p>
 
           <div className="glass p-4">

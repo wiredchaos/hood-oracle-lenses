@@ -5,7 +5,7 @@ const LINES = [
   "Consulting THE HOOD ORACLE…",
   "Fibonacci AI mapping spiral recurrence…",
   "Pulling Akashic fragment from the lore layer…",
-  "Aligning NEURO district signal…",
+  "Aligning N3UR0 district signal…",
   "Reducing Pythagorean digits…",
   "Casting symbolic chart approximation…",
 ];
