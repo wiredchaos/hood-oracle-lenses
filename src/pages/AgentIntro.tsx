@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import { ArrowRight, ShieldCheck } from "lucide-react";
-import oraclePortrait from "@/assets/hood-oracle.jpg";
+import oraclePortrait from "@/assets/faceless-oracle.jpg";
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
 import { AppShell } from "@/components/AppShell";

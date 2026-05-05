@@ -18,6 +18,14 @@ import Compatibility from "./pages/Compatibility.tsx";
 import AgentConsole from "./pages/AgentConsole.tsx";
 import SettingsPage from "./pages/Settings.tsx";
 import ShareCard from "./pages/ShareCard.tsx";
+import HoodOracle from "./pages/HoodOracle.tsx";
+import GlobalHoods from "./pages/GlobalHoods.tsx";
+import ListicleEngine from "./pages/ListicleEngine.tsx";
+import AgentTvStudio from "./pages/AgentTvStudio.tsx";
+import HoodOracleFiles from "./pages/HoodOracleFiles.tsx";
+import PocketCards from "./pages/PocketCards.tsx";
+import UgcForge from "./pages/UgcForge.tsx";
+import MonetizationMap from "./pages/MonetizationMap.tsx";
 
 const queryClient = new QueryClient();
 
@@ -42,6 +50,14 @@ const App = () => (
             <Route path="/console" element={<AgentConsole />} />
             <Route path="/settings" element={<SettingsPage />} />
             <Route path="/share" element={<ShareCard />} />
+            <Route path="/oracle" element={<HoodOracle />} />
+            <Route path="/hoods" element={<GlobalHoods />} />
+            <Route path="/listicles" element={<ListicleEngine />} />
+            <Route path="/agenttv" element={<AgentTvStudio />} />
+            <Route path="/files" element={<HoodOracleFiles />} />
+            <Route path="/pocket" element={<PocketCards />} />
+            <Route path="/forge" element={<UgcForge />} />
+            <Route path="/monetization" element={<MonetizationMap />} />
             <Route path="*" element={<NotFound />} />
           </Routes>
         </ReadingProvider>

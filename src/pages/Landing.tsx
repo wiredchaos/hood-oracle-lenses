@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 import { ArrowRight, Sparkles, Zap } from "lucide-react";
-import oraclePortrait from "@/assets/hood-oracle.jpg";
+import oraclePortrait from "@/assets/faceless-oracle.jpg";
 import bgImg from "@/assets/agentropolis-bg.jpg";
 import { Button } from "@/components/ui/button";
 import { useReading } from "@/state/ReadingContext";
