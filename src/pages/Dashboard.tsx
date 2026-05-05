@@ -1,6 +1,6 @@
 import { Link, Navigate } from "react-router-dom";
 import { AppShell } from "@/components/AppShell";
-import { LensCard } from "@/components/LensCard";
+import { HologramScroll } from "@/components/HologramScroll";
 import { SpiralMedallion } from "@/components/SpiralMedallion";
 import { Button } from "@/components/ui/button";
 import { useReading } from "@/state/ReadingContext";
