@@ -120,7 +120,6 @@ export function ArtifactViewer({
               color={accent === "red" ? "#e83535" : accent === "lime" ? "#8be635" : "#00f5ff"}
               anchorX="center"
               anchorY="middle"
-              font={undefined}
             >
               {label}
             </Text>
