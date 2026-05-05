@@ -32,7 +32,7 @@ export default function Dashboard() {
             <span className="chip-lime chip">Life Path {numerology.lifePath}</span>
           </div>
           <div className="text-[10px] font-mono uppercase tracking-[0.3em] text-muted-foreground">Archetype class</div>
-          <h1 className="font-serif text-4xl md:text-5xl leading-tight">{birth.name} — <span className="red-text">{lp?.title}</span></h1>
+          <h1 className="font-serif text-4xl md:text-5xl leading-tight">{birth.name} - <span className="red-text">{lp?.title}</span></h1>
           <p className="text-muted-foreground mt-2 max-w-md text-sm">{lp?.gist}</p>
 
           <div className="mt-5 grid grid-cols-3 gap-3 max-w-md">
@@ -92,7 +92,7 @@ export default function Dashboard() {
             <NumChip label="Birthday" n={numerology.birthday} />
             <NumChip label="Year" n={numerology.personalYear} />
           </div>
-          <p className="mt-2"><b>{NUMBER_MEANINGS[numerology.personalYear]?.title}</b> year — {NUMBER_MEANINGS[numerology.personalYear]?.gist}</p>
+          <p className="mt-2"><b>{NUMBER_MEANINGS[numerology.personalYear]?.title}</b> year - {NUMBER_MEANINGS[numerology.personalYear]?.gist}</p>
           <Link to="/numerology" className="text-primary text-xs font-mono uppercase tracking-[0.2em]">→ Full numerology report</Link>
         </LensCard>
 

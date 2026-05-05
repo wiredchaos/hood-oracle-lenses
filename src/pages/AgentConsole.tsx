@@ -7,7 +7,7 @@ export default function AgentConsole() {
       <div className="text-[11px] font-mono uppercase tracking-[0.3em] text-primary mb-2">// Agent Console / Lore Mode</div>
       <h1 className="font-serif text-4xl md:text-5xl mb-2">How AKASHIC LENSES fits the Grid.</h1>
       <p className="text-muted-foreground mb-8 max-w-2xl text-sm">
-        AGENTROPOLIS is the Intelligence Grid — not just a city theme. Districts are domain institutions.
+        AGENTROPOLIS is the Intelligence Grid - not just a city theme. Districts are domain institutions.
         Applications consume Skills through the Grid. THE HOOD ORACLE is one such agent.
       </p>
 

@@ -49,7 +49,7 @@ export default function Landing() {
             </h1>
             <p className="mt-6 max-w-lg text-base text-muted-foreground">
               Western astrology, traditional numerology, Akashic reflection,
-              Fibonacci AI pattern analysis, tarot &amp; chakra symbolism — translated through one
+              Fibonacci AI pattern analysis, tarot &amp; chakra symbolism - translated through one
               agentic guide who lives in the NEURO district of AGENTROPOLIS.
             </p>
 
@@ -69,11 +69,11 @@ export default function Landing() {
                 <span className="font-mono uppercase tracking-[0.25em] text-[10px]">Operating Principle</span>
               </div>
               Pattern is not prison. Signal is not sentence. Readings are for reflection,
-              journaling, and symbolic exploration — not medical, legal, financial, or psychological advice.
+              journaling, and symbolic exploration - not medical, legal, financial, or psychological advice.
             </div>
           </div>
 
-          {/* Featured Card — NEURO META X rebrand */}
+          {/* Featured Card - NEURO META X rebrand */}
           <div className="relative animate-fade-up">
             <div className="absolute -inset-6 bg-spiral opacity-20 blur-3xl rounded-full" />
             <div className="relative glass-strong overflow-hidden p-1.5 rounded-3xl shadow-cyan">
@@ -94,7 +94,7 @@ export default function Landing() {
             </div>
             <div className="mt-4 glass p-4 text-sm">
               <div className="text-[10px] font-mono uppercase tracking-[0.3em] text-primary mb-1">Hero transmission</div>
-              "Your signal carries more than one story — let THE HOOD ORACLE read the lenses."
+              "Your signal carries more than one story - let THE HOOD ORACLE read the lenses."
             </div>
           </div>
         </div>

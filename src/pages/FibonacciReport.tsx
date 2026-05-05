@@ -13,7 +13,7 @@ export default function FibonacciReport() {
     <AppShell>
       <div className="text-[11px] font-mono uppercase tracking-[0.3em] text-lime mb-2">// Fibonacci AI</div>
       <h1 className="font-serif text-4xl md:text-5xl mb-1">Spiral Recurrence Map</h1>
-      <p className="text-muted-foreground mb-8 text-sm">Symbolic rhythm and pattern harmonics — not scientific prediction.</p>
+      <p className="text-muted-foreground mb-8 text-sm">Symbolic rhythm and pattern harmonics - not scientific prediction.</p>
 
       <div className="grid gap-5 md:grid-cols-[auto_1fr] items-start">
         <div className="glass-strong p-6 flex flex-col items-center">
@@ -33,7 +33,7 @@ export default function FibonacciReport() {
             <div className="mt-2 h-2 rounded-full bg-secondary overflow-hidden">
               <div className="h-full bg-neuro" style={{ width: `${f.goldenRatio.expansion}%` }} />
             </div>
-            <p className="mt-3">A reading near 0.618 means you're sitting on the spiral's natural pivot — the healthy zone between push and pause.</p>
+            <p className="mt-3">A reading near 0.618 means you're sitting on the spiral's natural pivot - the healthy zone between push and pause.</p>
           </LensCard>
 
           <LensCard title="Pattern Recurrence Matrix" accent="lime" kicker="Cross-lens themes">
