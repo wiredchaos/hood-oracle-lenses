@@ -1,6 +1,7 @@
+import { useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { cn } from "@/lib/utils";
-import { Activity } from "lucide-react";
+import { Activity, Menu, X } from "lucide-react";
 
 const NAV = [
   { to: "/intake", label: "Intake" },
@@ -13,6 +14,7 @@ const NAV = [
 
 export function AppShell({ children }: { children: React.ReactNode }) {
   const { pathname } = useLocation();
+  const [mobileOpen, setMobileOpen] = useState(false);
   return (
     <div className="min-h-screen relative">
       <header className="sticky top-0 z-40 border-b border-border/60 bg-background/70 backdrop-blur-xl">
@@ -37,8 +39,37 @@ export function AppShell({ children }: { children: React.ReactNode }) {
               </Link>
             ))}
           </nav>
-          <span className="chip"><Activity className="h-3 w-3 animate-flicker" /> Oracle Online</span>
+          <div className="flex items-center gap-2">
+            <span className="chip hidden sm:inline-flex"><Activity className="h-3 w-3 animate-flicker" /> Oracle Online</span>
+            <button
+              className="md:hidden rounded-full p-1.5 text-muted-foreground hover:text-primary transition-colors"
+              aria-label={mobileOpen ? "Close menu" : "Open menu"}
+              onClick={() => setMobileOpen(v => !v)}
+            >
+              {mobileOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
+            </button>
+          </div>
         </div>
+
+        {/* Mobile nav drawer */}
+        {mobileOpen && (
+          <div className="md:hidden border-t border-border/60 bg-background/95 backdrop-blur-xl pb-4">
+            <nav className="container flex flex-col gap-1 pt-3">
+              {NAV.map(n => (
+                <Link key={n.to} to={n.to}
+                  onClick={() => setMobileOpen(false)}
+                  className={cn(
+                    "rounded-lg px-4 py-2.5 text-xs font-mono uppercase tracking-[0.18em] transition-colors",
+                    pathname.startsWith(n.to)
+                      ? "bg-primary/15 text-primary"
+                      : "text-muted-foreground hover:text-primary"
+                  )}>
+                  {n.label}
+                </Link>
+              ))}
+            </nav>
+          </div>
+        )}
       </header>
       <main className="container py-8 md:py-12">{children}</main>
       <footer className="border-t border-border/40 py-6">

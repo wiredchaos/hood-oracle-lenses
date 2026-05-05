@@ -1,21 +1,62 @@
+import { useRef, useState } from "react";
 import { Navigate } from "react-router-dom";
+import html2canvas from "html2canvas";
 import { AppShell } from "@/components/AppShell";
+import { Button } from "@/components/ui/button";
 import { useReading } from "@/state/ReadingContext";
 import { NUMBER_MEANINGS } from "@/lib/lenses";
 import { SpiralMedallion } from "@/components/SpiralMedallion";
+import { Download, Loader2 } from "lucide-react";
+import { toast } from "sonner";
 
 export default function ShareCard() {
   const { reading } = useReading();
+  const cardRef = useRef<HTMLDivElement>(null);
+  const [exporting, setExporting] = useState(false);
+
   if (!reading) return <Navigate to="/intake" replace />;
   const { birth, numerology, astrology, akashic, fibonacci } = reading;
   const lp = NUMBER_MEANINGS[numerology.lifePath];
 
+  const exportPng = async () => {
+    if (!cardRef.current) return;
+    setExporting(true);
+    try {
+      const canvas = await html2canvas(cardRef.current, {
+        backgroundColor: null,
+        scale: 2,
+        useCORS: true,
+        allowTaint: false,
+        logging: false,
+      });
+      const url = canvas.toDataURL("image/png");
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = `oracle-reading-${birth.name.toLowerCase().replace(/\s+/g, "-")}.png`;
+      a.click();
+      toast.success("Reading card exported as PNG.");
+    } catch {
+      toast.error("Export failed. Try a screenshot instead.");
+    } finally {
+      setExporting(false);
+    }
+  };
+
   return (
     <AppShell>
-      <h1 className="font-serif text-3xl mb-2">Shareable reading card</h1>
-      <p className="text-muted-foreground text-sm mb-6">Premium cream variant, rendered for screenshot/share.</p>
+      <div className="flex flex-wrap items-center justify-between gap-4 mb-6">
+        <div>
+          <h1 className="font-serif text-3xl mb-1">Shareable reading card</h1>
+          <p className="text-muted-foreground text-sm">Premium cream variant — export as PNG or screenshot.</p>
+        </div>
+        <Button onClick={exportPng} disabled={exporting}
+          className="rounded-full bg-primary text-primary-foreground hover:bg-primary-glow shadow-cyan font-mono uppercase tracking-[0.2em] text-xs">
+          {exporting ? <Loader2 className="mr-2 h-3.5 w-3.5 animate-spin" /> : <Download className="mr-2 h-3.5 w-3.5" />}
+          Export PNG
+        </Button>
+      </div>
 
-      <div className="mx-auto max-w-md aspect-[4/5] rounded-3xl bg-cream text-cream-foreground p-7 shadow-card-cream relative overflow-hidden">
+      <div ref={cardRef} className="mx-auto max-w-md aspect-[4/5] rounded-3xl bg-cream text-cream-foreground p-7 shadow-card-cream relative overflow-hidden">
         <div className="absolute inset-0 grid-bg opacity-[0.04]" />
         <div className="relative flex items-center justify-between">
           <div>

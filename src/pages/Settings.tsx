@@ -5,7 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { Switch } from "@/components/ui/switch";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { getSettings, saveSettings, wipeAll, type Settings as S } from "@/lib/memory";
+import { getSettings, saveSettings, wipeAll, getReadings, getJournal, type Settings as S } from "@/lib/memory";
 import { toast } from "sonner";
 
 const ALL_LENSES = ["Astrology","Numerology","Akashic","Fibonacci AI","Tarot/Chakra","Compatibility"];
@@ -18,7 +18,21 @@ export default function SettingsPage() {
   const persist = () => { saveSettings(s); toast.success("Settings saved."); };
 
   const exportData = () => {
-    toast("Export protocol stubbed for prototype.", { description: "Will package readings + journal + settings as JSON." });
+    const data = {
+      exportedAt: new Date().toISOString(),
+      version: "1.0",
+      readings: getReadings(),
+      journal: getJournal(),
+      settings: s,
+    };
+    const blob = new Blob([JSON.stringify(data, null, 2)], { type: "application/json" });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = `akashic-lenses-export-${new Date().toISOString().split("T")[0]}.json`;
+    a.click();
+    URL.revokeObjectURL(url);
+    toast.success("Data exported as JSON.");
   };
   const wipe = () => {
     if (confirm("Delete all readings and journal entries? This cannot be undone.")) {

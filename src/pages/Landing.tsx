@@ -1,11 +1,17 @@
 import { Link } from "react-router-dom";
 import { ArrowRight, Sparkles, Zap } from "lucide-react";
+import { motion } from "framer-motion";
 import oraclePortrait from "@/assets/hood-oracle.jpg";
 import bgImg from "@/assets/agentropolis-bg.jpg";
 import { Button } from "@/components/ui/button";
 import { useReading } from "@/state/ReadingContext";
 import { DEMO_BIRTH } from "@/lib/lenses";
 import { useNavigate } from "react-router-dom";
+
+const fadeUp = {
+  hidden: { opacity: 0, y: 20 },
+  visible: (delay = 0) => ({ opacity: 1, y: 0, transition: { duration: 0.7, delay, ease: [0.22, 1, 0.36, 1] } }),
+};
 
 export default function Landing() {
   const { runReading } = useReading();
@@ -24,7 +30,10 @@ export default function Landing() {
       <div className="absolute inset-0 grid-bg opacity-40" />
 
       <div className="relative container py-10 md:py-16">
-        <div className="flex flex-wrap items-center justify-between gap-4">
+        <motion.div
+          className="flex flex-wrap items-center justify-between gap-4"
+          initial="hidden" animate="visible" variants={fadeUp} custom={0}
+        >
           <div className="flex items-center gap-2.5">
             <div className="h-7 w-7 rounded-full bg-spiral animate-spin-slow shadow-cyan" />
             <div>
@@ -36,10 +45,10 @@ export default function Landing() {
             <span className="chip-red chip">NEURO META X</span>
             <span className="chip">AGENTROPOLIS GRID</span>
           </div>
-        </div>
+        </motion.div>
 
         <div className="mt-14 md:mt-20 grid gap-10 md:grid-cols-2 md:items-center">
-          <div className="animate-fade-up">
+          <motion.div initial="hidden" animate="visible" variants={fadeUp} custom={0.15}>
             <div className="text-[11px] font-mono uppercase tracking-[0.4em] text-primary mb-4">
               A WIRED CHAOS divination interface
             </div>
@@ -53,7 +62,13 @@ export default function Landing() {
               agentic guide who lives in the NEURO district of AGENTROPOLIS.
             </p>
 
-            <div className="mt-8 flex flex-wrap gap-3">
+            <motion.div className="mt-4 flex items-center gap-3" initial="hidden" animate="visible" variants={fadeUp} custom={0.25}>
+              <span className="chip-lime chip text-[10px]">No KYC</span>
+              <span className="chip text-[10px]">No Dox</span>
+              <span className="chip-red chip text-[10px]">Alias-first</span>
+            </motion.div>
+
+            <motion.div className="mt-6 flex flex-wrap gap-3" initial="hidden" animate="visible" variants={fadeUp} custom={0.3}>
               <Button asChild size="lg" className="bg-primary text-primary-foreground hover:bg-primary-glow shadow-cyan rounded-full px-6 font-mono uppercase tracking-[0.2em] text-xs">
                 <Link to="/agent">Enter AGENTROPOLIS <ArrowRight className="ml-2 h-4 w-4" /></Link>
               </Button>
@@ -61,20 +76,25 @@ export default function Landing() {
                 className="rounded-full border-accent/60 text-accent hover:bg-accent/10 hover:text-accent shadow-red px-6 font-mono uppercase tracking-[0.2em] text-xs">
                 <Zap className="mr-2 h-4 w-4" /> Run Demo Reading
               </Button>
-            </div>
+            </motion.div>
 
-            <div className="mt-10 glass max-w-md p-4 text-xs text-muted-foreground">
+            <motion.div className="mt-10 glass max-w-md p-4 text-xs text-muted-foreground" initial="hidden" animate="visible" variants={fadeUp} custom={0.4}>
               <div className="flex items-center gap-2 mb-1 text-primary">
                 <Sparkles className="h-3.5 w-3.5" />
                 <span className="font-mono uppercase tracking-[0.25em] text-[10px]">Operating Principle</span>
               </div>
               Pattern is not prison. Signal is not sentence. Readings are for reflection,
               journaling, and symbolic exploration - not medical, legal, financial, or psychological advice.
-            </div>
-          </div>
+            </motion.div>
+          </motion.div>
 
           {/* Featured Card - NEURO META X rebrand */}
-          <div className="relative animate-fade-up">
+          <motion.div
+            className="relative"
+            initial={{ opacity: 0, scale: 0.95 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 0.9, delay: 0.2, ease: [0.22, 1, 0.36, 1] }}
+          >
             <div className="absolute -inset-6 bg-spiral opacity-20 blur-3xl rounded-full" />
             <div className="relative glass-strong overflow-hidden p-1.5 rounded-3xl shadow-cyan">
               <div className="relative rounded-[calc(var(--radius)+2px)] overflow-hidden border border-primary/30">
@@ -96,18 +116,36 @@ export default function Landing() {
               <div className="text-[10px] font-mono uppercase tracking-[0.3em] text-primary mb-1">Hero transmission</div>
               "Your signal carries more than one story - let THE HOOD ORACLE read the lenses."
             </div>
-          </div>
+          </motion.div>
         </div>
 
         {/* Lens grid */}
-        <div className="mt-20 grid gap-3 md:grid-cols-3 lg:grid-cols-6">
+        <motion.div
+          className="mt-20 grid gap-3 md:grid-cols-3 lg:grid-cols-6"
+          initial="hidden" animate="visible"
+          variants={{ visible: { transition: { staggerChildren: 0.07, delayChildren: 0.5 } } }}
+        >
           {["Astrology","Numerology","Akashic","Fibonacci AI","Tarot/Chakra","Compatibility"].map((l,i) => (
-            <div key={l} className="glass p-4 text-center">
+            <motion.div key={l} className="glass p-4 text-center"
+              variants={{ hidden: { opacity: 0, y: 12 }, visible: { opacity: 1, y: 0 } }}>
               <div className="text-[10px] font-mono text-muted-foreground tracking-[0.3em]">LENS {String(i+1).padStart(2,"0")}</div>
               <div className="font-serif text-lg mt-1">{l}</div>
-            </div>
+            </motion.div>
           ))}
-        </div>
+        </motion.div>
+
+        {/* Privacy callout */}
+        <motion.div
+          className="mt-12 glass p-6 border-lime/30 max-w-2xl mx-auto text-center"
+          initial="hidden" animate="visible" variants={fadeUp} custom={0.6}
+        >
+          <div className="text-[10px] font-mono uppercase tracking-[0.3em] text-lime mb-2">// No-Dox Mode Enabled by Default</div>
+          <p className="text-sm text-muted-foreground">
+            Enter the Oracle without surrendering your identity. No KYC · No legal name required ·
+            No biometrics · No wallet required · Alias-first identity.
+          </p>
+          <p className="text-xs font-mono text-muted-foreground mt-2 tracking-[0.15em]">No dox. Just signal.</p>
+        </motion.div>
       </div>
     </div>
   );

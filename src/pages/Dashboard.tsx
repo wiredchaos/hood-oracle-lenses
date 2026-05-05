@@ -1,13 +1,23 @@
 import { Link, Navigate } from "react-router-dom";
+import { motion } from "framer-motion";
 import { AppShell } from "@/components/AppShell";
 import { LensCard } from "@/components/LensCard";
 import { SpiralMedallion } from "@/components/SpiralMedallion";
+import { ArtifactViewer } from "@/components/ArtifactViewer";
 import { Button } from "@/components/ui/button";
 import { useReading } from "@/state/ReadingContext";
 import { NUMBER_MEANINGS } from "@/lib/lenses";
 import { Activity, BookOpenText, Share2, Sparkles } from "lucide-react";
 import { saveJournal } from "@/lib/memory";
 import { toast } from "sonner";
+
+const stagger = {
+  visible: { transition: { staggerChildren: 0.1, delayChildren: 0.05 } },
+};
+const fadeUp = {
+  hidden: { opacity: 0, y: 16 },
+  visible: { opacity: 1, y: 0, transition: { duration: 0.6, ease: [0.22, 1, 0.36, 1] } },
+};
 
 export default function Dashboard() {
   const { reading } = useReading();
@@ -72,66 +82,110 @@ export default function Dashboard() {
       </section>
 
       {/* Lens grid */}
-      <div className="mt-8 grid gap-5 md:grid-cols-2 xl:grid-cols-3">
-        <LensCard kicker="Lens 01" title="Astrology" accent="cyan">
-          <p>Your <b>{astrology.sun.name} Sun / {astrology.moon.name} Moon / {astrology.ascendant.name} Rising</b> profile suggests
-            an outer signal of {astrology.sun.element.toLowerCase()}-element clarity worn over a more {astrology.moon.element.toLowerCase()}-coded interior.</p>
-          <ul className="mt-2 space-y-1 text-muted-foreground text-xs font-mono">
-            {astrology.houseFocus.map(h => <li key={h}>· {h}</li>)}
-            {astrology.planetaryFocus.map(p => <li key={p}>· {p}</li>)}
-          </ul>
-          <p className="text-[10px] text-muted-foreground italic">* Approximation. Real ephemeris integration is structured into the lens engine for later wiring.</p>
-        </LensCard>
+      <motion.div
+        className="mt-8 grid gap-5 md:grid-cols-2 xl:grid-cols-3"
+        initial="hidden" animate="visible" variants={stagger}
+      >
+        <motion.div variants={fadeUp}>
+          <LensCard kicker="Lens 01" title="Astrology" accent="cyan">
+            <p>Your <b>{astrology.sun.name} Sun / {astrology.moon.name} Moon / {astrology.ascendant.name} Rising</b> profile suggests
+              an outer signal of {astrology.sun.element.toLowerCase()}-element clarity worn over a more {astrology.moon.element.toLowerCase()}-coded interior.</p>
+            <ul className="mt-2 space-y-1 text-muted-foreground text-xs font-mono">
+              {astrology.houseFocus.map(h => <li key={h}>· {h}</li>)}
+              {astrology.planetaryFocus.map(p => <li key={p}>· {p}</li>)}
+            </ul>
+            <p className="text-[10px] text-muted-foreground italic">* Approximation. Real ephemeris integration is structured into the lens engine for later wiring.</p>
+          </LensCard>
+        </motion.div>
 
-        <LensCard kicker="Lens 02" title="Numerology" accent="lime">
-          <div className="grid grid-cols-3 gap-2 text-center">
-            <NumChip label="Life" n={numerology.lifePath} />
-            <NumChip label="Destiny" n={numerology.destiny} />
-            <NumChip label="Soul" n={numerology.soulUrge} />
-            <NumChip label="Persona" n={numerology.personality} />
-            <NumChip label="Birthday" n={numerology.birthday} />
-            <NumChip label="Year" n={numerology.personalYear} />
-          </div>
-          <p className="mt-2"><b>{NUMBER_MEANINGS[numerology.personalYear]?.title}</b> year - {NUMBER_MEANINGS[numerology.personalYear]?.gist}</p>
-          <Link to="/numerology" className="text-primary text-xs font-mono uppercase tracking-[0.2em]">→ Full numerology report</Link>
-        </LensCard>
-
-        <LensCard kicker="Lens 03" title="Akashic" accent="red">
-          <div className="text-xs font-mono uppercase tracking-[0.2em] text-accent">Archetype</div>
-          <div className="font-serif text-2xl">{akashic.archetype}</div>
-          <p className="text-muted-foreground">{akashic.soulFragment}</p>
-          <Link to="/akashic" className="text-accent text-xs font-mono uppercase tracking-[0.2em]">→ Open Akashic report</Link>
-        </LensCard>
-
-        <LensCard kicker="Lens 04" title="Fibonacci AI" accent="lime">
-          <p className="text-sm">
-            Cycle marker <b className="lime-text">{fibonacci.cycleMarker}</b> → next checkpoint <b className="neon-text">{fibonacci.nextMarker}</b>.
-            Spiral phase: <b>{fibonacci.spiralPhase}</b>.
-          </p>
-          <RatioBar expansion={fibonacci.goldenRatio.expansion} />
-          <Link to="/fibonacci" className="text-lime text-xs font-mono uppercase tracking-[0.2em]">→ Open Fibonacci AI report</Link>
-        </LensCard>
-
-        <LensCard kicker="Lens 05" title="Tarot / Chakra" accent="red">
-          <div className="flex items-center justify-between">
-            <div>
-              <div className="text-xs font-mono uppercase tracking-[0.2em] text-accent">Card</div>
-              <div className="font-serif text-2xl">{tarot.card}</div>
+        <motion.div variants={fadeUp}>
+          <LensCard kicker="Lens 02" title="Numerology" accent="lime">
+            <div className="grid grid-cols-3 gap-2 text-center">
+              <NumChip label="Life" n={numerology.lifePath} />
+              <NumChip label="Destiny" n={numerology.destiny} />
+              <NumChip label="Soul" n={numerology.soulUrge} />
+              <NumChip label="Persona" n={numerology.personality} />
+              <NumChip label="Birthday" n={numerology.birthday} />
+              <NumChip label="Year" n={numerology.personalYear} />
             </div>
-            <span className="chip">{tarot.chakra} Chakra</span>
-          </div>
-          <p>{tarot.meaning}</p>
-        </LensCard>
+            <p className="mt-2"><b>{NUMBER_MEANINGS[numerology.personalYear]?.title}</b> year - {NUMBER_MEANINGS[numerology.personalYear]?.gist}</p>
+            <Link to="/numerology" className="text-primary text-xs font-mono uppercase tracking-[0.2em]">→ Full numerology report</Link>
+          </LensCard>
+        </motion.div>
 
-        <LensCard kicker="Lens 06" title="Journal Prompt" accent="cyan"
-          action={<Sparkles className="h-4 w-4 text-primary" />}>
-          <p className="italic">"{fibonacci.journalPrompt}"</p>
-          <Button onClick={() => saveJournalPrompt("Fibonacci AI", fibonacci.journalPrompt)}
-            variant="outline" className="rounded-full text-xs font-mono uppercase tracking-[0.2em] mt-2">
-            Save to Memory Layer
-          </Button>
-        </LensCard>
-      </div>
+        <motion.div variants={fadeUp}>
+          <LensCard kicker="Lens 03" title="Akashic" accent="red">
+            <div className="text-xs font-mono uppercase tracking-[0.2em] text-accent">Archetype</div>
+            <div className="font-serif text-2xl">{akashic.archetype}</div>
+            <p className="text-muted-foreground">{akashic.soulFragment}</p>
+            <Link to="/akashic" className="text-accent text-xs font-mono uppercase tracking-[0.2em]">→ Open Akashic report</Link>
+          </LensCard>
+        </motion.div>
+
+        <motion.div variants={fadeUp}>
+          <LensCard kicker="Lens 04" title="Fibonacci AI" accent="lime">
+            <p className="text-sm">
+              Cycle marker <b className="lime-text">{fibonacci.cycleMarker}</b> → next checkpoint <b className="neon-text">{fibonacci.nextMarker}</b>.
+              Spiral phase: <b>{fibonacci.spiralPhase}</b>.
+            </p>
+            <RatioBar expansion={fibonacci.goldenRatio.expansion} />
+            <Link to="/fibonacci" className="text-lime text-xs font-mono uppercase tracking-[0.2em]">→ Open Fibonacci AI report</Link>
+          </LensCard>
+        </motion.div>
+
+        <motion.div variants={fadeUp}>
+          <LensCard kicker="Lens 05" title="Tarot / Chakra" accent="red">
+            <div className="flex items-center justify-between">
+              <div>
+                <div className="text-xs font-mono uppercase tracking-[0.2em] text-accent">Card</div>
+                <div className="font-serif text-2xl">{tarot.card}</div>
+              </div>
+              <span className="chip">{tarot.chakra} Chakra</span>
+            </div>
+            <p>{tarot.meaning}</p>
+          </LensCard>
+        </motion.div>
+
+        <motion.div variants={fadeUp}>
+          <LensCard kicker="Lens 06" title="Journal Prompt" accent="cyan"
+            action={<Sparkles className="h-4 w-4 text-primary" />}>
+            <p className="italic">"{fibonacci.journalPrompt}"</p>
+            <Button onClick={() => saveJournalPrompt("Fibonacci AI", fibonacci.journalPrompt)}
+              variant="outline" className="rounded-full text-xs font-mono uppercase tracking-[0.2em] mt-2">
+              Save to Memory Layer
+            </Button>
+          </LensCard>
+        </motion.div>
+      </motion.div>
+
+      {/* 3D Artifact Viewer */}
+      <motion.section
+        className="mt-10 glass p-6 md:p-8"
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ delay: 0.8, duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
+      >
+        <div className="text-[10px] font-mono uppercase tracking-[0.3em] text-primary mb-1">// 3D Artifact</div>
+        <h2 className="font-serif text-2xl mb-4">Sigil Artifact Viewer</h2>
+        <div className="flex flex-wrap gap-8 items-center">
+          <ArtifactViewer accent="cyan" label={`${akashic.archetype}`} size={280} />
+          <div className="flex-1 min-w-[200px]">
+            <p className="text-muted-foreground text-sm">
+              Your Akashic archetype <b className="text-foreground">{akashic.archetype}</b> rendered as a living sigil artifact.
+              Drag to rotate. The geometry responds to your reading's symbolic resonance.
+            </p>
+            <ul className="mt-4 space-y-1.5 text-xs font-mono text-muted-foreground">
+              <li>· Icosahedral lattice — 20-faced knowing</li>
+              <li>· Distortion field — soul signal variation</li>
+              <li>· Orbital ring — guardian frequency</li>
+            </ul>
+            <div className="mt-4 flex gap-2">
+              <ArtifactViewer accent="red" size={80} className="!rounded-xl" />
+              <ArtifactViewer accent="lime" size={80} className="!rounded-xl" />
+            </div>
+          </div>
+        </div>
+      </motion.section>
     </AppShell>
   );
 }
