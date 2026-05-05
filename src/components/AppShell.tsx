@@ -8,10 +8,15 @@ const PRIMARY = [
   { to: "/hoods", label: "Hoods" },
   { to: "/dashboard", label: "Reading" },
   { to: "/forge", label: "Forge" },
+  { to: "/cointelpro", label: "COINTELPRO", accent: "red" as const },
 ];
 
 const MORE = [
+  { to: "/demo", label: "Demo Profile" },
   { to: "/intake", label: "Intake" },
+  { to: "/trust-signal", label: "Trust Signal" },
+  { to: "/circle-test", label: "Circle Test" },
+  { to: "/echoes", label: "Movement Echoes" },
   { to: "/listicles", label: "Listicles" },
   { to: "/agenttv", label: "AGENTtv" },
   { to: "/files", label: "Files" },
@@ -45,7 +50,11 @@ export function AppShell({ children }: { children: React.ReactNode }) {
           </Link>
           <nav className="hidden lg:flex items-center gap-1">
             {PRIMARY.map(n => (
-              <Link key={n.to} to={n.to} className={linkCls(pathname.startsWith(n.to))}>{n.label}</Link>
+              <Link key={n.to} to={n.to}
+                className={cn(
+                  linkCls(pathname.startsWith(n.to)),
+                  n.accent === "red" && "border border-accent/50 text-accent hover:text-accent",
+                )}>{n.label}</Link>
             ))}
             <div className="relative group">
               <button className={linkCls(false) + " flex items-center gap-1"}>More <Menu className="h-3 w-3" /></button>

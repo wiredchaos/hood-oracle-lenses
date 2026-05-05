@@ -26,6 +26,11 @@ import HoodOracleFiles from "./pages/HoodOracleFiles.tsx";
 import PocketCards from "./pages/PocketCards.tsx";
 import UgcForge from "./pages/UgcForge.tsx";
 import MonetizationMap from "./pages/MonetizationMap.tsx";
+import CointelproLink from "./pages/CointelproLink.tsx";
+import TrustSignal from "./pages/TrustSignal.tsx";
+import CircleTest from "./pages/CircleTest.tsx";
+import MovementEchoes from "./pages/MovementEchoes.tsx";
+import DemoProfile from "./pages/DemoProfile.tsx";
 
 const queryClient = new QueryClient();
 
@@ -58,6 +63,11 @@ const App = () => (
             <Route path="/pocket" element={<PocketCards />} />
             <Route path="/forge" element={<UgcForge />} />
             <Route path="/monetization" element={<MonetizationMap />} />
+            <Route path="/cointelpro" element={<CointelproLink />} />
+            <Route path="/trust-signal" element={<TrustSignal />} />
+            <Route path="/circle-test" element={<CircleTest />} />
+            <Route path="/echoes" element={<MovementEchoes />} />
+            <Route path="/demo" element={<DemoProfile />} />
             <Route path="*" element={<NotFound />} />
           </Routes>
         </ReadingProvider>
