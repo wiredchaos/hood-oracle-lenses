@@ -35,6 +35,14 @@ export default function AgentTvStudio() {
           className="chip-red chip"><ExternalLink className="h-3 w-3" /> atvnetwork.vercel.app</a>
       </header>
 
+      <div className="glass p-4 mb-4 flex flex-wrap items-center gap-3">
+        <div className="text-[10px] font-mono uppercase tracking-[0.25em] text-accent">Quick presets</div>
+        <Button size="sm" variant="outline" onClick={loadDemo}
+          className="rounded-full text-[11px] font-mono uppercase tracking-[0.18em]">
+          <Sparkles className="h-3 w-3 mr-2" /> N3UR0 META X · Systems Virgo
+        </Button>
+      </div>
+
       <div className="glass p-4 mb-6 space-y-4">
         <div>
           <div className="text-[10px] font-mono uppercase tracking-[0.25em] text-muted-foreground mb-1">Episode title</div>

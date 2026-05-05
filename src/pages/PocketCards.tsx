@@ -1,19 +1,27 @@
+import { useState } from "react";
+import { useSearchParams } from "react-router-dom";
 import { AppShell } from "@/components/AppShell";
 import { CardStack } from "@/components/CardStack";
+import { Button } from "@/components/ui/button";
 import { POCKET_CARD_TYPES, buildPocketStack } from "@/lib/content";
-import { Smartphone } from "lucide-react";
+import { DEMO_POCKET_STACK } from "@/lib/demoSeed";
+import { Smartphone, Sparkles } from "lucide-react";
+
+const DEFAULT_STACK = buildPocketStack({
+  title: "THE WOMAN WITHOUT A FACE",
+  lines: [
+    "She had no face because every hood had seen her.",
+    "The app asked Malik for his palm print. The Oracle killed the request.",
+    "NO DOX MODE ACTIVE",
+    "\"I don't need your government name to read the loop.\"",
+    "Patch-Life: THE SIGNAL RUNNER",
+  ],
+});
 
 export default function PocketCards() {
-  const stack = buildPocketStack({
-    title: "THE WOMAN WITHOUT A FACE",
-    lines: [
-      "She had no face because every hood had seen her.",
-      "The app asked Malik for his palm print. The Oracle killed the request.",
-      "NO DOX MODE ACTIVE",
-      "\"I don't need your government name to read the loop.\"",
-      "Patch-Life: THE SIGNAL RUNNER",
-    ],
-  });
+  const [params] = useSearchParams();
+  const [preset, setPreset] = useState<"default" | "demo">(params.get("seed") === "demo" ? "demo" : "default");
+  const stack = preset === "demo" ? DEMO_POCKET_STACK : DEFAULT_STACK;
 
   return (
     <AppShell>
