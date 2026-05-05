@@ -62,6 +62,10 @@ export default function Landing() {
                 <Zap className="mr-2 h-4 w-4" /> Run Demo Reading
               </Button>
             </div>
+            <div className="mt-3 flex flex-wrap gap-3 text-[11px] font-mono uppercase tracking-[0.2em]">
+              <Link to="/demo" className="text-primary hover:text-primary-glow">→ View N3UR0 META X demo profile</Link>
+              <Link to="/cointelpro" className="text-accent hover:text-accent/80">→ COINTELPRO PROTOCOL LINK</Link>
+            </div>
 
             <div className="mt-10 glass max-w-md p-4 text-xs text-muted-foreground">
               <div className="flex items-center gap-2 mb-1 text-primary">
