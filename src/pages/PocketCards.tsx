@@ -31,8 +31,18 @@ export default function PocketCards() {
         <p className="text-muted-foreground text-sm mt-1">Micro-content for the Pocket App. Every reading, story, and listicle becomes a stack.</p>
       </header>
 
+      <div className="glass p-3 mb-5 flex flex-wrap gap-2 items-center">
+        <div className="text-[10px] font-mono uppercase tracking-[0.25em] text-accent">Stack preset</div>
+        <Button size="sm" variant={preset === "default" ? "default" : "outline"} onClick={() => setPreset("default")}
+          className="rounded-full text-[11px] font-mono uppercase tracking-[0.18em]">The Woman Without a Face</Button>
+        <Button size="sm" variant={preset === "demo" ? "default" : "outline"} onClick={() => setPreset("demo")}
+          className="rounded-full text-[11px] font-mono uppercase tracking-[0.18em]">
+          <Sparkles className="h-3 w-3 mr-2" /> RED-VEIL-11 // SPIRAL-34
+        </Button>
+      </div>
+
       <div className="grid gap-6 lg:grid-cols-[420px_1fr] items-start">
-        <CardStack cards={stack} accent="cyan" />
+        <CardStack cards={stack} accent={preset === "demo" ? "red" : "cyan"} />
         <div className="grid gap-3 sm:grid-cols-2">
           {POCKET_CARD_TYPES.map(t => (
             <div key={t.id} className="glass p-4">
