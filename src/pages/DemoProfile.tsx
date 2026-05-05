@@ -4,6 +4,7 @@ import { LensCard } from "@/components/LensCard";
 import { SpiralMedallion } from "@/components/SpiralMedallion";
 import { Button } from "@/components/ui/button";
 import { DEMO_NOTICE, DEMO_PROFILE } from "@/lib/demoSeed";
+import { DEMO_HOLOGRAM } from "@/lib/oracleAssets";
 import { SAFETY_FOOTER } from "@/lib/cointelpro";
 import { Lock, Sparkles } from "lucide-react";
 
@@ -31,8 +32,14 @@ export default function DemoProfile() {
           <p className="text-sm text-muted-foreground mt-2">{p.patchLife.eraAesthetic}</p>
           <p className="text-sm mt-3 italic">"{p.patchLife.shareLine}"</p>
         </div>
-        <div className="flex justify-center">
-          <SpiralMedallion size={220} label={`Phase: ${p.fibonacci.spiralPhase}`} />
+        <div className="relative flex justify-center">
+          <div className="absolute -inset-4 bg-oracle opacity-30 blur-3xl rounded-full" />
+          <img src={DEMO_HOLOGRAM} alt="N3UR0 META X holographic profile" loading="lazy"
+            width={1024} height={1024}
+            className="relative w-[260px] h-[260px] rounded-2xl object-cover border border-primary/40 shadow-cyan" />
+          <div className="absolute -bottom-3 left-1/2 -translate-x-1/2">
+            <SpiralMedallion size={84} label="" />
+          </div>
         </div>
         <div className="md:text-right">
           <div className="text-[10px] font-mono uppercase tracking-[0.3em] text-muted-foreground">Privacy posture</div>
