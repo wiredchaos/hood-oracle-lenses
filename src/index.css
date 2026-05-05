@@ -4,7 +4,7 @@
 @tailwind components;
 @tailwind utilities;
 
-/* AKASHIC LENSES - WIRED CHAOS / NEURO META X design system
+/* AKASHIC LENSES - WIRED CHAOS / N3UR0 META X design system
    All colors are HSL. No raw colors in components. */
 
 @layer base {
@@ -30,7 +30,7 @@
     --muted: 200 30% 12%;
     --muted-foreground: 190 15% 65%;
 
-    --accent: 0 90% 55%;              /* NEURO red */
+    --accent: 0 90% 55%;              /* N3UR0 red */
     --accent-foreground: 0 0% 100%;
 
     --lime: 80 90% 55%;               /* glyph lime */

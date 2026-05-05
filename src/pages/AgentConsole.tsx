@@ -23,7 +23,7 @@ export default function AgentConsole() {
           </ul>
         </LensCard>
 
-        <LensCard title="NEURO District" accent="red" kicker="Domain institution">
+        <LensCard title="N3UR0 District" accent="red" kicker="Domain institution">
           <p>Owns systems architecture, swarm governance, symbolic intelligence, and high-assurance reasoning. Home of THE HOOD ORACLE.</p>
         </LensCard>
 

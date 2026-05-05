@@ -40,7 +40,7 @@ export function AppShell({ children }: { children: React.ReactNode }) {
             <div className="relative h-7 w-7 rounded-full bg-spiral animate-spin-slow shadow-cyan" />
             <div className="leading-tight">
               <div className="font-serif text-base tracking-wide">Akashic Lenses</div>
-              <div className="text-[10px] font-mono tracking-[0.3em] text-muted-foreground">NEURO META X</div>
+              <div className="text-[10px] font-mono tracking-[0.3em] text-muted-foreground">N3UR0 META X</div>
             </div>
           </Link>
           <nav className="hidden lg:flex items-center gap-1">
@@ -81,7 +81,7 @@ export function AppShell({ children }: { children: React.ReactNode }) {
       <main className="container py-8 md:py-12">{children}</main>
       <footer className="border-t border-border/40 py-6">
         <div className="container flex flex-wrap items-center justify-between gap-3 text-[11px] font-mono text-muted-foreground">
-          <span>AGENTROPOLIS // NEURO DISTRICT // SYMBOLIC INTELLIGENCE GRID</span>
+          <span>AGENTROPOLIS // N3UR0 DISTRICT // SYMBOLIC INTELLIGENCE GRID</span>
           <span>For reflection &amp; entertainment only. No medical, legal, financial, or psychological advice. No KYC, no biometrics, no real-name required.</span>
         </div>
       </footer>

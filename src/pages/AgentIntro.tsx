@@ -18,7 +18,7 @@ export default function AgentIntro() {
         </div>
         <div className="animate-fade-up">
           <div className="flex flex-wrap gap-2 mb-4">
-            <span className="chip">NEURO DISTRICT</span>
+            <span className="chip">N3UR0 DISTRICT</span>
             <span className="chip-red chip">SYMBOLIC INTELLIGENCE AGENT</span>
             <span className="chip-lime chip">ONLINE</span>
           </div>
