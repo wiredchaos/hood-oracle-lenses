@@ -1,16 +1,27 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { useSearchParams } from "react-router-dom";
 import { AppShell } from "@/components/AppShell";
 import { CopyBlock } from "@/components/CopyBlock";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { AGENTTV_FORMATS, AGENTTV_BUCKETS, buildEpisode } from "@/lib/content";
-import { Tv, ExternalLink } from "lucide-react";
+import { DEMO_AGENTTV_EPISODE } from "@/lib/demoSeed";
+import { Tv, ExternalLink, Sparkles } from "lucide-react";
 
 export default function AgentTvStudio() {
+  const [params] = useSearchParams();
   const [title, setTitle] = useState("THE WOMAN WITHOUT A FACE");
   const [format, setFormat] = useState(AGENTTV_FORMATS[0].id);
   const [bucket, setBucket] = useState(AGENTTV_BUCKETS[0]);
   const ep = buildEpisode({ title, format, bucket });
+
+  const loadDemo = () => {
+    setTitle(DEMO_AGENTTV_EPISODE.title);
+    setFormat(DEMO_AGENTTV_EPISODE.format);
+    setBucket(DEMO_AGENTTV_EPISODE.bucket);
+  };
+
+  useEffect(() => { if (params.get("seed") === "demo") loadDemo(); }, [params]);
 
   return (
     <AppShell>
