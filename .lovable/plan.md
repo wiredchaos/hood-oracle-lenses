@@ -1,35 +1,87 @@
-## 3D 360° Panoramic GPU Hero Background
+# Video Reports + NEURO Demo + Hood Oracle Video Messages
 
-Add an immersive WebGL-powered 360° panoramic sphere as the hero background on the landing page. The camera sits inside a textured sphere; mouse + device orientation drive subtle yaw/pitch parallax. Existing hero content sits on top with a darkened gradient for legibility.
+Three connected deliverables: (1) a **paid video report system** inside the app with preview + download, (2) a **NEURO META X demo report video** rendered now and shipped as the showcase, and (3) **short video messages from each of the 12 Hood Oracles** rendered now and wired into the existing hood oracle pages.
 
-### What you'll see
-- Full-bleed animated 3D backdrop on `/` replacing the static `agentropolis-bg.jpg` layer.
-- Slow auto-drift around the horizon (very slow, cinematic).
-- Mouse movement gently rotates the view (yaw ±15°, pitch ±8°).
-- Touch devices use device orientation if permitted, else just auto-drift.
-- Reduced-motion users get a static frame (no auto-drift, no mouse parallax).
-- All existing hero text, CTAs, agent card, and lens grid remain untouched on top.
+## 1. Video assets to render (one-time, via Remotion)
 
-### Tech approach
-- Reuse already-installed `three`, `@react-three/fiber@^8.18`, `@react-three/drei@^9.122.0`.
-- New component `src/components/PanoramaHero.tsx`:
-  - `<Canvas>` with `camera={{ position: [0,0,0.01], fov: 75 }}`, `dpr={[1, 1.75]}`, `gl={{ antialias: true, powerPreference: 'high-performance' }}`.
-  - Inside: a large `sphereGeometry` (radius 50, 64×64) with `side: THREE.BackSide`, textured via `useTexture` from the panorama image. Mapping set to equirectangular so existing 360 env images render correctly.
-  - `useFrame` lerps camera rotation toward target (mouse + auto-drift). Pointer captured at the wrapper div level, normalized to -1..1.
-  - Honors `prefers-reduced-motion` via `matchMedia`.
-- Use `src/assets/env360/nyc.jpg` (already a 360 env asset) as the default panorama; expose a `src` prop to swap.
-- Wrap in `<Suspense fallback={<img src={bgImg} … />}>` so the existing JPG shows during texture load — no blank flash.
-- Mount inside `Landing.tsx` as the bottom layer (absolute inset-0), keeping the existing `bg-cosmic` and `grid-bg` overlays above it for the WIRED CHAOS look.
+Rendered to `/mnt/documents/` and copied into `public/videos/` so the app can stream them.
 
-### Performance & safety
-- Sphere is a single draw call; no postprocessing — cheap on mobile.
-- `frameloop="always"` but rotation math is trivial; cap dpr at 1.75.
-- Pointer events on canvas set to `none` so it never blocks clicks on hero CTAs/links.
-- Pure WebGL (Three.js) — no WebGPU dependency, so it runs everywhere including the sandbox preview.
-- Lazy-load the component with `React.lazy` to keep initial JS small; fallback = current static image.
+- **NEURO demo report** — `neuro-meta-x-report.mp4` (~45s, 1080p)
+  - Cold open: "NO DOX MODE ACTIVE" glitch title
+  - Astrology lens (Virgo Earth Architect)
+  - Numerology (Life Path 11/2, Day 8)
+  - Akashic (Red Ledger of the Systems Oracle)
+  - Fibonacci (SPIRAL-34, Architecture After Pressure)
+  - Patch-Life closer + oracle phrase
+  - Pulls copy directly from `src/lib/demoSeed.ts`
+- **12 Hood Oracle messages** — `oracle-<slug>.mp4` (~12-15s each, 1080x1350 vertical)
+  - One per hood: compton, philly, atlanta, chicago, nyc, kingston, lagos, london, paris, tokyo, rio, johannesburg
+  - Each: hood portrait backdrop (from `src/assets/hoods/*`) → faceless oracle silhouette → location-specific spoken-style caption + signature line → CTA "Run your Signal"
+  - Generated from a single parameterized Remotion composition driven by a `HOOD_MESSAGES` table (one entry per hood, pulling tone from existing `oracleAssets.ts` set)
 
-### Files
-- Create: `src/components/PanoramaHero.tsx`
-- Edit: `src/pages/Landing.tsx` (replace the `<img bgImg>` layer with `<Suspense><PanoramaHero/></Suspense>`, keep gradient + grid overlays).
+Render pipeline: extend the existing `remotion/` project. Add a `HoodMessage` composition with `calculateMetadata` for per-hood props, then loop the render script across all 12 slugs.
 
-No new dependencies. No backend changes.
+## 2. Video report system in the app
+
+### New page: `/reports/video` (`src/pages/VideoReports.tsx`)
+Gated catalog of video reports tied to the current reading.
+- Card grid: "Full Symbolic Report", "Hood Oracle Message", "Patch-Life Cinematic", "Daily Signal Loop"
+- Each card: thumbnail (poster frame), duration, price chip, Preview button, Unlock & Download button
+- Free 8-second preview (uses `<video>` with `#t=0,8` fragment), full file gated
+
+### New component: `src/components/VideoReportPlayer.tsx`
+- HTML5 `<video>` with custom controls, poster, scanline overlay matching existing oracle aesthetic
+- Two modes: `preview` (muted, looped, 8s clip) and `full` (controls, download button)
+- Download via anchor with `download` attribute once unlocked
+
+### Demo route: `/demo/neuro-video`
+- Public showcase page playing `neuro-meta-x-report.mp4` full-length, no paywall
+- Linked from Landing page hero ("Watch the NEURO demo report")
+
+### Hood oracle integration
+- `src/pages/HoodOracle.tsx` and `src/pages/GlobalHoods.tsx`: add a "Video message" tab on each hood card that plays `oracle-<slug>.mp4` inline (preview unlocked, download gated)
+- Add `HOOD_VIDEOS` map in `src/lib/oracleAssets.ts` mapping slug → `/videos/oracle-<slug>.mp4`
+
+### Paywall (entitlement-only, no payments wired yet)
+- New `src/lib/entitlements.ts` with `hasVideoUnlock(productId)` reading from `localStorage` key `oracle.unlocks`
+- "Unlock & Download" button currently shows a modal: "Video reports unlock $X — payments coming soon" with a dev-only "Simulate purchase" toggle that writes the entitlement so QA + the user can test the download flow end-to-end
+- Stripe wiring is out of scope for this pass; the UI, pricing chips, gating, and download flow are all in place so payments can be plugged in later (single tool call to enable Stripe + one checkout edge function)
+
+### Pricing chips (display only this pass)
+- Hood Oracle Message — $4
+- Full Symbolic Report — $19
+- Patch-Life Cinematic — $29
+- Daily Signal Loop (7-day) — $9
+
+## 3. Routing + navigation
+- `src/App.tsx`: add lazy routes `/reports/video` and `/demo/neuro-video`
+- `src/pages/Dashboard.tsx`: add "Video Reports" CTA in the distribute section
+- `src/pages/Landing.tsx`: add "Watch the NEURO demo" link near the existing Bio link
+
+## 4. Quietly fix runtime errors
+The reported `Cannot destructure 'basename'` + null `style` errors look like a component being rendered outside `<BrowserRouter>` (likely a lazy page or the new PanoramaHero mount). I'll inspect `src/App.tsx` + `PanoramaHero.tsx` and patch as part of this pass.
+
+## Files
+
+**Created**
+- `remotion/src/scenes/neuro/*` (5 scene files for the demo report)
+- `remotion/src/scenes/HoodMessage.tsx` + `remotion/src/data/hoodMessages.ts`
+- `remotion/scripts/render-hoods.mjs` (loops the 12 renders)
+- `public/videos/neuro-meta-x-report.mp4`
+- `public/videos/oracle-<slug>.mp4` ×12
+- `public/videos/posters/*.jpg` ×13 (poster frames extracted via ffmpeg)
+- `src/pages/VideoReports.tsx`
+- `src/pages/NeuroVideoDemo.tsx`
+- `src/components/VideoReportPlayer.tsx`
+- `src/lib/entitlements.ts`
+
+**Modified**
+- `remotion/src/Root.tsx` (register new compositions)
+- `src/App.tsx` (routes; runtime-error fix)
+- `src/lib/oracleAssets.ts` (HOOD_VIDEOS map)
+- `src/pages/HoodOracle.tsx`, `src/pages/GlobalHoods.tsx` (video tab)
+- `src/pages/Landing.tsx`, `src/pages/Dashboard.tsx` (entry points)
+
+## Out of scope (call out, do not build)
+- Real Stripe checkout + webhook (next pass — one tool call away)
+- Per-user reading-personalized video rendering (would need a server-side render queue; current pass uses the demo profile + 12 fixed hood messages)
