@@ -2,6 +2,22 @@ import { Link } from "react-router-dom";
 import { ArrowRight, Sparkles, Zap } from "lucide-react";
 import oraclePortrait from "@/assets/faceless-oracle.jpg";
 import bgImg from "@/assets/agentropolis-bg.jpg";
+import { FloatingHolo } from "@/components/FloatingHolo";
+import lensAstrology from "@/assets/lenses/astrology.png";
+import lensNumerology from "@/assets/lenses/numerology.png";
+import lensAkashic from "@/assets/lenses/akashic.png";
+import lensFibonacci from "@/assets/lenses/fibonacci.png";
+import lensTarot from "@/assets/lenses/tarot.png";
+import lensCompatibility from "@/assets/lenses/compatibility.png";
+
+const LENSES: { name: string; img: string; accent: "cyan" | "red" | "lime"; to: string }[] = [
+  { name: "Astrology",     img: lensAstrology,     accent: "cyan", to: "/intake" },
+  { name: "Numerology",    img: lensNumerology,    accent: "cyan", to: "/intake" },
+  { name: "Akashic",       img: lensAkashic,       accent: "cyan", to: "/intake" },
+  { name: "Fibonacci AI",  img: lensFibonacci,     accent: "lime", to: "/intake" },
+  { name: "Tarot/Chakra",  img: lensTarot,         accent: "red",  to: "/intake" },
+  { name: "Compatibility", img: lensCompatibility, accent: "red",  to: "/compatibility" },
+];
 import { Button } from "@/components/ui/button";
 import { useReading } from "@/state/ReadingContext";
 import { DEMO_BIRTH } from "@/lib/lenses";
