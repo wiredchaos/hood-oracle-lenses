@@ -2,6 +2,22 @@ import { Link } from "react-router-dom";
 import { ArrowRight, Sparkles, Zap } from "lucide-react";
 import oraclePortrait from "@/assets/faceless-oracle.jpg";
 import bgImg from "@/assets/agentropolis-bg.jpg";
+import { FloatingHolo } from "@/components/FloatingHolo";
+import lensAstrology from "@/assets/lenses/astrology.png";
+import lensNumerology from "@/assets/lenses/numerology.png";
+import lensAkashic from "@/assets/lenses/akashic.png";
+import lensFibonacci from "@/assets/lenses/fibonacci.png";
+import lensTarot from "@/assets/lenses/tarot.png";
+import lensCompatibility from "@/assets/lenses/compatibility.png";
+
+const LENSES: { name: string; img: string; accent: "cyan" | "red" | "lime"; to: string }[] = [
+  { name: "Astrology",     img: lensAstrology,     accent: "cyan", to: "/intake" },
+  { name: "Numerology",    img: lensNumerology,    accent: "cyan", to: "/intake" },
+  { name: "Akashic",       img: lensAkashic,       accent: "cyan", to: "/intake" },
+  { name: "Fibonacci AI",  img: lensFibonacci,     accent: "lime", to: "/intake" },
+  { name: "Tarot/Chakra",  img: lensTarot,         accent: "red",  to: "/intake" },
+  { name: "Compatibility", img: lensCompatibility, accent: "red",  to: "/compatibility" },
+];
 import { Button } from "@/components/ui/button";
 import { useReading } from "@/state/ReadingContext";
 import { DEMO_BIRTH } from "@/lib/lenses";
@@ -103,13 +119,33 @@ export default function Landing() {
           </div>
         </div>
 
-        {/* Lens grid */}
-        <div className="mt-20 grid gap-3 md:grid-cols-3 lg:grid-cols-6">
-          {["Astrology","Numerology","Akashic","Fibonacci AI","Tarot/Chakra","Compatibility"].map((l,i) => (
-            <div key={l} className="glass p-4 text-center">
-              <div className="text-[10px] font-mono text-muted-foreground tracking-[0.3em]">LENS {String(i+1).padStart(2,"0")}</div>
-              <div className="font-serif text-lg mt-1">{l}</div>
-            </div>
+        {/* Lens grid - visual embodiments */}
+        <div className="mt-20 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+          {LENSES.map((l, i) => (
+            <Link key={l.name} to={l.to} className="block group">
+              <FloatingHolo accent={l.accent} intensity="full" delay={i * 120}>
+                <div className="p-5 flex flex-col items-center text-center">
+                  <div className="text-[10px] font-mono text-muted-foreground tracking-[0.3em]" style={{ transform: "translateZ(20px)" }}>
+                    LENS {String(i + 1).padStart(2, "0")}
+                  </div>
+                  <div
+                    className="relative my-3 h-40 w-40 flex items-center justify-center"
+                    style={{ transform: "translateZ(60px)" }}
+                  >
+                    <div className="absolute inset-0 rounded-full bg-spiral opacity-30 blur-2xl group-hover:opacity-60 transition-opacity" />
+                    <img
+                      src={l.img}
+                      alt={`${l.name} lens hologram`}
+                      width={512}
+                      height={512}
+                      loading="lazy"
+                      className="relative h-full w-full object-contain drop-shadow-[0_0_24px_hsl(var(--primary)/0.6)] animate-float-soft"
+                    />
+                  </div>
+                  <div className="font-serif text-2xl" style={{ transform: "translateZ(40px)" }}>{l.name}</div>
+                </div>
+              </FloatingHolo>
+            </Link>
           ))}
         </div>
       </div>
