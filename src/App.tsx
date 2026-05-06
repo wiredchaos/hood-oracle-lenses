@@ -31,6 +31,8 @@ import TrustSignal from "./pages/TrustSignal.tsx";
 import CircleTest from "./pages/CircleTest.tsx";
 import MovementEchoes from "./pages/MovementEchoes.tsx";
 import DemoProfile from "./pages/DemoProfile.tsx";
+import { lazy, Suspense } from "react";
+const Bio = lazy(() => import("./pages/Bio.tsx"));
 
 const queryClient = new QueryClient();
 
@@ -68,6 +70,7 @@ const App = () => (
             <Route path="/circle-test" element={<CircleTest />} />
             <Route path="/echoes" element={<MovementEchoes />} />
             <Route path="/demo" element={<DemoProfile />} />
+            <Route path="/bio" element={<Suspense fallback={<div className="min-h-screen bg-background" />}><Bio /></Suspense>} />
             <Route path="*" element={<NotFound />} />
           </Routes>
         </ReadingProvider>
