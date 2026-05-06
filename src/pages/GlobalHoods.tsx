@@ -2,7 +2,9 @@ import { useState } from "react";
 import { AppShell } from "@/components/AppShell";
 import { CopyBlock } from "@/components/CopyBlock";
 import { HOOD_VARIANTS, type OracleVariant } from "@/lib/oracle";
-import { HOOD_PORTRAITS, HOOD_ENV360 } from "@/lib/oracleAssets";
+import { HOOD_PORTRAITS, HOOD_ENV360, HOOD_VIDEOS, HOOD_VIDEO_POSTERS } from "@/lib/oracleAssets";
+import { VideoReportPlayer } from "@/components/VideoReportPlayer";
+import type { ProductId } from "@/lib/entitlements";
 import { Globe2, X } from "lucide-react";
 
 export default function GlobalHoods() {
@@ -57,6 +59,17 @@ export default function GlobalHoods() {
             <div className="text-[10px] font-mono uppercase tracking-[0.3em] text-muted-foreground">{selected.energy}</div>
             <h2 className="font-serif text-4xl mt-1">{selected.city} <span className="red-text">Oracle</span></h2>
             <p className="italic text-muted-foreground mt-2">"{selected.loreLine}"</p>
+            <div className="mt-4">
+              <div className="text-[10px] font-mono uppercase tracking-[0.25em] text-accent mb-2">Video message</div>
+              <VideoReportPlayer
+                src={HOOD_VIDEOS[selected.id]}
+                poster={HOOD_VIDEO_POSTERS[selected.id]}
+                productId={`oracle.${selected.id}` as ProductId}
+                price={4}
+                title={`${selected.city} Oracle Message`}
+                filename={`oracle-${selected.id}.mp4`}
+              />
+            </div>
             <div className="mt-4 grid gap-3">
               <CopyBlock label="3D image prompt" text={selected.imagePrompt} lang="prompt" />
               <CopyBlock label="360 environment prompt" text={selected.env360Prompt} lang="env360" />

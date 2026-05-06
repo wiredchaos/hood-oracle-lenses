@@ -39,3 +39,10 @@ export const HOOD_ENV360: Record<string, string> = {
 };
 
 export const DEMO_HOLOGRAM = neuroMetaX;
+
+export const HOOD_VIDEOS: Record<string, string> = Object.fromEntries(
+  Object.keys(HOOD_PORTRAITS).map(id => [id, `/videos/oracle-${id}.mp4`])
+);
+export const HOOD_VIDEO_POSTERS: Record<string, string> = Object.fromEntries(
+  Object.keys(HOOD_PORTRAITS).map(id => [id, `/videos/posters/oracle-${id}.jpg`])
+);
