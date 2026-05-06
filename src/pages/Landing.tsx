@@ -1,8 +1,10 @@
 import { Link } from "react-router-dom";
+import { lazy, Suspense } from "react";
 import { ArrowRight, Sparkles, Zap } from "lucide-react";
 import oraclePortrait from "@/assets/faceless-oracle.jpg";
 import bgImg from "@/assets/agentropolis-bg.jpg";
 import { FloatingHolo } from "@/components/FloatingHolo";
+const PanoramaHero = lazy(() => import("@/components/PanoramaHero"));
 import lensAstrology from "@/assets/lenses/astrology.png";
 import lensNumerology from "@/assets/lenses/numerology.png";
 import lensAkashic from "@/assets/lenses/akashic.png";
@@ -36,7 +38,11 @@ export default function Landing() {
   return (
     <div className="relative min-h-screen overflow-hidden">
       <img src={bgImg} alt="" aria-hidden className="absolute inset-0 h-full w-full object-cover opacity-50" />
-      <div className="absolute inset-0 bg-cosmic" />
+      <Suspense fallback={null}>
+        <PanoramaHero />
+      </Suspense>
+      <div className="absolute inset-0 bg-gradient-to-b from-background/40 via-background/20 to-background/80" />
+      <div className="absolute inset-0 bg-cosmic opacity-70" />
       <div className="absolute inset-0 grid-bg opacity-40" />
 
       <div className="relative container py-10 md:py-16">
