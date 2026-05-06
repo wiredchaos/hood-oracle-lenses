@@ -139,7 +139,7 @@ export default function Landing() {
                       width={512}
                       height={512}
                       loading="lazy"
-                      className="relative h-full w-full object-contain drop-shadow-[0_0_24px_hsl(var(--primary)/0.6)] animate-float-slow"
+                      className="relative h-full w-full object-contain drop-shadow-[0_0_24px_hsl(var(--primary)/0.6)] animate-float-soft"
                     />
                   </div>
                   <div className="font-serif text-2xl" style={{ transform: "translateZ(40px)" }}>{l.name}</div>
