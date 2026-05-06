@@ -1,5 +1,4 @@
 import BioCanvas from "@/components/bio/BioCanvas";
-import { Helmet } from "react-helmet-async";
 
 export default function Bio() {
   return (
