@@ -87,7 +87,7 @@ export function AppShell({ children }: { children: React.ReactNode }) {
           </div>
         )}
       </header>
-      <main className="container py-8 md:py-12">{children}</main>
+      <main className="container py-8 md:py-12" style={{ perspective: "1600px", transformStyle: "preserve-3d" }}>{children}</main>
       <footer className="border-t border-border/40 py-6">
         <div className="container flex flex-wrap items-center justify-between gap-3 text-[11px] font-mono text-muted-foreground">
           <span>AGENTROPOLIS // N3UR0 DISTRICT // SYMBOLIC INTELLIGENCE GRID</span>

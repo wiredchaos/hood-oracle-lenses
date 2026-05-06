@@ -87,12 +87,41 @@
 
 @layer components {
   .glass {
-    @apply rounded-[var(--radius)] border bg-card/60 backdrop-blur-xl;
-    box-shadow: var(--shadow-card);
+    position: relative;
+    border-radius: var(--radius);
+    transform-style: preserve-3d;
+    background:
+      linear-gradient(180deg, hsl(var(--card) / 0.78), hsl(var(--card) / 0.55)),
+      radial-gradient(ellipse at top, hsl(var(--holo, var(--primary)) / 0.18), transparent 60%);
+    border: 1px solid hsl(var(--holo, var(--primary)) / 0.32);
+    backdrop-filter: blur(14px);
+    box-shadow:
+      0 0 0 1px hsl(var(--holo, var(--primary)) / 0.06) inset,
+      0 24px 60px -22px hsl(var(--holo, var(--primary)) / 0.45),
+      0 0 40px hsl(var(--holo, var(--primary)) / 0.14);
+    animation: holo-float 7s ease-in-out infinite;
+  }
+  .glass::before {
+    content: ''; position: absolute; inset: 0; border-radius: inherit; pointer-events: none;
+    background: repeating-linear-gradient(180deg, transparent 0 3px, hsl(var(--holo, var(--primary)) / 0.05) 3px 4px);
+    mix-blend-mode: screen;
+  }
+  .glass::after {
+    content: ''; position: absolute; inset: 0; border-radius: inherit; pointer-events: none;
+    background: conic-gradient(from 180deg,
+      transparent 0%, hsl(var(--holo, var(--primary)) / 0.28) 25%,
+      transparent 50%, hsl(var(--holo, var(--primary)) / 0.2) 75%, transparent 100%);
+    mask: linear-gradient(#000,#000) content-box, linear-gradient(#000,#000);
+    -webkit-mask: linear-gradient(#000,#000) content-box, linear-gradient(#000,#000);
+    mask-composite: exclude;
+    -webkit-mask-composite: xor;
+    padding: 1px;
+    opacity: 0.55;
+    animation: spin-slow 22s linear infinite;
   }
   .glass-strong {
-    @apply rounded-[var(--radius)] border bg-card/80 backdrop-blur-2xl;
-    box-shadow: var(--shadow-card);
+    @apply glass;
+    backdrop-filter: blur(22px);
   }
   .neon-border {
     box-shadow: 0 0 0 1px hsl(var(--primary) / 0.5), var(--glow-cyan);
@@ -251,7 +280,55 @@
     1px 0 0 hsl(var(--accent) / 0.35),
     -1px 0 0 hsl(var(--primary) / 0.35);
 }
+/* ===== FLOATING HOLO PRIMITIVE ===== */
+.holo-wrap {
+  position: relative;
+  perspective: 1200px;
+  transform-style: preserve-3d;
+  animation: holo-float 7s ease-in-out infinite;
+}
+.holo-plate {
+  position: relative;
+  transform-style: preserve-3d;
+  will-change: transform;
+  border-radius: var(--radius);
+  background:
+    linear-gradient(180deg, hsl(var(--card) / 0.85), hsl(var(--card) / 0.6)),
+    radial-gradient(ellipse at top, hsl(var(--holo, var(--primary)) / 0.22), transparent 60%);
+  border: 1px solid hsl(var(--holo, var(--primary)) / 0.35);
+  backdrop-filter: blur(14px);
+  box-shadow:
+    0 0 0 1px hsl(var(--holo, var(--primary)) / 0.08) inset,
+    0 26px 70px -22px hsl(var(--holo, var(--primary)) / 0.5),
+    0 0 50px hsl(var(--holo, var(--primary)) / 0.18);
+}
+.holo-rim {
+  position: absolute; inset: 0; border-radius: inherit; pointer-events: none;
+  background: conic-gradient(from 180deg,
+    transparent 0%, hsl(var(--holo, var(--primary)) / 0.35) 25%,
+    transparent 50%, hsl(var(--holo, var(--primary)) / 0.25) 75%, transparent 100%);
+  mask: linear-gradient(#000,#000) content-box, linear-gradient(#000,#000);
+  -webkit-mask: linear-gradient(#000,#000) content-box, linear-gradient(#000,#000);
+  mask-composite: exclude;
+  -webkit-mask-composite: xor;
+  padding: 1px;
+  opacity: 0.6;
+  animation: spin-slow 20s linear infinite;
+}
+.holo-scan {
+  position: absolute; inset: 0; border-radius: inherit; pointer-events: none;
+  background: repeating-linear-gradient(180deg, transparent 0 3px, hsl(var(--holo, var(--primary)) / 0.06) 3px 4px);
+  mix-blend-mode: screen;
+}
+.holo-scan::after {
+  content: ''; position: absolute; left: 0; right: 0; height: 30%;
+  background: linear-gradient(180deg, transparent, hsl(var(--holo, var(--primary)) / 0.12), transparent);
+  animation: holo-sweep 5s ease-in-out infinite;
+}
+.holo-inner { position: relative; z-index: 1; }
+
 @media (prefers-reduced-motion: reduce) {
-  .hologram-plate { animation: none; transform: none !important; }
-  .hologram-rim, .hologram-scanlines::after, .hologram-glyph { animation: none; }
+  .hologram-plate, .holo-wrap, .glass { animation: none; transform: none !important; }
+  .hologram-rim, .hologram-scanlines::after, .hologram-glyph,
+  .holo-rim, .holo-scan::after, .glass::after { animation: none; }
 }
