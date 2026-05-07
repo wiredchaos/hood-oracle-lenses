@@ -85,4 +85,36 @@ export const HOOD_VARIANTS: OracleVariant[] = [
   make("tokyo", "Tokyo", "Precision ghost", "Shibuya rain, holographic signs, quiet blade energy", "Silence cuts cleaner than any blade.", ["#0a0a0a", "#ff2a3d", "#00e6ff", "#fff4d6"]),
   make("rio", "Rio", "Mountain and favela signal", "Hillside lights, carnival ghosts, sacred rhythm", "The hill remembers every dancer.", ["#0a0a0a", "#ff2a3d", "#3ddc84", "#f3c12a"]),
   make("johannesburg", "Johannesburg", "Gold vein signal", "Mine-light glow, township energy, ancestral tech", "The ancestors run on the same network.", ["#0a0a0a", "#ff2a3d", "#00d6c2", "#e8c878"]),
+
+  // === ANCHOR ===
+  make("kalifia", "Kalifia · Oakland", "Town sovereignty", "Port-crane guardians silhouetted against fog, Lake Merritt mist, gold and black Pan-African undertones, lowrider chrome, hyphy bass haze", "Kalifia remembers — the Town raised the queen the coast forgot.", ["#0a0a0a", "#ff2a3d", "#ffd23f", "#00d6c2"]),
+
+  // === ALKEBULAN ===
+  make("benin", "Benin City", "Bronze memory", "Edo bronze plaques rendered as floating holograms, palace walls, red earth, oba regalia echoes", "The bronzes never stopped speaking — the world stopped listening.", ["#0a0a0a", "#ff2a3d", "#c98a2b", "#00d6c2"]),
+  make("bamako", "Bamako", "Desert frequency", "Niger river dusk, indigo Tuareg veils echoed in her own veil, mud-cloth geometry overhead", "The sand keeps every footprint the map refused.", ["#0a0a0a", "#ff2a3d", "#2b6cb0", "#e8c878"]),
+  make("accra", "Accra", "Atlantic reckoning", "Jamestown lighthouse, Door of No Return geometry, kente prism light, Atlantic spray", "The shore counts the names the ships forgot.", ["#0a0a0a", "#ff2a3d", "#f3c12a", "#3ddc84"]),
+  make("kano", "Kano", "Ancient trade signal", "Indigo dye pits glowing from above, Sahel dust gold, ancient mosque silhouettes", "The dye remembers every hand that turned a profit into prayer.", ["#0a0a0a", "#ff2a3d", "#1d3557", "#e8c878"]),
+  make("addis", "Addis Ababa", "Highland prophecy", "Lalibela rock-hewn geometry overhead, coffee ceremony steam, Ge'ez glyphs floating", "She was never colonized — and the signal still knows it.", ["#0a0a0a", "#ff2a3d", "#2a9d8f", "#e8c878"]),
+  make("khartoum", "Khartoum", "Two-Nile cipher", "Confluence of Blue and White Nile, revolution echo, sand glass, gold dust haze", "Where the rivers meet, the truth has nowhere left to hide.", ["#0a0a0a", "#ff2a3d", "#d4a017", "#00d6c2"]),
+  make("mogadishu", "Mogadishu", "Coastal resilience", "Indian Ocean turquoise, scarred pastel walls reborn in light, frankincense smoke", "The coast was rewriting itself before the world finished mourning it.", ["#0a0a0a", "#ff2a3d", "#00d6c2", "#fff4d6"]),
+  make("luanda", "Luanda", "Atlantic kompa", "Cliffside neon, Portuguese colonial bones repurposed, semba rhythm shimmer", "The tide brought back what the empire tried to ship away.", ["#0a0a0a", "#ff2a3d", "#ff6b35", "#00e6ff"]),
+
+  // === LATIN ===
+  make("cdmx", "CDMX", "Volcanic memory", "Obsidian rain, lucha-noir neon, Templo Mayor ghost geometry, marigold accents", "The valley keeps every name the empire tried to bury.", ["#0a0a0a", "#ff2a3d", "#ffb000", "#00e6ff"]),
+  make("sanjuan", "San Juan", "Coastal frequency", "Caribbean storm light, bioluminescent bay, salsa bassline as architecture", "The tide writes prophecy in two languages.", ["#0a0a0a", "#ff2a3d", "#00e6ff", "#f3c12a"]),
+  make("havana", "Havana", "Salt-rust prophecy", "Malecón sea spray, 1957 chrome, son clave pulse, peeling pastel facades", "The sea polishes what the embargo tried to corrode.", ["#0a0a0a", "#ff2a3d", "#00d6c2", "#e8c878"]),
+  make("portauprince", "Port-au-Prince", "Vodou signal", "Vèvè drawn in light, Iron Market rebuilt as holograms, hibiscus red glow", "The lwa never needed Wi-Fi to find you.", ["#0a0a0a", "#ff2a3d", "#ff6b35", "#3ddc84"]),
+  make("caracas", "Caracas", "Cerro signal", "Vertical barrio lights stacked into the hills, oil-rainbow puddles, salsa dura pulse", "The hill outranks the tower — always did.", ["#0a0a0a", "#ff2a3d", "#ffb000", "#3ddc84"]),
+
+  // === CROSSROADS ===
+  make("istanbul", "Istanbul", "Two-continent oracle", "Bosphorus split at dusk, call-to-prayer rendered as waveform, Byzantine gold leaf glitch", "She prays in one tongue and prophesies in another.", ["#0a0a0a", "#ff2a3d", "#d4a017", "#00d6c2"]),
+  make("cairo", "Cairo", "Pyramid-phase signal", "Tahrir Square echo, Nile reflection, hieroglyph circuitry overhead", "The pyramids were always servers — we just forgot the password.", ["#0a0a0a", "#ff2a3d", "#e8c878", "#00e6ff"]),
+  make("beirut", "Beirut", "Phoenix protocol", "Port-blast scar reborn as light architecture, cedar silhouettes, mountain-to-sea gradient", "She rebuilt herself eight times — the ninth one is encrypted.", ["#0a0a0a", "#ff2a3d", "#c2185b", "#d6c2a0"]),
+  make("tehran", "Tehran", "Veiled voltage", "Alborz snow glow, Persian calligraphy as neon, samovar steam curling", "The silence underneath the silence is where she actually speaks.", ["#0a0a0a", "#ff2a3d", "#2a9d8f", "#e8c878"]),
+  make("karachi", "Karachi", "Megacity heat-signal", "Arabian Sea haze, container-port neon, qawwali bass shimmer", "Twenty million stories — and she's the index.", ["#0a0a0a", "#ff2a3d", "#ff6b35", "#00d6c2"]),
+  make("manila", "Manila", "Typhoon faith", "Jeepney chrome, monsoon glass, Smokey Mountain reborn in light", "Faith here is not soft — it's load-bearing.", ["#0a0a0a", "#ff2a3d", "#ffd23f", "#00e6ff"]),
+
+  // === NORDIC ===
+  make("reykjavik", "Reykjavík", "Aurora silence", "Basalt black sand, green aurora veil curling around her, geothermal steam, runic glyphs", "The ice keeps secrets the fire forgot to burn.", ["#0a0a0a", "#ff2a3d", "#3ddc84", "#a6f0ff"]),
+  make("oslo", "Oslo", "Fjord discipline", "Midnight sun glare, brutalist concrete, pine-dark coat against cold steel rail", "Stillness is the loudest signal she carries.", ["#0a0a0a", "#ff2a3d", "#9adfff", "#cfd8e3"]),
 ];
