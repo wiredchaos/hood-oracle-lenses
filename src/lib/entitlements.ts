@@ -15,6 +15,8 @@ function write(ids: string[]) {
 }
 
 export function hasUnlock(id: ProductId): boolean {
+  // DEMO: all oracle.* items are unlocked so users can preview before purchase
+  if (typeof id === "string" && id.startsWith("oracle.")) return true;
   return read().includes(id);
 }
 export function grantUnlock(id: ProductId) {
