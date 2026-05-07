@@ -388,7 +388,7 @@
   .pull-quote .strike { text-decoration: line-through; text-decoration-color: hsl(var(--accent) / 0.7); color: hsl(var(--bone-dim)); }
 }
 
-/* Subtle film grain — sits above bg, below content */
+/* Subtle film grain - sits above bg, below content */
 .grain-overlay {
   position: fixed; inset: 0; pointer-events: none; z-index: 1;
   mix-blend-mode: overlay; opacity: 0.18;

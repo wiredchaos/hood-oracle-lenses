@@ -76,7 +76,7 @@ export default function Landing() {
             </p>
             <p className="mt-5 max-w-lg text-sm text-muted-foreground">
               Western astrology, traditional numerology, Akashic reflection,
-              Fibonacci AI pattern analysis, tarot &amp; chakra symbolism — translated through one
+              Fibonacci AI pattern analysis, tarot &amp; chakra symbolism - translated through one
               agentic guide who lives in the N3UR0 district of AGENTROPOLIS.
             </p>
 
