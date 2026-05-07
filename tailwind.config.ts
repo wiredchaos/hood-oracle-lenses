@@ -20,6 +20,8 @@ export default {
         accent: { DEFAULT: "hsl(var(--accent))", foreground: "hsl(var(--accent-foreground))" },
         lime: { DEFAULT: "hsl(var(--lime))", foreground: "hsl(var(--lime-foreground))" },
         cream: { DEFAULT: "hsl(var(--cream))", foreground: "hsl(var(--cream-foreground))" },
+        gold: { DEFAULT: "hsl(var(--gold))", foreground: "hsl(var(--gold-foreground))" },
+        bone: { DEFAULT: "hsl(var(--bone))", dim: "hsl(var(--bone-dim))" },
         popover: { DEFAULT: "hsl(var(--popover))", foreground: "hsl(var(--popover-foreground))" },
         card: { DEFAULT: "hsl(var(--card))", foreground: "hsl(var(--card-foreground))" },
       },
@@ -41,6 +43,7 @@ export default {
         serif: ["'Cormorant Garamond'", "serif"],
         sans: ["Inter", "system-ui", "sans-serif"],
         mono: ["'JetBrains Mono'", "monospace"],
+        display: ["'Unica One'", "'Cormorant Garamond'", "serif"],
       },
       borderRadius: {
         lg: "var(--radius)",
