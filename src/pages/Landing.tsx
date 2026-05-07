@@ -45,34 +45,38 @@ export default function Landing() {
       <div className="absolute inset-0 bg-gradient-to-b from-background/40 via-background/20 to-background/80" />
       <div className="absolute inset-0 bg-cosmic opacity-70" />
       <div className="absolute inset-0 grid-bg opacity-40" />
+      <div className="grain-overlay" aria-hidden />
 
       <div className="relative container py-10 md:py-16">
-        <div className="flex flex-wrap items-center justify-between gap-4">
-          <div className="flex items-center gap-2.5">
+        <div className="flex flex-wrap items-start justify-between gap-4">
+          <div className="flex items-center gap-3">
             <OracleLogo size={28} eager />
             <div>
-              <div className="font-serif text-base">Akashic Lenses</div>
-              <div className="text-[10px] font-mono tracking-[0.3em] text-muted-foreground">THE HOOD ORACLE</div>
+              <div className="font-display text-sm tracking-[0.18em] uppercase bone-text">Akashic Lenses</div>
+              <div className="text-[9px] font-mono tracking-[0.32em] text-muted-foreground">THE HOOD ORACLE</div>
             </div>
           </div>
-          <div className="flex gap-2">
-            <span className="chip-red chip">N3UR0 META X</span>
-            <span className="chip">AGENTROPOLIS GRID</span>
+          <div className="editorial-meta text-right">
+            <div>LAT 35.6764°N</div>
+            <div>LON 139.6500°E</div>
+            <div><b>SET</b> PULSING AURA</div>
+            <div><span className="live">●</span> SIGNAL LIVE</div>
           </div>
         </div>
 
         <div className="mt-14 md:mt-20 grid gap-10 md:grid-cols-2 md:items-center">
           <div className="animate-fade-up">
-            <div className="text-[11px] font-mono uppercase tracking-[0.4em] text-primary mb-4">
-              A WIRED CHAOS divination interface
-            </div>
+            <div className="editorial-kicker mb-5">VOL · III · ORACULAR EDITION · MMXXVI</div>
             <h1 className="font-serif text-5xl md:text-7xl leading-[0.95] tracking-tight">
               The Hood <span className="red-text">Oracle</span><br/>
               reads your <span className="neon-text">lenses</span>.
             </h1>
-            <p className="mt-6 max-w-lg text-base text-muted-foreground">
+            <p className="pull-quote mt-6 max-w-xl">
+              Whisper to the lens. <em>It will answer.</em>
+            </p>
+            <p className="mt-5 max-w-lg text-sm text-muted-foreground">
               Western astrology, traditional numerology, Akashic reflection,
-              Fibonacci AI pattern analysis, tarot &amp; chakra symbolism - translated through one
+              Fibonacci AI pattern analysis, tarot &amp; chakra symbolism — translated through one
               agentic guide who lives in the N3UR0 district of AGENTROPOLIS.
             </p>
 
