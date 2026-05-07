@@ -33,6 +33,8 @@ import MovementEchoes from "./pages/MovementEchoes.tsx";
 import DemoProfile from "./pages/DemoProfile.tsx";
 import VideoReports from "./pages/VideoReports.tsx";
 import NeuroVideoDemo from "./pages/NeuroVideoDemo.tsx";
+import VideoPortal from "./pages/VideoPortal.tsx";
+import NeuroLifeDemo from "./pages/NeuroLifeDemo.tsx";
 import { lazy, Suspense } from "react";
 const Bio = lazy(() => import("./pages/Bio.tsx"));
 
@@ -46,7 +48,9 @@ const App = () => (
       <BrowserRouter>
         <ReadingProvider>
           <Routes>
-            <Route path="/" element={<Index />} />
+            <Route path="/" element={<VideoPortal />} />
+            <Route path="/lenses" element={<Index />} />
+            <Route path="/demo/neuro-life" element={<NeuroLifeDemo />} />
             <Route path="/agent" element={<AgentIntro />} />
             <Route path="/intake" element={<Intake />} />
             <Route path="/loading" element={<Loading />} />

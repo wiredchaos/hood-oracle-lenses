@@ -5,6 +5,7 @@ import { Activity, Menu, X } from "lucide-react";
 import { OracleLogo } from "@/components/OracleLogo";
 
 const PRIMARY = [
+  { to: "/", label: "Portal" },
   { to: "/oracle", label: "Oracle" },
   { to: "/hoods", label: "Hoods" },
   { to: "/dashboard", label: "Reading" },
@@ -13,6 +14,7 @@ const PRIMARY = [
 ];
 
 const MORE = [
+  { to: "/demo/neuro-life", label: "Life Tracker" },
   { to: "/demo", label: "Demo Profile" },
   { to: "/intake", label: "Intake" },
   { to: "/trust-signal", label: "Trust Signal" },
