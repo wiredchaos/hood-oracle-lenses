@@ -34,6 +34,7 @@ const MORE = [
 export function AppShell({ children }: { children: React.ReactNode }) {
   const { pathname } = useLocation();
   const [open, setOpen] = useState(false);
+  const publishMarker = "neuro-life-portal-ready";
 
   const linkCls = (active: boolean) => cn(
     "rounded-full px-3 py-1.5 text-xs font-mono uppercase tracking-[0.18em] transition-colors",
@@ -41,7 +42,7 @@ export function AppShell({ children }: { children: React.ReactNode }) {
   );
 
   return (
-    <div className="min-h-screen relative">
+    <div className="min-h-screen relative" data-publish-marker={publishMarker}>
       <div className="grain-overlay" aria-hidden />
       <header className="sticky top-0 z-40 border-b rule-hair bg-background/70 backdrop-blur-xl">
         <div className="container flex h-14 items-center justify-between gap-4">
