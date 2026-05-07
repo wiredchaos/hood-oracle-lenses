@@ -4,6 +4,7 @@ import { ArrowRight, Sparkles, Zap } from "lucide-react";
 import oraclePortrait from "@/assets/faceless-oracle.jpg";
 import bgImg from "@/assets/agentropolis-bg.jpg";
 import { FloatingHolo } from "@/components/FloatingHolo";
+import { OracleLogo } from "@/components/OracleLogo";
 const PanoramaHero = lazy(() => import("@/components/PanoramaHero"));
 import lensAstrology from "@/assets/lenses/astrology.png";
 import lensNumerology from "@/assets/lenses/numerology.png";
