@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&family=Inter:wght@300;400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400&family=JetBrains+Mono:wght@400;500;700&family=Inter:wght@300;400;500;600;700&family=Unica+One&display=swap');
 
 @tailwind base;
 @tailwind components;
@@ -38,6 +38,13 @@
 
     --cream: 40 40% 92%;              /* shareable card cream */
     --cream-foreground: 220 60% 8%;
+
+    /* Editorial / oracular accents (additive, used sparingly) */
+    --gold: 43 60% 53%;                /* oxide gold */
+    --gold-foreground: 220 60% 4%;
+    --bone: 43 30% 89%;                /* warm off-white */
+    --bone-dim: 40 8% 62%;
+    --rule: 43 30% 89% / 0.12;
 
     --destructive: 0 84% 55%;
     --destructive-foreground: 0 0% 100%;
