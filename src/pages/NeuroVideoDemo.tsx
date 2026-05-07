@@ -13,7 +13,7 @@ export default function NeuroVideoDemo() {
           <span className="chip-red chip">NO DOX MODE</span>
           <span className="chip-lime chip">{DEMO_PROFILE.spiralPhase}</span>
         </div>
-        <h1 className="font-serif text-4xl md:text-5xl leading-tight">N3UR0 META X — <span className="red-text">Symbolic Report</span></h1>
+        <h1 className="font-serif text-4xl md:text-5xl leading-tight">N3UR0 META X - <span className="red-text">Symbolic Report</span></h1>
         <p className="text-muted-foreground text-sm mt-2 max-w-2xl">{DEMO_PROFILE.hoodOracleLine}</p>
       </header>
 
@@ -22,7 +22,7 @@ export default function NeuroVideoDemo() {
         poster="/videos/posters/neuro-meta-x-report.jpg"
         productId="report.full"
         price={19}
-        title="Full Symbolic Report — N3UR0 META X"
+        title="Full Symbolic Report - N3UR0 META X"
         filename="neuro-meta-x-report.mp4"
         free
       />

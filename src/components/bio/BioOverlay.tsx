@@ -37,7 +37,7 @@ export default function BioOverlay() {
   return (
     <Scroll html>
       <div className="absolute inset-0 pointer-events-none">
-        {/* Chapter 1 — Cold open */}
+        {/* Chapter 1 - Cold open */}
         <Chapter pageIndex={0}>
           <div className="m-auto text-center pointer-events-auto">
             <div className="text-[10px] font-mono uppercase tracking-[0.5em] text-primary mb-3">
@@ -52,7 +52,7 @@ export default function BioOverlay() {
           </div>
         </Chapter>
 
-        {/* Chapter 2 — Thesis */}
+        {/* Chapter 2 - Thesis */}
         <Chapter pageIndex={1}>
           <div className="m-auto max-w-2xl text-center pointer-events-auto">
             <div className="text-[10px] font-mono uppercase tracking-[0.4em] text-accent mb-4">
@@ -64,13 +64,13 @@ export default function BioOverlay() {
             </h2>
             <p className="mt-6 text-sm md:text-base text-muted-foreground">
               Western astrology, traditional numerology, Akashic reflection,
-              Fibonacci AI pattern, tarot &amp; chakra symbolism — translated
+              Fibonacci AI pattern, tarot &amp; chakra symbolism - translated
               through one agentic guide.
             </p>
           </div>
         </Chapter>
 
-        {/* Chapter 3 — Lenses */}
+        {/* Chapter 3 - Lenses */}
         <Chapter pageIndex={2}>
           <div className="mt-auto mb-16 mx-auto max-w-xl text-center pointer-events-auto">
             <div className="text-[10px] font-mono uppercase tracking-[0.4em] text-primary mb-2">
@@ -82,20 +82,20 @@ export default function BioOverlay() {
           </div>
         </Chapter>
 
-        {/* Chapter 4 — Agent */}
+        {/* Chapter 4 - Agent */}
         <Chapter pageIndex={3}>
           <div className="mt-auto mb-20 max-w-md ml-auto text-right pointer-events-auto">
             <div className="text-[10px] font-mono uppercase tracking-[0.4em] text-primary mb-3">
               N3UR0 META X · SKILL: ASTROLOGY LENS
             </div>
             <p className="font-serif text-2xl md:text-3xl italic">
-              "Your signal carries more than one story —<br/>
+              "Your signal carries more than one story -<br/>
               let THE HOOD ORACLE read the lenses."
             </p>
           </div>
         </Chapter>
 
-        {/* Chapter 5 — Sign-off */}
+        {/* Chapter 5 - Sign-off */}
         <Chapter pageIndex={4}>
           <div className="m-auto text-center pointer-events-auto">
             <div className="font-serif text-6xl md:text-8xl leading-none">

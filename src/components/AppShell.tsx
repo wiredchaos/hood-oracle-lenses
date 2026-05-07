@@ -5,6 +5,7 @@ import { Activity, Menu, X } from "lucide-react";
 import { OracleLogo } from "@/components/OracleLogo";
 
 const PRIMARY = [
+  { to: "/", label: "Portal" },
   { to: "/oracle", label: "Oracle" },
   { to: "/hoods", label: "Hoods" },
   { to: "/dashboard", label: "Reading" },
@@ -13,6 +14,7 @@ const PRIMARY = [
 ];
 
 const MORE = [
+  { to: "/demo/neuro-life", label: "Life Tracker" },
   { to: "/demo", label: "Demo Profile" },
   { to: "/intake", label: "Intake" },
   { to: "/trust-signal", label: "Trust Signal" },
@@ -51,13 +53,16 @@ export function AppShell({ children }: { children: React.ReactNode }) {
             </div>
           </Link>
           <nav className="hidden lg:flex items-center gap-1">
-            {PRIMARY.map(n => (
-              <Link key={n.to} to={n.to}
-                className={cn(
-                  linkCls(pathname.startsWith(n.to)),
-                  n.accent === "red" && "border border-accent/50 text-accent hover:text-accent",
-                )}>{n.label}</Link>
-            ))}
+            {PRIMARY.map(n => {
+              const active = n.to === "/" ? pathname === "/" : pathname.startsWith(n.to);
+              return (
+                <Link key={n.to} to={n.to}
+                  className={cn(
+                    linkCls(active),
+                    n.accent === "red" && "border border-accent/50 text-accent hover:text-accent",
+                  )}>{n.label}</Link>
+              );
+            })}
             <div className="relative group">
               <button className={linkCls(false) + " flex items-center gap-1"}>More <Menu className="h-3 w-3" /></button>
               <div className="absolute right-0 top-full mt-1 hidden group-hover:block min-w-[180px] glass p-2 z-50">

@@ -180,6 +180,9 @@ export default function Dashboard() {
           <Button asChild size="sm" className="rounded-full text-[11px] font-mono uppercase tracking-[0.18em] bg-accent text-accent-foreground shadow-red">
             <Link to="/circle-test">Run the Circle Test</Link>
           </Button>
+          <Button asChild size="sm" variant="outline" className="rounded-full text-[11px] font-mono uppercase tracking-[0.18em] border-lime/60 text-lime hover:bg-lime/10 hover:text-lime">
+            <Link to="/demo/neuro-life">Open NEURO Life Tracker</Link>
+          </Button>
         </div>
       </section>
     </AppShell>

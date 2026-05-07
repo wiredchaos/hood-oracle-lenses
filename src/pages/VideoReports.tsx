@@ -27,7 +27,7 @@ export default function VideoReports() {
         ))}
       </section>
 
-      <h2 className="font-serif text-3xl mt-12 mb-4">Hood Oracle Messages <span className="text-muted-foreground text-base font-mono uppercase tracking-[0.2em]">— $4 each</span></h2>
+      <h2 className="font-serif text-3xl mt-12 mb-4">Hood Oracle Messages <span className="text-muted-foreground text-base font-mono uppercase tracking-[0.2em]">- $4 each</span></h2>
       <section className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
         {HOOD_VARIANTS.map(v => (
           <VideoReportPlayer
