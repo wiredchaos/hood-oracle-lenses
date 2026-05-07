@@ -49,7 +49,7 @@ export default function Landing() {
       <div className="relative container py-10 md:py-16">
         <div className="flex flex-wrap items-center justify-between gap-4">
           <div className="flex items-center gap-2.5">
-            <div className="h-7 w-7 rounded-full bg-spiral animate-spin-slow shadow-cyan" />
+            <OracleLogo size={28} eager />
             <div>
               <div className="font-serif text-base">Akashic Lenses</div>
               <div className="text-[10px] font-mono tracking-[0.3em] text-muted-foreground">THE HOOD ORACLE</div>
