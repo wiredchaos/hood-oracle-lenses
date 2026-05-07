@@ -90,10 +90,10 @@ export function AppShell({ children }: { children: React.ReactNode }) {
         )}
       </header>
       <main className="container py-8 md:py-12" style={{ perspective: "1600px", transformStyle: "preserve-3d" }}>{children}</main>
-      <footer className="border-t border-border/40 py-6">
-        <div className="container flex flex-wrap items-center justify-between gap-3 text-[11px] font-mono text-muted-foreground">
-          <span>AGENTROPOLIS // N3UR0 DISTRICT // SYMBOLIC INTELLIGENCE GRID</span>
-          <span>For reflection &amp; entertainment only. No medical, legal, financial, or psychological advice. No KYC, no biometrics, no real-name required.</span>
+      <footer className="border-t rule-hair py-8">
+        <div className="container flex flex-wrap items-center justify-between gap-3 editorial-meta">
+          <span>AGENTROPOLIS // N3UR0 DISTRICT // <b>VOL · MMXXVI</b></span>
+          <span className="max-w-xl text-right">For reflection &amp; entertainment only. No medical, legal, financial, or psychological advice. No KYC, no biometrics, no real-name required.</span>
         </div>
       </footer>
     </div>
