@@ -2,6 +2,7 @@ import { Link, useLocation } from "react-router-dom";
 import { useState } from "react";
 import { cn } from "@/lib/utils";
 import { Activity, Menu, X } from "lucide-react";
+import { OracleLogo } from "@/components/OracleLogo";
 
 const PRIMARY = [
   { to: "/oracle", label: "Oracle" },
@@ -42,7 +43,7 @@ export function AppShell({ children }: { children: React.ReactNode }) {
       <header className="sticky top-0 z-40 border-b border-border/60 bg-background/70 backdrop-blur-xl">
         <div className="container flex h-14 items-center justify-between gap-4">
           <Link to="/" className="flex items-center gap-2.5 group shrink-0">
-            <div className="relative h-7 w-7 rounded-full bg-spiral animate-spin-slow shadow-cyan" />
+            <OracleLogo size={28} eager />
             <div className="leading-tight">
               <div className="font-serif text-base tracking-wide">Akashic Lenses</div>
               <div className="text-[10px] font-mono tracking-[0.3em] text-muted-foreground">N3UR0 META X</div>
