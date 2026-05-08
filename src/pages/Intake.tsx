@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { AppShell } from "@/components/AppShell";
 import { Button } from "@/components/ui/button";
@@ -9,6 +9,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Checkbox } from "@/components/ui/checkbox";
 import { useReading } from "@/state/ReadingContext";
 import { DEMO_BIRTH, type BirthData, type LensIntensity } from "@/lib/lenses";
+import { geocodeCity, type GeocodeHit } from "@/lib/geocode";
 import { toast } from "sonner";
 
 const ALL_LENSES = ["Astrology","Numerology","Akashic","Fibonacci AI","Tarot/Chakra","Compatibility"];
@@ -17,11 +18,33 @@ const INTENSITIES: LensIntensity[] = ["Grounded","Mystic","Full Akashic","Hood O
 export default function Intake() {
   const nav = useNavigate();
   const { runReading } = useReading();
-  const [data, setData] = useState<BirthData>({ ...DEMO_BIRTH, name: "", fullBirthName: "", dob: "", tob: "", birthCity: "", currentCity: "" });
+  const [data, setData] = useState<BirthData>({ ...DEMO_BIRTH, name: "", fullBirthName: "", dob: "", tob: "", birthCity: "", birthLat: undefined, birthLon: undefined, birthTz: undefined, currentCity: "" });
   const [submitting, setSubmitting] = useState(false);
+  const [cityHits, setCityHits] = useState<GeocodeHit[]>([]);
+  const [cityOpen, setCityOpen] = useState(false);
 
   const update = <K extends keyof BirthData>(k: K, v: BirthData[K]) => setData(d => ({ ...d, [k]: v }));
   const toggleLens = (l: string) => update("lenses", data.lenses.includes(l) ? data.lenses.filter(x=>x!==l) : [...data.lenses, l]);
+
+  // Debounced geocode lookup as user types birth city.
+  useEffect(() => {
+    const q = (data.birthCity || "").trim();
+    if (q.length < 2) { setCityHits([]); return; }
+    const ctrl = new AbortController();
+    const t = setTimeout(() => {
+      geocodeCity(q, ctrl.signal).then(setCityHits).catch(() => {});
+    }, 300);
+    return () => { clearTimeout(t); ctrl.abort(); };
+  }, [data.birthCity]);
+
+  const pickCity = (h: GeocodeHit) => {
+    setData(d => ({
+      ...d,
+      birthCity: [h.name, h.admin1, h.country].filter(Boolean).join(", "),
+      birthLat: h.lat, birthLon: h.lon, birthTz: h.tz,
+    }));
+    setCityOpen(false);
+  };
 
   const submit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -62,7 +85,34 @@ export default function Intake() {
               </label>
             </Field>
             <Field label="Birth city / country">
-              <Input value={data.birthCity||""} onChange={e=>update("birthCity", e.target.value)} maxLength={100} placeholder="Brooklyn, NY" />
+              <div className="relative">
+                <Input
+                  value={data.birthCity||""}
+                  onChange={e=>{ update("birthCity", e.target.value); update("birthLat", undefined); update("birthLon", undefined); update("birthTz", undefined); setCityOpen(true); }}
+                  onFocus={()=>setCityOpen(true)}
+                  onBlur={()=>setTimeout(()=>setCityOpen(false), 150)}
+                  maxLength={100}
+                  placeholder="Brooklyn, NY"
+                />
+                {cityOpen && cityHits.length > 0 && (
+                  <ul className="absolute z-20 mt-1 w-full max-h-56 overflow-auto rounded-md border border-border bg-popover shadow-lg">
+                    {cityHits.map((h, i) => (
+                      <li key={i}>
+                        <button type="button" onMouseDown={e=>e.preventDefault()} onClick={()=>pickCity(h)}
+                          className="w-full text-left px-3 py-2 text-sm hover:bg-accent/20">
+                          {h.name}{h.admin1 ? `, ${h.admin1}` : ""}{h.country ? `, ${h.country}` : ""}
+                          <span className="ml-2 text-[10px] font-mono uppercase tracking-[0.2em] text-muted-foreground">{h.tz}</span>
+                        </button>
+                      </li>
+                    ))}
+                  </ul>
+                )}
+                {data.birthLat !== undefined && (
+                  <div className="mt-1 text-[10px] font-mono uppercase tracking-[0.2em] text-primary">
+                    Geo locked · {data.birthLat.toFixed(2)}, {data.birthLon!.toFixed(2)} · {data.birthTz}
+                  </div>
+                )}
+              </div>
             </Field>
             <Field label="Current city (optional)">
               <Input value={data.currentCity||""} onChange={e=>update("currentCity", e.target.value)} maxLength={100} placeholder="Lisbon, PT" />

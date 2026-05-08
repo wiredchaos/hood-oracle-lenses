@@ -37,8 +37,8 @@ export default function Dashboard() {
 
           <div className="mt-5 grid grid-cols-3 gap-3 max-w-md">
             <Stat label="Sun" glyph={astrology.sun.glyph} value={astrology.sun.name} />
-            <Stat label="Moon" glyph={astrology.moon.glyph} value={astrology.moon.name} />
-            <Stat label="Rising" glyph={astrology.ascendant.glyph} value={astrology.ascendant.name} />
+            <Stat label={astrology.moonApproximate ? "Moon ≈" : "Moon"} glyph={astrology.moon.glyph} value={astrology.moon.name} />
+            <Stat label="Rising" glyph={astrology.ascendant?.glyph ?? "—"} value={astrology.ascendant?.name ?? "Add time + city"} />
           </div>
           <div className="mt-3 flex flex-wrap gap-2 text-[11px] font-mono">
             <span className="chip">{astrology.element}</span>
@@ -79,7 +79,7 @@ export default function Dashboard() {
           accent="cyan"
           glyph={<svg viewBox="0 0 100 100" fill="none" stroke="currentColor" strokeWidth="1.5"><circle cx="50" cy="50" r="40"/><circle cx="50" cy="50" r="28"/><path d="M50 10 V90 M10 50 H90 M22 22 L78 78 M78 22 L22 78"/></svg>}
         >
-          <p>Your <b>{astrology.sun.name} Sun / {astrology.moon.name} Moon / {astrology.ascendant.name} Rising</b> profile suggests
+          <p>Your <b>{astrology.sun.name} Sun / {astrology.moon.name} Moon{astrology.ascendant ? ` / ${astrology.ascendant.name} Rising` : ""}</b> profile suggests
             an outer signal of {astrology.sun.element.toLowerCase()}-element clarity worn over a more {astrology.moon.element.toLowerCase()}-coded interior.</p>
           <ul className="mt-2 space-y-1 text-muted-foreground text-xs font-mono">
             {astrology.houseFocus.map(h => <li key={h}>· {h}</li>)}

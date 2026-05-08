@@ -7,9 +7,12 @@ export interface BirthData {
   name: string;
   fullBirthName?: string;
   dob: string; // ISO yyyy-mm-dd
-  tob?: string; // HH:mm
+  tob?: string; // HH:mm (local to birth city)
   timeUnknown?: boolean;
   birthCity?: string;
+  birthLat?: number;
+  birthLon?: number;
+  birthTz?: string; // IANA tz, e.g. "America/New_York"
   currentCity?: string;
   intensity: LensIntensity;
   lenses: string[];
@@ -89,60 +92,51 @@ export const NUMBER_MEANINGS: Record<number, { title: string; gist: string }> = 
   33: { title: "The Master Teacher", gist: "Devotional service, healing voice." },
 };
 
-/* ---------- ASTROLOGY (mock approximations) ---------- */
+/* ---------- ASTROLOGY (real ephemeris via astronomy-engine) ---------- */
 
-const SIGNS = [
-  { name: "Capricorn", glyph: "♑", element: "Earth", modality: "Cardinal", polarity: "Yin" },
-  { name: "Aquarius", glyph: "♒", element: "Air",   modality: "Fixed",    polarity: "Yang" },
-  { name: "Pisces",   glyph: "♓", element: "Water", modality: "Mutable",  polarity: "Yin" },
-  { name: "Aries",    glyph: "♈", element: "Fire",  modality: "Cardinal", polarity: "Yang" },
-  { name: "Taurus",   glyph: "♉", element: "Earth", modality: "Fixed",    polarity: "Yin" },
-  { name: "Gemini",   glyph: "♊", element: "Air",   modality: "Mutable",  polarity: "Yang" },
-  { name: "Cancer",   glyph: "♋", element: "Water", modality: "Cardinal", polarity: "Yin" },
-  { name: "Leo",      glyph: "♌", element: "Fire",  modality: "Fixed",    polarity: "Yang" },
-  { name: "Virgo",    glyph: "♍", element: "Earth", modality: "Mutable",  polarity: "Yin" },
-  { name: "Libra",    glyph: "♎", element: "Air",   modality: "Cardinal", polarity: "Yang" },
-  { name: "Scorpio",  glyph: "♏", element: "Water", modality: "Fixed",    polarity: "Yin" },
-  { name: "Sagittarius", glyph: "♐", element: "Fire", modality: "Mutable", polarity: "Yang" },
-];
-// Sun-sign approx by month/day cutoff (~22nd of each month)
-const SUN_CUTOFFS = [20,19,20,20,21,21,22,23,23,23,22,21]; // last day of prev sign per month
+import { computeSun, computeMoon, computeAscendant, localToUTC, type SignInfo } from "./astrology";
 
 export interface AstrologyResult {
-  sun: typeof SIGNS[number];
-  moon: typeof SIGNS[number];
-  ascendant: typeof SIGNS[number];
+  sun: SignInfo;
+  moon: SignInfo;
+  ascendant: SignInfo | null; // null when birth time + lat/lon unavailable
   element: string;
   modality: string;
   polarity: string;
   houseFocus: string[];
   planetaryFocus: string[];
-  approximated: boolean;
+  moonApproximate: boolean; // true when no birth time supplied
+  ascendantAvailable: boolean;
 }
 
 export function computeAstrology(birth: BirthData): AstrologyResult {
-  const [y, m, d] = birth.dob.split("-").map(Number);
-  const sunIdx = (d <= SUN_CUTOFFS[m - 1]) ? (m - 1) : (m % 12);
-  const sun = SIGNS[(sunIdx + 9) % 12]; // align to Cap=0 list above
+  const hasTime = !!birth.tob && !birth.timeUnknown;
+  const hasGeo = typeof birth.birthLat === "number" && typeof birth.birthLon === "number";
+  const dateUTC = localToUTC(birth.dob, hasTime ? birth.tob! : "12:00", birth.birthTz);
 
-  // deterministic pseudo seeds
-  const seed = (y * 31 + m * 17 + d * 7);
-  const moon = SIGNS[(seed) % 12];
-  const tobNum = birth.tob ? parseInt(birth.tob.replace(":", ""), 10) : 600;
-  const asc = SIGNS[(seed + Math.floor(tobNum / 30)) % 12];
+  const sun = computeSun(dateUTC);
+  const moon = computeMoon(dateUTC);
+  const ascendant = hasTime && hasGeo
+    ? computeAscendant(dateUTC, birth.birthLat!, birth.birthLon!)
+    : null;
 
   const houseFocus = [
-    "10th House - public signal & vocation",
-    "4th House - roots, lineage, ancestral memory",
-    "11th House - networks, futures, swarm alignment",
+    "Vocation & public signal",
+    "Roots, lineage, ancestral memory",
+    "Networks, futures, alignment",
   ];
-  const planetaryFocus = ["Saturn - discipline ledger", "Mercury - pattern translation", "Venus - value field"];
+  const planetaryFocus = [
+    "Saturn - discipline ledger",
+    "Mercury - pattern translation",
+    "Venus - value field",
+  ];
 
   return {
-    sun, moon, ascendant: asc,
+    sun, moon, ascendant,
     element: sun.element, modality: sun.modality, polarity: sun.polarity,
     houseFocus, planetaryFocus,
-    approximated: true,
+    moonApproximate: !hasTime,
+    ascendantAvailable: !!ascendant,
   };
 }
 
@@ -217,7 +211,7 @@ export function computeFibonacciAI(birth: BirthData, num: NumerologyResult, astr
   const recurrence = [
     { theme: `${num.lifePath}-coded responsibility`, sources: ["Life Path", "Personal Year", astro.sun.name + " Sun"] },
     { theme: "Bridge / translator function",         sources: ["Soul Urge", "Mercury focus", "Akashic archetype"] },
-    { theme: "Quiet authority under load",            sources: ["Destiny", astro.ascendant.name + " Rising", "Saturn focus"] },
+    { theme: "Quiet authority under load",            sources: ["Destiny", astro.ascendant ? astro.ascendant.name + " Rising" : "Saturn focus", "Mars focus"] },
   ];
 
   return {
@@ -284,6 +278,9 @@ export const DEMO_BIRTH: BirthData = {
   tob: "04:33",
   timeUnknown: false,
   birthCity: "Brooklyn, NY",
+  birthLat: 40.6782,
+  birthLon: -73.9442,
+  birthTz: "America/New_York",
   currentCity: "Lisbon, PT",
   intensity: "Mystic",
   lenses: ["Astrology", "Numerology", "Akashic", "Fibonacci AI", "Tarot/Chakra"],

@@ -36,7 +36,7 @@ export default function ShareCard() {
         <div className="relative mt-5 grid grid-cols-3 gap-2 text-center">
           <Mini label="Sun" value={`${astrology.sun.glyph} ${astrology.sun.name}`} />
           <Mini label="Moon" value={`${astrology.moon.glyph} ${astrology.moon.name}`} />
-          <Mini label="Rising" value={`${astrology.ascendant.glyph} ${astrology.ascendant.name}`} />
+          <Mini label="Rising" value={astrology.ascendant ? `${astrology.ascendant.glyph} ${astrology.ascendant.name}` : "—"} />
         </div>
 
         <div className="relative mt-4 rounded-xl border border-foreground/10 p-3">
