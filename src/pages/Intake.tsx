@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { AppShell } from "@/components/AppShell";
 import { Button } from "@/components/ui/button";
@@ -9,6 +9,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Checkbox } from "@/components/ui/checkbox";
 import { useReading } from "@/state/ReadingContext";
 import { DEMO_BIRTH, type BirthData, type LensIntensity } from "@/lib/lenses";
+import { geocodeCity, type GeocodeHit } from "@/lib/geocode";
 import { toast } from "sonner";
 
 const ALL_LENSES = ["Astrology","Numerology","Akashic","Fibonacci AI","Tarot/Chakra","Compatibility"];
@@ -17,11 +18,33 @@ const INTENSITIES: LensIntensity[] = ["Grounded","Mystic","Full Akashic","Hood O
 export default function Intake() {
   const nav = useNavigate();
   const { runReading } = useReading();
-  const [data, setData] = useState<BirthData>({ ...DEMO_BIRTH, name: "", fullBirthName: "", dob: "", tob: "", birthCity: "", currentCity: "" });
+  const [data, setData] = useState<BirthData>({ ...DEMO_BIRTH, name: "", fullBirthName: "", dob: "", tob: "", birthCity: "", birthLat: undefined, birthLon: undefined, birthTz: undefined, currentCity: "" });
   const [submitting, setSubmitting] = useState(false);
+  const [cityHits, setCityHits] = useState<GeocodeHit[]>([]);
+  const [cityOpen, setCityOpen] = useState(false);
 
   const update = <K extends keyof BirthData>(k: K, v: BirthData[K]) => setData(d => ({ ...d, [k]: v }));
   const toggleLens = (l: string) => update("lenses", data.lenses.includes(l) ? data.lenses.filter(x=>x!==l) : [...data.lenses, l]);
+
+  // Debounced geocode lookup as user types birth city.
+  useEffect(() => {
+    const q = (data.birthCity || "").trim();
+    if (q.length < 2) { setCityHits([]); return; }
+    const ctrl = new AbortController();
+    const t = setTimeout(() => {
+      geocodeCity(q, ctrl.signal).then(setCityHits).catch(() => {});
+    }, 300);
+    return () => { clearTimeout(t); ctrl.abort(); };
+  }, [data.birthCity]);
+
+  const pickCity = (h: GeocodeHit) => {
+    setData(d => ({
+      ...d,
+      birthCity: [h.name, h.admin1, h.country].filter(Boolean).join(", "),
+      birthLat: h.lat, birthLon: h.lon, birthTz: h.tz,
+    }));
+    setCityOpen(false);
+  };
 
   const submit = async (e: React.FormEvent) => {
     e.preventDefault();
