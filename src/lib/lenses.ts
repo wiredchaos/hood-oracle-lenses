@@ -211,7 +211,7 @@ export function computeFibonacciAI(birth: BirthData, num: NumerologyResult, astr
   const recurrence = [
     { theme: `${num.lifePath}-coded responsibility`, sources: ["Life Path", "Personal Year", astro.sun.name + " Sun"] },
     { theme: "Bridge / translator function",         sources: ["Soul Urge", "Mercury focus", "Akashic archetype"] },
-    { theme: "Quiet authority under load",            sources: ["Destiny", astro.ascendant.name + " Rising", "Saturn focus"] },
+    { theme: "Quiet authority under load",            sources: ["Destiny", astro.ascendant ? astro.ascendant.name + " Rising" : "Saturn focus", "Mars focus"] },
   ];
 
   return {
