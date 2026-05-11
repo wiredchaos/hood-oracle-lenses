@@ -25,7 +25,7 @@ export function MobileTabBar({ onMore }: { onMore: () => void }) {
       className="lg:hidden fixed bottom-0 inset-x-0 z-40 border-t rule-hair bg-background/85 backdrop-blur-xl"
       style={{ paddingBottom: "env(safe-area-inset-bottom)" }}
     >
-      <div className="grid grid-cols-5 h-14">
+      <div className="grid grid-cols-5 h-16">
         {TABS.map(({ to, label, icon: Icon, match }) => {
           const active = match(pathname);
           return (
