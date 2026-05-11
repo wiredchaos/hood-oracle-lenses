@@ -3,6 +3,8 @@ import { useState } from "react";
 import { cn } from "@/lib/utils";
 import { Activity, Menu, X } from "lucide-react";
 import { OracleLogo } from "@/components/OracleLogo";
+import { MobileTabBar } from "@/components/MobileTabBar";
+import { MoreSheet } from "@/components/MoreSheet";
 
 const PRIMARY = [
   { to: "/", label: "Portal" },
@@ -28,12 +30,14 @@ const MORE = [
   { to: "/journal", label: "Memory" },
   { to: "/compatibility", label: "Match" },
   { to: "/console", label: "Lore" },
+  { to: "/install", label: "Install App" },
   { to: "/settings", label: "Settings" },
 ];
 
 export function AppShell({ children }: { children: React.ReactNode }) {
   const { pathname } = useLocation();
   const [open, setOpen] = useState(false);
+  const [moreOpen, setMoreOpen] = useState(false);
   const publishMarker = "neuro-life-portal-ready";
 
   const linkCls = (active: boolean) => cn(
@@ -44,13 +48,16 @@ export function AppShell({ children }: { children: React.ReactNode }) {
   return (
     <div className="min-h-screen relative" data-publish-marker={publishMarker}>
       <div className="grain-overlay" aria-hidden />
-      <header className="sticky top-0 z-40 border-b rule-hair bg-background/70 backdrop-blur-xl">
+      <header
+        className="sticky top-0 z-40 border-b rule-hair bg-background/70 backdrop-blur-xl"
+        style={{ paddingTop: "env(safe-area-inset-top)" }}
+      >
         <div className="container flex h-14 items-center justify-between gap-4">
           <Link to="/" className="flex items-center gap-3 group shrink-0">
             <OracleLogo size={28} eager />
             <div className="leading-tight">
               <div className="font-display text-sm tracking-[0.18em] uppercase bone-text">Akashic Lenses</div>
-              <div className="text-[9px] font-mono tracking-[0.32em] text-muted-foreground">N3UR0 · META · X</div>
+              <div className="text-[9px] font-mono tracking-[0.32em] text-muted-foreground hidden sm:block">N3UR0 · META · X</div>
             </div>
           </Link>
           <nav className="hidden lg:flex items-center gap-1">
@@ -79,29 +86,26 @@ export function AppShell({ children }: { children: React.ReactNode }) {
           </nav>
           <div className="flex items-center gap-2">
             <span className="hidden sm:inline-flex chip"><Activity className="h-3 w-3 animate-flicker" /> Oracle Online</span>
-            <button onClick={() => setOpen(o => !o)} className="lg:hidden p-2 rounded-md border border-border/60">
-              {open ? <X className="h-4 w-4" /> : <Menu className="h-4 w-4" />}
-            </button>
           </div>
         </div>
-        {open && (
-          <div className="lg:hidden border-t border-border/60 bg-background/95 backdrop-blur-xl">
-            <div className="container py-3 grid grid-cols-2 gap-1">
-              {[...PRIMARY, ...MORE].map(n => (
-                <Link key={n.to} to={n.to} onClick={() => setOpen(false)}
-                  className={linkCls(pathname.startsWith(n.to))}>{n.label}</Link>
-              ))}
-            </div>
-          </div>
-        )}
       </header>
-      <main className="container py-8 md:py-12" style={{ perspective: "1600px", transformStyle: "preserve-3d" }}>{children}</main>
-      <footer className="border-t rule-hair py-8">
+
+      <main
+        className="container py-6 md:py-12"
+        style={{ perspective: "1600px", transformStyle: "preserve-3d", paddingBottom: "calc(72px + env(safe-area-inset-bottom))" }}
+      >
+        {children}
+      </main>
+
+      <footer className="hidden lg:block border-t rule-hair py-8">
         <div className="container flex flex-wrap items-center justify-between gap-3 editorial-meta">
           <span>AGENTROPOLIS // N3UR0 DISTRICT // <b>VOL · MMXXVI</b></span>
           <span className="max-w-xl text-right">For reflection &amp; entertainment only. No medical, legal, financial, or psychological advice. No KYC, no biometrics, no real-name required.</span>
         </div>
       </footer>
+
+      <MobileTabBar onMore={() => setMoreOpen(true)} />
+      <MoreSheet open={moreOpen} onOpenChange={setMoreOpen} />
     </div>
   );
 }

@@ -1,74 +1,117 @@
-## Problem (confirmed by code review)
 
-`src/lib/lenses.ts → computeAstrology()` is producing wrong signs across the whole app. Three concrete bugs:
+# Mobile-First Redesign + iOS Wrapper
 
-1. **Sun sign is shifted 9 positions.** `SIGNS` already starts at Capricorn (index 0), but the code does `SIGNS[(sunIdx + 9) % 12]`. The `+9` is a leftover offset.
-   - Demo data `1991-08-13` returns **Taurus**. Correct answer: **Leo**.
-2. **Sun cutoff table is wrong in 6 of 12 months.** Current `[20,19,20,20,21,21,22,23,23,23,22,21]` should be `[19,18,20,19,20,20,22,22,22,22,21,21]`. So even after fixing #1, dates near a cusp land on the wrong sign.
-3. **Moon and Ascendant are pure pseudo-random** seeded from `y*31+m*17+d*7`. They have no astronomical basis. Ascendant additionally pretends to use time of birth via `Math.floor(tobNum/30)` which is meaningless — real rising sign needs sidereal time + latitude/longitude.
+Two parallel tracks: (1) reshape the entire UI for a phone-native feel, (2) wrap it as an installable web app and a real Capacitor iOS/Android shell.
 
-These three feed every astrology display in the app: `Dashboard`, `ShareCard`, `Compatibility`, `Akashic` recurrence themes, `Fibonacci` recurrence, plus any reading saved to memory.
+---
 
-## Fix strategy
+## Track 1 — Mobile-first UI/UX redesign
 
-Replace the homemade math with a real ephemeris. Use **`astronomy-engine`** (MIT, ~80KB, no native deps, fully deterministic, no API key). It gives us accurate Sun & Moon ecliptic longitude for any UTC instant, plus Local Sidereal Time → Ascendant when we have lat/lon.
+### A. Global shell (`src/components/AppShell.tsx`, `src/index.css`)
 
-### 1. New module `src/lib/astrology.ts`
-Pure, unit-testable, replaces the broken bits of `lenses.ts`:
+- Replace the desktop top-nav-only model with a **dual shell**:
+  - **Mobile (<lg):** compact top bar (logo + status chip + profile glyph) + **fixed bottom tab bar** with 5 primary destinations: Portal · Oracle · Reading · Life · More.
+  - **Desktop (≥lg):** existing horizontal nav stays.
+- Bottom tab bar: 56px tall, safe-area aware (`pb-[env(safe-area-inset-bottom)]`), active item shows cyan glow + label, inactive shows glyph only.
+- "More" opens a `Drawer` (vaul) sheet from bottom listing the secondary routes currently in the `MORE` array.
+- Add `viewport-fit=cover` to `index.html` and global CSS:
+  - `body { padding: env(safe-area-inset-top) env(safe-area-inset-right) calc(56px + env(safe-area-inset-bottom)) env(safe-area-inset-left); }` on mobile.
+  - Disable iOS tap highlight, enable `overscroll-behavior: none`, lock font-size to prevent input zoom (`font-size: 16px` on inputs).
+- Remove desktop hover-only "More" dropdown on touch devices.
 
-- `signFromLongitude(lonDeg) → SignInfo` (12 × 30° wedges starting at 0° Aries; returns `{name, glyph, element, modality, polarity, degreeInSign}`).
-- `computeSun(dateUTC) → SignInfo` via `Astronomy.SunPosition`.
-- `computeMoon(dateUTC) → SignInfo` via `Astronomy.GeoMoon` → ecliptic longitude.
-- `computeAscendant(dateUTC, latDeg, lonDeg) → SignInfo` using standard formula `tan(Asc) = -cos(LST) / (sin(LST)cos(ε) + tan(lat)sin(ε))`, ε from `Astronomy.e_tilt`, LST from `Astronomy.SiderealTime`.
-- Single source of truth for the SIGNS table (correct tropical zodiac order: Aries → Pisces).
+### B. Page-by-page redesign (mobile-first, then enhance up)
 
-### 2. Rewrite `computeAstrology()` in `src/lib/lenses.ts`
-- Parse DOB + TOB into a UTC Date. If TOB missing → use **12:00 local** and flag `tobAssumed: true`; Sun stays accurate, Moon may be off by up to ~6° (≈half a day of motion) — disclose this.
-- Sun: real calculation, always returned.
-- Moon: real calculation. If `tobAssumed`, mark `moonApproximate: true`.
-- Ascendant: only computed when we have **both** TOB and lat/lon. Otherwise return `null` and the UI shows "—" with a tooltip "Add exact birth time + city to compute".
-- `houseFocus` / `planetaryFocus` strings: keep as symbolic prose but no longer dressed up as computed houses (rename to `themes`).
+For each page below: single-column flow, sticky page header with back chevron, large tap targets (≥44px), thumb-zone CTAs, swipeable card stacks instead of grids, collapsible sections.
 
-### 3. Birth location → lat/lon
-`BirthData.birthCity` is a free-text string today. Add an optional geocode step:
+- **`Index.tsx` / Landing** — hero collapses to one viewport: logo, tagline, single primary CTA ("Begin Reading"), secondary text link. Below: vertical snap-scroll of feature cards.
+- **`HoodOracle.tsx`** — chat-style full-height column, input pinned above tab bar, message bubbles, no side panels on mobile.
+- **`Intake.tsx`** — already touched; convert to **multi-step wizard** (Name → DOB → Time → City → Intent), one field per screen, progress dots, large numeric keyboard for date.
+- **`Dashboard.tsx`** — replace 3-column hero with a **vertical card stack**: identity card → Sun/Moon/Rising chip row → Spiral medallion → each lens as a full-width card; "Distribute" actions become a horizontal swipe rail.
+- **`NeuroLifeDemo.tsx` (Life Tracker)** — assessment as wizard; timeline becomes horizontally scrollable with snap points and a sticky "today" pin.
+- **`Compatibility.tsx`, `AkashicReport.tsx`, `FibonacciReport.tsx`, `NumerologyReport.tsx`, `ShareCard.tsx`** — single column, accordion sections, share/export CTAs in a sticky bottom action bar.
+- **`Journal.tsx`, `PocketCards.tsx`, `Files.tsx`, `ListicleEngine.tsx`, `AgentTvStudio.tsx`** — list-first layouts with pull-style headers; FAB for primary action.
+- **`VideoPortal.tsx`, `VideoReports.tsx`, `NeuroVideoDemo.tsx`** — full-bleed 9:16 player on mobile, controls overlay.
+- **`Settings.tsx`, `MonetizationMap.tsx`, `TrustSignal.tsx`, `CircleTest.tsx`, `Bio.tsx`, `MovementEchoes.tsx`, `AgentConsole.tsx`, `DemoProfile.tsx`, `UgcForge.tsx`, `GlobalHoods.tsx`, `CointelproLink.tsx`, `HoodOracleFiles.tsx`** — pass to apply: stack columns, increase line-height, replace tables with cards, ensure 16px inputs, add safe-area padding.
 
-- New helper `src/lib/geocode.ts` → calls **Open-Meteo geocoding** (`https://geocoding-api.open-meteo.com/v1/search`, free, keyless, CORS-enabled). Returns `{lat, lon, tz}`.
-- In `Intake.tsx`, after the user enters a birth city, debounce-call the geocoder and store `birthLat`, `birthLon`, `birthTz` on `BirthData`. If multiple matches, show top 3 in a small dropdown.
-- Backwards-compat: existing `BirthData` records without coords still work (Ascendant just shows "—").
+### C. Tokens & motion
 
-### 4. Time zone handling
-DOB+TOB the user enters is local to birth city. With `birthTz` we convert to UTC via `Intl.DateTimeFormat` offset lookup (or `date-fns-tz` if it's already in deps — check first; otherwise inline a small offset helper using `Intl`). Without `birthTz`, treat input as UTC and flag the reading as "approximate".
+- Add mobile type scale in `tailwind.config.ts` (`text-display-mobile`, etc.).
+- Tighten container paddings on mobile (`px-4`) and widen on desktop.
+- Add `prefers-reduced-motion` guards to existing animations.
+- Use `framer-motion` for tab transitions and bottom-sheet entry.
 
-### 5. UI updates
-- `Dashboard.tsx`: when `ascendant === null`, render Rising as `—` with a small "add birth time + city" link to `/intake`. When `moonApproximate`, append a faint "≈" badge next to Moon.
-- `ShareCard.tsx`: same null-handling for Rising.
-- `Compatibility.tsx`: keep Sun-only synthesis when either party lacks TOB/city; remove Moon/Rising influence in that case rather than fabricate it.
-- `Akashic` & `Fibonacci` recurrence sources: drop the literal "X Rising" string when ascendant is null.
+### D. SEO/meta (kept)
 
-### 6. Demo seed
-Update `DEMO_BIRTH` (Ari, 1991-08-13, 04:33, Brooklyn NY) with hard-coded `birthLat: 40.6782, birthLon: -73.9442, birthTz: "America/New_York"` so the demo flow shows a fully-populated, **correct** chart (Sun Leo, Moon ~real, Rising ~real) immediately.
+- `index.html` already has viewport, OG, Twitter; add `apple-mobile-web-app-capable`, `apple-mobile-web-app-status-bar-style=black-translucent`, `theme-color`, `apple-touch-icon`.
 
-### 7. Tests (`src/test/astrology.test.ts`)
-Vitest cases pinning the fix:
-- 1991-08-13 → Sun = Leo (regression for the +9 offset bug).
-- Each cusp date in the corrected cutoff table returns the expected sign on both sides.
-- A known chart (e.g. 2000-01-01 12:00 UTC, lat 0, lon 0) matches values from a reference source within 1°.
-- `computeAscendant` returns null when lat/lon missing.
+---
 
-### 8. Cleanup
-- Delete `SUN_CUTOFFS`, the local `SIGNS` array, and the random-seed Moon/Asc code from `lenses.ts`.
-- `lenses.ts` re-exports types from `astrology.ts` so existing imports keep working.
-- Update `.lovable/plan.md` to record the migration so future passes don't reintroduce the pseudo-random version.
+## Track 2 — Installable PWA (no service worker)
+
+Per Lovable preview safety, **manifest-only** installability. No `vite-plugin-pwa`, no service worker.
+
+- Add `public/manifest.webmanifest`:
+  - `name: "Hood Oracle"`, `short_name: "Oracle"`, `start_url: "/"`, `scope: "/"`, `display: "standalone"`, `background_color: "#0F172A"`, `theme_color: "#0F172A"`, `orientation: "portrait"`.
+  - Icons: 192, 512, 512 maskable (generated from existing `OracleLogo`).
+- Add to `index.html`:
+  - `<link rel="manifest" href="/manifest.webmanifest">`
+  - `<link rel="apple-touch-icon" href="/icons/apple-touch-icon.png">`
+  - Apple PWA meta tags above.
+- Generate `public/icons/{192,512,512-maskable,apple-touch-icon}.png` via `imagegen`.
+- Add `/install` page with simple instructions (Share → Add to Home Screen on iOS; install prompt button on Android via `beforeinstallprompt`).
+
+---
+
+## Track 3 — Capacitor iOS/Android wrapper
+
+### Setup
+
+- Install: `@capacitor/core`, `@capacitor/cli` (dev), `@capacitor/ios`, `@capacitor/android`, `@capacitor/status-bar`, `@capacitor/splash-screen`, `@capacitor/haptics`, `@capacitor/push-notifications`, `@capacitor/app`.
+- Create `capacitor.config.ts`:
+  - `appId: "app.lovable.763568dc9d8b40b68e2253f7c3fb48f2"`
+  - `appName: "hoodoracle"`
+  - `webDir: "dist"`
+  - `server.url: "https://763568dc-9d8b-40b6-8e22-53f7c3fb48f2.lovableproject.com?forceHideBadge=true"`, `cleartext: true` (hot-reload from sandbox).
+  - Plugins: SplashScreen (1500ms, dark bg), StatusBar (Style.Dark), PushNotifications.
+
+### Native polish (`src/lib/native.ts`)
+
+- On app boot, if `Capacitor.isNativePlatform()`:
+  - Set status bar style + background color to match theme.
+  - Hide splash after first paint.
+  - Wire `App.addListener('backButton')` (Android) → router back.
+  - Provide `haptics.tap()` helper used by tab bar, primary buttons, slider commits, card swipes.
+
+### Push notifications
+
+- `src/lib/push.ts`:
+  - `registerPush()` requests permission, calls `PushNotifications.register()`, listens for `registration` (token), `pushNotificationReceived`, `pushNotificationActionPerformed`.
+  - Token logged to console for now (no backend wiring requested).
+- Add a **Settings → Notifications** toggle that calls `registerPush()` and shows current permission state.
+- Note: actually sending pushes requires Apple Developer account + APNs key; FCM for Android. Out of scope for code, documented in README.
+
+### Build/run docs
+
+A short README section: export to GitHub → `npm i` → `npx cap add ios && npx cap add android` → `npm run build && npx cap sync` → `npx cap run ios` (Mac + Xcode) / `npx cap run android` (Android Studio).
+
+---
 
 ## Out of scope
-- Houses (Placidus/Whole-Sign) — not currently surfaced numerically; can be added later once Ascendant is solid.
-- Aspects, transits, progressions.
-- Sidereal/Vedic zodiac (current app is tropical).
-- Numerology, Akashic, Fibonacci, Tarot — math there is fine; only the strings that quote astrology fields get adjusted.
+
+- Backend changes, Oracle logic, astrology engine, payments, auth.
+- Real push delivery infra (APNs/FCM credentials).
+- Service worker / offline cache (explicitly declined).
 
 ## Acceptance
-- Ari demo: Dashboard shows **Leo Sun**, real Moon sign, real Rising.
-- A user entering DOB only (no time, no city) gets correct Sun, an "≈" Moon, and "—" Rising with a CTA to fill in details.
-- A user entering DOB + TOB + city gets all three computed from a real ephemeris and matches free public chart calculators within 1°.
-- No occurrence of `(sunIdx + 9) % 12` or random-seeded sign assignment remains in the codebase.
-- New tests pass.
+
+- At 390×844 every page is single-column, no horizontal scroll, all CTAs reachable in thumb zone, bottom tab bar respects safe area.
+- "Add to Home Screen" on iOS Safari installs the app with correct icon and standalone chrome; status bar matches theme.
+- `npx cap sync ios` succeeds; app boots in iOS simulator showing the live sandbox URL with native splash + dark status bar.
+- Tapping a primary button triggers a haptic on device.
+- Settings → Notifications can request permission and log a device token in console on a physical device.
+
+## Files (high level)
+
+**New:** `capacitor.config.ts`, `public/manifest.webmanifest`, `public/icons/*`, `src/lib/native.ts`, `src/lib/push.ts`, `src/components/MobileTabBar.tsx`, `src/components/MobileTopBar.tsx`, `src/components/MoreSheet.tsx`, `src/pages/Install.tsx`.
+
+**Edited:** `index.html`, `src/components/AppShell.tsx`, `src/index.css`, `tailwind.config.ts`, `src/main.tsx` (init native), `src/App.tsx` (add `/install`), and every page file listed in §B for mobile layout.

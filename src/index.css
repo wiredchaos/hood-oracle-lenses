@@ -77,19 +77,27 @@
 }
 
 @layer base {
-  * { @apply border-border; }
+  * { @apply border-border; -webkit-tap-highlight-color: transparent; }
+  html { -webkit-text-size-adjust: 100%; }
   html, body, #root { height: 100%; }
   body {
     @apply bg-background text-foreground antialiased;
     font-family: 'Inter', system-ui, sans-serif;
     background-image: var(--gradient-cosmic);
     background-attachment: fixed;
+    overscroll-behavior-y: none;
   }
+  /* Prevent iOS Safari from zooming on input focus */
+  input, select, textarea { font-size: 16px; }
   h1, h2, h3, .font-serif {
     font-family: 'Cormorant Garamond', serif;
     letter-spacing: -0.01em;
   }
   .font-mono { font-family: 'JetBrains Mono', monospace; }
+
+  /* Native (Capacitor) safe-area handling */
+  .ios-safe-top { padding-top: env(safe-area-inset-top); }
+  .ios-safe-bottom { padding-bottom: env(safe-area-inset-bottom); }
 }
 
 @layer components {

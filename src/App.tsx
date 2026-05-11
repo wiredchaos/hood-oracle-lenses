@@ -35,6 +35,7 @@ import VideoReports from "./pages/VideoReports.tsx";
 import NeuroVideoDemo from "./pages/NeuroVideoDemo.tsx";
 import VideoPortal from "./pages/VideoPortal.tsx";
 import NeuroLifeDemo from "./pages/NeuroLifeDemo.tsx";
+import Install from "./pages/Install.tsx";
 import { lazy, Suspense } from "react";
 const Bio = lazy(() => import("./pages/Bio.tsx"));
 
@@ -78,6 +79,7 @@ const App = () => (
             <Route path="/demo" element={<DemoProfile />} />
             <Route path="/reports/video" element={<VideoReports />} />
             <Route path="/demo/neuro-video" element={<NeuroVideoDemo />} />
+            <Route path="/install" element={<Install />} />
             <Route path="/bio" element={<Suspense fallback={<div className="min-h-screen bg-background" />}><Bio /></Suspense>} />
             <Route path="*" element={<NotFound />} />
           </Routes>

@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { AppShell } from "@/components/AppShell";
 import { LensCard } from "@/components/LensCard";
 import { Button } from "@/components/ui/button";
@@ -6,6 +6,8 @@ import { Label } from "@/components/ui/label";
 import { Switch } from "@/components/ui/switch";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { getSettings, saveSettings, wipeAll, type Settings as S } from "@/lib/memory";
+import { getPushState, registerPush, type PushState } from "@/lib/push";
+import { isNative } from "@/lib/native";
 import { toast } from "sonner";
 
 const ALL_LENSES = ["Astrology","Numerology","Akashic","Fibonacci AI","Tarot/Chakra","Compatibility"];
@@ -13,9 +15,18 @@ const INTENSITIES = ["Grounded","Mystic","Full Akashic","Hood Oracle Unfiltered"
 
 export default function SettingsPage() {
   const [s, setS] = useState<S>(getSettings());
+  const [push, setPush] = useState<PushState>({ supported: false, permission: "unknown" });
+  useEffect(() => { getPushState().then(setPush); }, []);
 
   const update = <K extends keyof S>(k: K, v: S[K]) => setS(p => ({ ...p, [k]: v }));
   const persist = () => { saveSettings(s); toast.success("Settings saved."); };
+  const togglePush = async () => {
+    const next = await registerPush();
+    setPush(next);
+    if (next.permission === "granted") toast.success("Notifications enabled.");
+    else if (next.permission === "denied") toast.error("Notifications blocked. Enable in system settings.");
+    else if (!next.supported) toast.message("Open the installed iOS/Android app to enable push.");
+  };
 
   const exportData = () => {
     toast("Export protocol stubbed for prototype.", { description: "Will package readings + journal + settings as JSON." });
@@ -74,6 +85,22 @@ export default function SettingsPage() {
             <span className="text-sm">Cream card variant</span>
             <Switch checked={s.shareCardCream} onCheckedChange={v=>update("shareCardCream", v)} />
           </label>
+        </LensCard>
+
+        <LensCard title="Notifications" accent="cyan" kicker="Native push">
+          <p className="text-sm text-muted-foreground">
+            {isNative()
+              ? `Permission: ${push.permission}`
+              : "Available in the installed iOS/Android app. The web version cannot send push."}
+          </p>
+          <Button
+            variant="outline"
+            onClick={togglePush}
+            disabled={!isNative() || push.permission === "granted"}
+            className="rounded-full text-xs font-mono uppercase tracking-[0.2em] mt-2"
+          >
+            {push.permission === "granted" ? "Enabled" : "Enable notifications"}
+          </Button>
         </LensCard>
 
         <LensCard title="Memory Layer" accent="red" kicker="User-owned data">
