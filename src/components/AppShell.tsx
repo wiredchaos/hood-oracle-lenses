@@ -91,8 +91,8 @@ export function AppShell({ children }: { children: React.ReactNode }) {
       </header>
 
       <main
-        className="container py-6 md:py-12"
-        style={{ perspective: "1600px", transformStyle: "preserve-3d", paddingBottom: "calc(72px + env(safe-area-inset-bottom))" }}
+        className="container py-4 sm:py-6 md:py-12"
+        style={{ perspective: "1600px", transformStyle: "preserve-3d", paddingBottom: "calc(80px + env(safe-area-inset-bottom))" }}
       >
         {children}
       </main>

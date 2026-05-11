@@ -5,7 +5,7 @@ export default {
   content: ["./pages/**/*.{ts,tsx}", "./components/**/*.{ts,tsx}", "./app/**/*.{ts,tsx}", "./src/**/*.{ts,tsx}"],
   prefix: "",
   theme: {
-    container: { center: true, padding: "1.25rem", screens: { "2xl": "1320px" } },
+    container: { center: true, padding: { DEFAULT: "1rem", sm: "1.25rem", lg: "2rem" }, screens: { "2xl": "1320px" } },
     extend: {
       colors: {
         border: "hsl(var(--border))",

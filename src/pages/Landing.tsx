@@ -47,7 +47,7 @@ export default function Landing() {
       <div className="absolute inset-0 grid-bg opacity-40" />
       <div className="grain-overlay" aria-hidden />
 
-      <div className="relative container py-10 md:py-16">
+      <div className="relative container py-6 sm:py-10 md:py-16">
         <div className="flex flex-wrap items-start justify-between gap-4">
           <div className="flex items-center gap-3">
             <OracleLogo size={28} eager />
@@ -64,10 +64,10 @@ export default function Landing() {
           </div>
         </div>
 
-        <div className="mt-14 md:mt-20 grid gap-10 md:grid-cols-2 md:items-center">
+        <div className="mt-8 sm:mt-14 md:mt-20 grid gap-8 md:gap-10 md:grid-cols-2 md:items-center">
           <div className="animate-fade-up">
             <div className="editorial-kicker mb-5">VOL · III · ORACULAR EDITION · MMXXVI</div>
-            <h1 className="font-serif text-5xl md:text-7xl leading-[0.95] tracking-tight">
+            <h1 className="font-serif text-4xl sm:text-5xl md:text-7xl leading-[0.95] tracking-tight">
               The Hood <span className="red-text">Oracle</span><br/>
               reads your <span className="neon-text">lenses</span>.
             </h1>
@@ -80,7 +80,7 @@ export default function Landing() {
               agentic guide who lives in the N3UR0 district of AGENTROPOLIS.
             </p>
 
-            <div className="mt-8 flex flex-wrap gap-3">
+            <div className="mt-8 flex flex-col sm:flex-row sm:flex-wrap gap-3">
               <Button asChild size="lg" className="bg-primary text-primary-foreground hover:bg-primary-glow shadow-cyan rounded-full px-6 font-mono uppercase tracking-[0.2em] text-xs">
                 <Link to="/agent">Enter AGENTROPOLIS <ArrowRight className="ml-2 h-4 w-4" /></Link>
               </Button>
@@ -134,7 +134,7 @@ export default function Landing() {
         </div>
 
         {/* Lens grid - visual embodiments */}
-        <div className="mt-20 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+        <div className="mt-12 sm:mt-20 grid gap-4 sm:gap-5 sm:grid-cols-2 lg:grid-cols-3">
           {LENSES.map((l, i) => (
             <Link key={l.name} to={l.to} className="block group">
               <FloatingHolo accent={l.accent} intensity="full" delay={i * 120}>
