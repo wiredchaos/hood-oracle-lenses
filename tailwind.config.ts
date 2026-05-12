@@ -22,6 +22,7 @@ export default {
         cream: { DEFAULT: "hsl(var(--cream))", foreground: "hsl(var(--cream-foreground))" },
         gold: { DEFAULT: "hsl(var(--gold))", foreground: "hsl(var(--gold-foreground))" },
         bone: { DEFAULT: "hsl(var(--bone))", dim: "hsl(var(--bone-dim))" },
+        shroud: { DEFAULT: "hsl(var(--shroud))", foreground: "hsl(var(--shroud-foreground))", glow: "hsl(var(--shroud-glow))" },
         popover: { DEFAULT: "hsl(var(--popover))", foreground: "hsl(var(--popover-foreground))" },
         card: { DEFAULT: "hsl(var(--card))", foreground: "hsl(var(--card-foreground))" },
       },
