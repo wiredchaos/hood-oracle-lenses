@@ -46,6 +46,11 @@
     --bone-dim: 40 8% 62%;
     --rule: 43 30% 89% / 0.12;
 
+    /* Shroud District (L3 privacy mesh) */
+    --shroud: 268 85% 65%;             /* violet */
+    --shroud-foreground: 220 60% 4%;
+    --shroud-glow: 268 100% 75%;
+
     --destructive: 0 84% 55%;
     --destructive-foreground: 0 0% 100%;
 
