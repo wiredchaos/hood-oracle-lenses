@@ -2,6 +2,7 @@ import { useRef, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Download, Lock, Play, Pause } from "lucide-react";
 import { hasUnlock, grantUnlock, type ProductId } from "@/lib/entitlements";
+import { MoneroPayButton } from "@/components/shared/MoneroPayButton";
 import { toast } from "sonner";
 
 interface Props {
