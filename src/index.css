@@ -46,6 +46,11 @@
     --bone-dim: 40 8% 62%;
     --rule: 43 30% 89% / 0.12;
 
+    /* Shroud District (L3 privacy mesh) */
+    --shroud: 268 85% 65%;             /* violet */
+    --shroud-foreground: 220 60% 4%;
+    --shroud-glow: 268 100% 75%;
+
     --destructive: 0 84% 55%;
     --destructive-foreground: 0 0% 100%;
 
@@ -432,3 +437,10 @@ body::before {
   .grain-overlay { display: none; }
 }
 
+
+/* Shroud District tier tinting — when html[data-tier=cloak|sovereign] is active, ring/glow shifts violet */
+html[data-tier="cloak"], html[data-tier="sovereign"] {
+  --primary: 268 85% 65%;
+  --primary-glow: 268 100% 75%;
+  --ring: 268 85% 65%;
+}

@@ -95,6 +95,7 @@ export default function Landing() {
               <Link to="/demo" className="text-primary hover:text-primary-glow">→ N3UR0 META X profile</Link>
               <Link to="/bio" className="text-lime hover:text-lime/80">→ 3D brand bio</Link>
               <Link to="/cointelpro" className="text-accent hover:text-accent/80">→ COINTELPRO PROTOCOL</Link>
+              <Link to="/shroud" className="hover:opacity-80" style={{ color: "hsl(var(--shroud))" }}>→ Enter the SHROUD district</Link>
             </div>
 
             <div className="mt-10 glass max-w-md p-4 text-xs text-muted-foreground">

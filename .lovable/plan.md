@@ -1,117 +1,112 @@
+## Reality check first
 
-# Mobile-First Redesign + iOS Wrapper
+Your detailed plan references infrastructure that does **not exist in this project**: `CityLayout`, `CityCommand`, `HeroChamber`, `GovernmentBuilding3D`, `TreasuryFurnace`, `hermes_audit`, `useXentBalance`, wagmi, the XENT token, and any Supabase migrations / edge functions. Lovable Cloud is **not enabled** — there is no `supabase/` directory, no `shroud_subscriptions` table can exist, and no edge functions can run.
 
-Two parallel tracks: (1) reshape the entire UI for a phone-native feel, (2) wrap it as an installable web app and a real Capacitor iOS/Android shell.
+This codebase is the Hood Oracle / Akashic Lenses app: React + Vite + Tailwind, client-only, with `localStorage`-based entitlements (`src/lib/entitlements.ts`) and a `VideoReportPlayer` paywall that simulates purchases.
 
----
-
-## Track 1 — Mobile-first UI/UX redesign
-
-### A. Global shell (`src/components/AppShell.tsx`, `src/index.css`)
-
-- Replace the desktop top-nav-only model with a **dual shell**:
-  - **Mobile (<lg):** compact top bar (logo + status chip + profile glyph) + **fixed bottom tab bar** with 5 primary destinations: Portal · Oracle · Reading · Life · More.
-  - **Desktop (≥lg):** existing horizontal nav stays.
-- Bottom tab bar: 56px tall, safe-area aware (`pb-[env(safe-area-inset-bottom)]`), active item shows cyan glow + label, inactive shows glyph only.
-- "More" opens a `Drawer` (vaul) sheet from bottom listing the secondary routes currently in the `MORE` array.
-- Add `viewport-fit=cover` to `index.html` and global CSS:
-  - `body { padding: env(safe-area-inset-top) env(safe-area-inset-right) calc(56px + env(safe-area-inset-bottom)) env(safe-area-inset-left); }` on mobile.
-  - Disable iOS tap highlight, enable `overscroll-behavior: none`, lock font-size to prevent input zoom (`font-size: 16px` on inputs).
-- Remove desktop hover-only "More" dropdown on touch devices.
-
-### B. Page-by-page redesign (mobile-first, then enhance up)
-
-For each page below: single-column flow, sticky page header with back chevron, large tap targets (≥44px), thumb-zone CTAs, swipeable card stacks instead of grids, collapsible sections.
-
-- **`Index.tsx` / Landing** — hero collapses to one viewport: logo, tagline, single primary CTA ("Begin Reading"), secondary text link. Below: vertical snap-scroll of feature cards.
-- **`HoodOracle.tsx`** — chat-style full-height column, input pinned above tab bar, message bubbles, no side panels on mobile.
-- **`Intake.tsx`** — already touched; convert to **multi-step wizard** (Name → DOB → Time → City → Intent), one field per screen, progress dots, large numeric keyboard for date.
-- **`Dashboard.tsx`** — replace 3-column hero with a **vertical card stack**: identity card → Sun/Moon/Rising chip row → Spiral medallion → each lens as a full-width card; "Distribute" actions become a horizontal swipe rail.
-- **`NeuroLifeDemo.tsx` (Life Tracker)** — assessment as wizard; timeline becomes horizontally scrollable with snap points and a sticky "today" pin.
-- **`Compatibility.tsx`, `AkashicReport.tsx`, `FibonacciReport.tsx`, `NumerologyReport.tsx`, `ShareCard.tsx`** — single column, accordion sections, share/export CTAs in a sticky bottom action bar.
-- **`Journal.tsx`, `PocketCards.tsx`, `Files.tsx`, `ListicleEngine.tsx`, `AgentTvStudio.tsx`** — list-first layouts with pull-style headers; FAB for primary action.
-- **`VideoPortal.tsx`, `VideoReports.tsx`, `NeuroVideoDemo.tsx`** — full-bleed 9:16 player on mobile, controls overlay.
-- **`Settings.tsx`, `MonetizationMap.tsx`, `TrustSignal.tsx`, `CircleTest.tsx`, `Bio.tsx`, `MovementEchoes.tsx`, `AgentConsole.tsx`, `DemoProfile.tsx`, `UgcForge.tsx`, `GlobalHoods.tsx`, `CointelproLink.tsx`, `HoodOracleFiles.tsx`** — pass to apply: stack columns, increase line-height, replace tables with cards, ensure 16px inputs, add safe-area padding.
-
-### C. Tokens & motion
-
-- Add mobile type scale in `tailwind.config.ts` (`text-display-mobile`, etc.).
-- Tighten container paddings on mobile (`px-4`) and widen on desktop.
-- Add `prefers-reduced-motion` guards to existing animations.
-- Use `framer-motion` for tab transitions and bottom-sheet entry.
-
-### D. SEO/meta (kept)
-
-- `index.html` already has viewport, OG, Twitter; add `apple-mobile-web-app-capable`, `apple-mobile-web-app-status-bar-style=black-translucent`, `theme-color`, `apple-touch-icon`.
+So this plan delivers the **Shroud District concept faithfully** but grounded in what's actually here. Anything requiring Cloud, wagmi, or real Monero RPC is called out as Phase 2 and gated behind your explicit go-ahead.
 
 ---
 
-## Track 2 — Installable PWA (no service worker)
+## Phase 1 — what gets built now (client-only, no backend)
 
-Per Lovable preview safety, **manifest-only** installability. No `vite-plugin-pwa`, no service worker.
+### 1. `/shroud` route — Shroud District shell
 
-- Add `public/manifest.webmanifest`:
-  - `name: "Hood Oracle"`, `short_name: "Oracle"`, `start_url: "/"`, `scope: "/"`, `display: "standalone"`, `background_color: "#0F172A"`, `theme_color: "#0F172A"`, `orientation: "portrait"`.
-  - Icons: 192, 512, 512 maskable (generated from existing `OracleLogo`).
-- Add to `index.html`:
-  - `<link rel="manifest" href="/manifest.webmanifest">`
-  - `<link rel="apple-touch-icon" href="/icons/apple-touch-icon.png">`
-  - Apple PWA meta tags above.
-- Generate `public/icons/{192,512,512-maskable,apple-touch-icon}.png` via `imagegen`.
-- Add `/install` page with simple instructions (Share → Add to Home Screen on iOS; install prompt button on Android via `beforeinstallprompt`).
+- New route in `src/App.tsx` → `<Shroud />`, wrapped in `AppShell` (matches every other inner page).
+- New `src/pages/Shroud.tsx`:
+  - SEO: `<title>Shroud District — Agentic Anonymity as a Service</title>`, meta description, single H1, JSON-LD `Service`.
+  - Hero: editorial kicker `LAYER 3 · SHROUD`, headline "Hide what you're **doing**, not just what you have.", pull quote.
+  - Layer-stack diagram (the L3/L2/L1 pyramid you described) rendered as styled HTML/SVG using existing tokens (`bone-text`, `red-text`, `neon-text`, `chip`, `chip-red`). No new 3D engine — keeps load fast and matches the rest of the site's visual language.
+  - Three tier panels (Veil / Cloak / Sovereign) using `glass-strong` cards with the existing `FloatingHolo` component for the spire/obelisk feel. Sovereign panel uses gold accent (new token, see §5).
+  - "Privacy Mesh · ONLINE" status pylon line in the page header (matches the `editorial-meta` block on Landing).
+
+### 2. Tier gating — local entitlements
+
+- Extend `src/lib/entitlements.ts` with a typed tier helper:
+  - New product IDs: `shroud.cloak`, `shroud.sovereign`. `shroud.veil` is implicit/free.
+  - `getShroudTier(): "veil" | "cloak" | "sovereign"` — derived from existing `hasUnlock`.
+  - `setShroudTier(tier)` for the UI.
+- New `src/components/shroud/ShroudTierGate.tsx`: tier picker; "subscribe" buttons call `grantUnlock` (same simulate-purchase pattern `VideoReportPlayer` already uses) **or** open the Monero donate flow (see §3) when the user prefers XMR.
+- City-wide avatar halo: there is no city/avatar concept in this app. Instead, when tier is Cloak+, the `OracleLogo` and `MobileTabBar` active glow shift to violet via a `data-tier="cloak|sovereign"` attribute on `<html>`. Documented as the visible "halo".
+
+### 3. Monero acceptance — donate page + paywall integration
+
+- New `src/pages/Donate.tsx` at `/donate`:
+  - Static XMR address + QR (generated client-side with `qrcode` lib — small dep, no backend) + copy button (haptic feedback via existing `src/lib/native.ts`).
+  - "Why Monero" short blurb + link to `https://www.getmonero.org/downloads/` and the `monero-project/monero-gui` repo. Single H1, alt text on QR, JSON-LD `DonateAction`.
+  - "I sent it" form: user pastes tx hash → stored in `localStorage` and a one-time unlock code is shown (honor system, matches your existing `entitlements` model). Optional email field is a `mailto:` link, no backend.
+- `src/components/shared/MoneroPayButton.tsx`: reusable "Pay with Monero" button. Drops into:
+  - `VideoReportPlayer.tsx` — added next to the existing `Unlock $X` button. On click, opens a `Drawer` (vaul, already installed) with the same QR/address/tx-hash flow scoped to that `productId`.
+  - `ShroudTierGate.tsx` — same drawer for Cloak / Sovereign.
+- Footer link to `/donate` and entry in `MoreSheet.tsx`.
+
+### 4. Discovery surfaces
+
+- `MoreSheet.tsx` → add **Shroud** and **Donate (XMR)** rows.
+- `Landing.tsx` → one new link in the existing inline link strip: `→ Enter the SHROUD district`.
+- No nav redesign — additive only.
+
+### 5. Tokens & memory
+
+- `index.css` / `tailwind.config.ts`: add `--shroud-violet` and `--sovereign-gold` HSL tokens + matching utilities (`text-shroud`, `bg-shroud`, `shadow-shroud`). All HSL, semantic, no raw hex in components.
+- New memory: `mem://features/shroud-anonymity-service` — L3 positioning, three tiers, "no real monerod in Phase 1" constraint.
+- Update `mem://index.md` Memories list.
+
+### 6. Acceptance (Phase 1)
+
+- `/shroud` renders cleanly at 384×677 (your current viewport) and desktop, no horizontal scroll.
+- `/donate` shows a scannable QR for the XMR address you provide.
+- "Pay with Monero" button appears on every `VideoReportPlayer` and on the Shroud tier gate, opens drawer with QR + tx-hash form.
+- Granting `shroud.cloak` (via either simulated card unlock or the XMR honor-system flow) flips `<html data-tier="cloak">` and re-tints active nav glow to violet.
+- Lighthouse: no regression on Landing; new pages have valid meta + single H1.
+- Zero new env vars, zero backend calls, no service worker.
 
 ---
 
-## Track 3 — Capacitor iOS/Android wrapper
+## Phase 2 — gated behind your explicit yes (not built now)
 
-### Setup
+These require decisions and infrastructure this project doesn't yet have. I'll only start them after you confirm each:
 
-- Install: `@capacitor/core`, `@capacitor/cli` (dev), `@capacitor/ios`, `@capacitor/android`, `@capacitor/status-bar`, `@capacitor/splash-screen`, `@capacitor/haptics`, `@capacitor/push-notifications`, `@capacitor/app`.
-- Create `capacitor.config.ts`:
-  - `appId: "app.lovable.763568dc9d8b40b68e2253f7c3fb48f2"`
-  - `appName: "hoodoracle"`
-  - `webDir: "dist"`
-  - `server.url: "https://763568dc-9d8b-40b6-8e22-53f7c3fb48f2.lovableproject.com?forceHideBadge=true"`, `cleartext: true` (hot-reload from sandbox).
-  - Plugins: SplashScreen (1500ms, dark bg), StatusBar (Style.Dark), PushNotifications.
-
-### Native polish (`src/lib/native.ts`)
-
-- On app boot, if `Capacitor.isNativePlatform()`:
-  - Set status bar style + background color to match theme.
-  - Hide splash after first paint.
-  - Wire `App.addListener('backButton')` (Android) → router back.
-  - Provide `haptics.tap()` helper used by tab bar, primary buttons, slider commits, card swipes.
-
-### Push notifications
-
-- `src/lib/push.ts`:
-  - `registerPush()` requests permission, calls `PushNotifications.register()`, listens for `registration` (token), `pushNotificationReceived`, `pushNotificationActionPerformed`.
-  - Token logged to console for now (no backend wiring requested).
-- Add a **Settings → Notifications** toggle that calls `registerPush()` and shows current permission state.
-- Note: actually sending pushes requires Apple Developer account + APNs key; FCM for Android. Out of scope for code, documented in README.
-
-### Build/run docs
-
-A short README section: export to GitHub → `npm i` → `npx cap add ios && npx cap add android` → `npm run build && npx cap sync` → `npx cap run ios` (Mac + Xcode) / `npx cap run android` (Android Studio).
+1. **Lovable Cloud** — needed for `shroud_subscriptions`, `shroud_relay_log`, RLS, and the `shroud-mint` / `shroud-relay` edge functions. Requires enabling Cloud (one tool call, free dev tier).
+2. **Real Monero subaddresses** — requires a hosted `monero-wallet-rpc` URL + view key stored as Cloud secrets. You host the node; we call it from `shroud-mint`.
+3. **Auto-verified XMR payments** — alternative to self-hosted RPC: NOWPayments or BTCPay Server webhook into a Cloud edge function that calls `grantUnlock` server-side.
+4. **wagmi / XENT billing** — no wallet stack exists yet. Adding wagmi + chain config is its own scoped change.
+5. **Tor/i2p relay receipts**, group-buy Sovereign missions — third-party APIs, separate plan.
 
 ---
 
-## Out of scope
+## Open question before I implement
 
-- Backend changes, Oracle logic, astrology engine, payments, auth.
-- Real push delivery infra (APNs/FCM credentials).
-- Service worker / offline cache (explicitly declined).
+Phase 1's `/donate` and `MoneroPayButton` need an **XMR address** to display. Three options — pick one in your approval message:
 
-## Acceptance
+- **A.** Paste your real primary XMR address now; it ships hardcoded in `src/lib/monero.ts`.
+- **B.** Ship with a `VITE_MONERO_ADDRESS` env var + a clearly-marked placeholder address; you set the real one in Project Settings.
+- **C.** Ship a placeholder + a Settings page field that writes to `localStorage` (lets you change it without redeploy, but each browser stores its own).
 
-- At 390×844 every page is single-column, no horizontal scroll, all CTAs reachable in thumb zone, bottom tab bar respects safe area.
-- "Add to Home Screen" on iOS Safari installs the app with correct icon and standalone chrome; status bar matches theme.
-- `npx cap sync ios` succeeds; app boots in iOS simulator showing the live sandbox URL with native splash + dark status bar.
-- Tapping a primary button triggers a haptic on device.
-- Settings → Notifications can request permission and log a device token in console on a physical device.
+Default if you don't specify: **B**.
 
-## Files (high level)
+---
 
-**New:** `capacitor.config.ts`, `public/manifest.webmanifest`, `public/icons/*`, `src/lib/native.ts`, `src/lib/push.ts`, `src/components/MobileTabBar.tsx`, `src/components/MobileTopBar.tsx`, `src/components/MoreSheet.tsx`, `src/pages/Install.tsx`.
+## Files
 
-**Edited:** `index.html`, `src/components/AppShell.tsx`, `src/index.css`, `tailwind.config.ts`, `src/main.tsx` (init native), `src/App.tsx` (add `/install`), and every page file listed in §B for mobile layout.
+**New**
+- `src/pages/Shroud.tsx`
+- `src/pages/Donate.tsx`
+- `src/components/shroud/ShroudTierGate.tsx`
+- `src/components/shroud/ShroudLayerStack.tsx`
+- `src/components/shared/MoneroPayButton.tsx`
+- `src/components/shared/MoneroPayDrawer.tsx`
+- `src/lib/monero.ts` (address constant + helpers)
+- `src/lib/shroud.ts` (tier helpers on top of entitlements)
+- `mem://features/shroud-anonymity-service`
+
+**Edited**
+- `src/App.tsx` (routes)
+- `src/lib/entitlements.ts` (add `shroud.*` product IDs)
+- `src/components/MoreSheet.tsx` (Shroud + Donate links)
+- `src/components/VideoReportPlayer.tsx` (XMR pay button)
+- `src/components/MobileTabBar.tsx` + `src/components/OracleLogo.tsx` (tier-based tint)
+- `src/pages/Landing.tsx` (one new link)
+- `src/index.css`, `tailwind.config.ts` (shroud + gold tokens)
+- `mem://index.md`
+- `package.json` (`qrcode` dep)

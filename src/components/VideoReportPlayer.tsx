@@ -2,6 +2,7 @@ import { useRef, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Download, Lock, Play, Pause } from "lucide-react";
 import { hasUnlock, grantUnlock, type ProductId } from "@/lib/entitlements";
+import { MoneroPayButton } from "@/components/shared/MoneroPayButton";
 import { toast } from "sonner";
 
 interface Props {
@@ -67,9 +68,18 @@ export function VideoReportPlayer({ src, poster, productId, price, title, filena
             <a href={src} download={filename || true}><Download className="h-3.5 w-3.5 mr-2" /> Download</a>
           </Button>
         ) : (
-          <Button onClick={simulatePurchase} size="sm" className="rounded-full text-[11px] font-mono uppercase tracking-[0.18em] bg-accent text-accent-foreground shadow-red">
-            <Lock className="h-3.5 w-3.5 mr-2" /> Unlock ${price}
-          </Button>
+          <div className="flex items-center gap-2">
+            <MoneroPayButton
+              productId={productId}
+              title={title}
+              amountUsd={price}
+              onUnlocked={() => setUnlocked(true)}
+              label="XMR"
+            />
+            <Button onClick={simulatePurchase} size="sm" className="rounded-full text-[11px] font-mono uppercase tracking-[0.18em] bg-accent text-accent-foreground shadow-red">
+              <Lock className="h-3.5 w-3.5 mr-2" /> Unlock ${price}
+            </Button>
+          </div>
         )}
       </div>
     </div>
