@@ -437,3 +437,10 @@ body::before {
   .grain-overlay { display: none; }
 }
 
+
+/* Shroud District tier tinting — when html[data-tier=cloak|sovereign] is active, ring/glow shifts violet */
+html[data-tier="cloak"], html[data-tier="sovereign"] {
+  --primary: 268 85% 65%;
+  --primary-glow: 268 100% 75%;
+  --ring: 268 85% 65%;
+}
