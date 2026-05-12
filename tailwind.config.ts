@@ -37,6 +37,7 @@ export default {
         cyan: "var(--glow-cyan)",
         red: "var(--glow-red)",
         lime: "var(--glow-lime)",
+        shroud: "0 0 24px hsl(var(--shroud) / 0.45), 0 0 48px hsl(var(--shroud) / 0.18)",
         card: "var(--shadow-card)",
         "card-cream": "var(--shadow-card-cream)",
       },
