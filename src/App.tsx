@@ -36,7 +36,10 @@ import NeuroVideoDemo from "./pages/NeuroVideoDemo.tsx";
 import VideoPortal from "./pages/VideoPortal.tsx";
 import NeuroLifeDemo from "./pages/NeuroLifeDemo.tsx";
 import Install from "./pages/Install.tsx";
-import { lazy, Suspense } from "react";
+import Shroud from "./pages/Shroud.tsx";
+import Donate from "./pages/Donate.tsx";
+import { lazy, Suspense, useEffect } from "react";
+import { applyTierAttribute } from "@/lib/shroud";
 const Bio = lazy(() => import("./pages/Bio.tsx"));
 
 const queryClient = new QueryClient();
