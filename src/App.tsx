@@ -85,6 +85,8 @@ const App = () => {
             <Route path="/reports/video" element={<VideoReports />} />
             <Route path="/demo/neuro-video" element={<NeuroVideoDemo />} />
             <Route path="/install" element={<Install />} />
+            <Route path="/shroud" element={<Shroud />} />
+            <Route path="/donate" element={<Donate />} />
             <Route path="/bio" element={<Suspense fallback={<div className="min-h-screen bg-background" />}><Bio /></Suspense>} />
             <Route path="*" element={<NotFound />} />
           </Routes>
@@ -92,6 +94,7 @@ const App = () => {
       </BrowserRouter>
     </TooltipProvider>
   </QueryClientProvider>
-);
+  );
+};
 
 export default App;
