@@ -44,7 +44,9 @@ const Bio = lazy(() => import("./pages/Bio.tsx"));
 
 const queryClient = new QueryClient();
 
-const App = () => (
+const App = () => {
+  useEffect(() => { applyTierAttribute(); }, []);
+  return (
   <QueryClientProvider client={queryClient}>
     <TooltipProvider>
       <Toaster />
