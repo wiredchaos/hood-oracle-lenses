@@ -97,9 +97,9 @@ export function rollingAverage(entries: LifeEntry[], field: keyof LifeEntry, day
 const ENC = new TextEncoder();
 const DEC = new TextDecoder();
 
-async function deriveKey(passphrase: string, salt: Uint8Array): Promise<CryptoKey> {
+async function deriveKey(passphrase: string, salt: BufferSource): Promise<CryptoKey> {
   const base = await crypto.subtle.importKey(
-    "raw", ENC.encode(passphrase), "PBKDF2", false, ["deriveKey"],
+    "raw", ENC.encode(passphrase) as BufferSource, "PBKDF2", false, ["deriveKey"],
   );
   return crypto.subtle.deriveKey(
     { name: "PBKDF2", salt, iterations: 250_000, hash: "SHA-256" },
