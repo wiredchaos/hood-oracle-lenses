@@ -36,6 +36,9 @@ export default function NeuroLifeDemo() {
           <Link to="/intake">Run Your Own Reading</Link>
         </Button>
         <Button asChild variant="outline" className="rounded-full text-xs font-mono uppercase tracking-[0.2em]">
+          <Link to="/life">Switch to Real Tracker</Link>
+        </Button>
+        <Button asChild variant="outline" className="rounded-full text-xs font-mono uppercase tracking-[0.2em]">
           <Link to="/bio">Open 3D Brand Bio</Link>
         </Button>
       </div>
