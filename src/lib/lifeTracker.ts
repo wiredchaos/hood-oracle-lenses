@@ -135,7 +135,7 @@ export interface EncryptedExport {
 export async function exportEncrypted(passphrase: string): Promise<EncryptedExport> {
   const salt = crypto.getRandomValues(new Uint8Array(16));
   const iv = crypto.getRandomValues(new Uint8Array(12));
-  const key = await deriveKey(passphrase, salt);
+  const key = await deriveKey(passphrase, salt as unknown as Uint8Array<ArrayBuffer>);
   const data = ENC.encode(JSON.stringify(listEntries()));
   const ct = await crypto.subtle.encrypt({ name: "AES-GCM", iv }, key, data);
   return {
