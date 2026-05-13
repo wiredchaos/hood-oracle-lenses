@@ -151,9 +151,9 @@ export async function exportEncrypted(passphrase: string): Promise<EncryptedExpo
 
 export async function importEncrypted(blob: EncryptedExport, passphrase: string): Promise<number> {
   if (blob.app !== "hood-oracle.lifetracker") throw new Error("Wrong file type.");
-  const key = await deriveKey(passphrase, unb64(blob.salt));
+  const key = await deriveKey(passphrase, unb64(blob.salt) as BufferSource);
   const pt = await crypto.subtle.decrypt(
-    { name: "AES-GCM", iv: unb64(blob.iv) }, key, unb64(blob.ciphertext),
+    { name: "AES-GCM", iv: unb64(blob.iv) as BufferSource }, key, unb64(blob.ciphertext) as BufferSource,
   );
   const incoming = JSON.parse(DEC.decode(pt)) as LifeEntry[];
   // Merge: incoming wins per date if newer.
