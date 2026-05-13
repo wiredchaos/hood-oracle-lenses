@@ -16,7 +16,8 @@ const PRIMARY = [
 ];
 
 const MORE = [
-  { to: "/demo/neuro-life", label: "Life Tracker" },
+  { to: "/life", label: "Life Tracker · Real" },
+  { to: "/demo/neuro-life", label: "Life Tracker · Symbolic" },
   { to: "/demo", label: "Demo Profile" },
   { to: "/intake", label: "Intake" },
   { to: "/trust-signal", label: "Trust Signal" },
