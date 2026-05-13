@@ -2,6 +2,7 @@ import { Link } from "react-router-dom";
 import { Drawer, DrawerContent, DrawerHeader, DrawerTitle } from "@/components/ui/drawer";
 
 const MORE = [
+  { to: "/life", label: "Life Tracker · Real" },
   { to: "/shroud", label: "Shroud District" },
   { to: "/donate", label: "Donate · XMR" },
   { to: "/lenses", label: "Lenses Index" },

@@ -38,6 +38,7 @@ import NeuroLifeDemo from "./pages/NeuroLifeDemo.tsx";
 import Install from "./pages/Install.tsx";
 import Shroud from "./pages/Shroud.tsx";
 import Donate from "./pages/Donate.tsx";
+import LifeTracker from "./pages/LifeTracker.tsx";
 import { lazy, Suspense, useEffect } from "react";
 import { applyTierAttribute } from "@/lib/shroud";
 const Bio = lazy(() => import("./pages/Bio.tsx"));
@@ -87,6 +88,7 @@ const App = () => {
             <Route path="/install" element={<Install />} />
             <Route path="/shroud" element={<Shroud />} />
             <Route path="/donate" element={<Donate />} />
+            <Route path="/life" element={<LifeTracker />} />
             <Route path="/bio" element={<Suspense fallback={<div className="min-h-screen bg-background" />}><Bio /></Suspense>} />
             <Route path="*" element={<NotFound />} />
           </Routes>
